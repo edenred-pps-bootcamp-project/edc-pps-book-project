@@ -1,7 +1,4 @@
-package library;
-
-import bookinfo.Book;
-import bookinfo.Rating;
+package com.edc.pps.model;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,3 +16,4 @@ public class Library {
         return ratings;
     }
 }
+
