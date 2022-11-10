@@ -1,7 +1,7 @@
 package library;
 
-import bookinfo.Rating;
 import bookinfo.Book;
+import bookinfo.Rating;
 
 import java.util.HashSet;
 import java.util.Set;
