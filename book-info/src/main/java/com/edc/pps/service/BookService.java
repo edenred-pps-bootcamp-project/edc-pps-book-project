@@ -17,15 +17,12 @@ public class BookService {
         return bookService;
     }
 
-    ;
-
     //create
     public Set<Book> createBook(String Title, String Author) {
         getBookList().add(new Book(Title, Author));
         return getBookList();
     }
 
-    ;
 
     //read
     public Book displayBook(String Title) {
