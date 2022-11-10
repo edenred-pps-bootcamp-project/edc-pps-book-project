@@ -1,6 +1,8 @@
-package bookinfo;
+package com.edc.pps.model;
+
 
 public class Book implements Comparable {
+
 
     private static long countId = 0L;
 
@@ -68,7 +70,8 @@ public class Book implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        Book otherBook = (Book)o;
-        return (int)(this.bookId-otherBook.getBookId());
+        Book otherBook = (Book) o;
+        return (int) (this.bookId - otherBook.getBookId());
     }
 }
+

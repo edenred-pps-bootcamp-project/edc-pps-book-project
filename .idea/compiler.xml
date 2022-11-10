@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="edc-pps-book-project" />
+        <module name="book-info" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="book.-info" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
