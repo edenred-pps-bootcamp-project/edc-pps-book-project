@@ -1,6 +1,7 @@
-package com.edc.pps;
+package com.edc.pps.info;
 
-import com.edc.pps.service.BookService;
+import com.edc.pps.info.service.BookService;
+import com.edc.pps.rating.service.RatingService;
 
 public class Main {
     public static void main(String[] args) {
@@ -20,6 +21,7 @@ public class Main {
         bookService.deleteBooksByAuthor("Ana");
         bookService.deleteBook("Florin are mere");
         bookService.displayAllBooks();
-
+        RatingService ratingService = RatingService.getInstance();
+        ratingService.addRating(2,2,3);
     }
 }

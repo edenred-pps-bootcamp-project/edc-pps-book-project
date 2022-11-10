@@ -1,4 +1,4 @@
-package ratinginfo;
+package com.edc.pps.rating.model;
 
 public class Rating implements Comparable{
     private long ratingId = 0;

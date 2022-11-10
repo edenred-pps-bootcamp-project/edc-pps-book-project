@@ -1,4 +1,6 @@
-package com.edc.pps.model;
+package com.edc.pps.info.model;
+
+import com.edc.pps.rating.model.Rating;
 
 import java.util.HashSet;
 import java.util.Set;
