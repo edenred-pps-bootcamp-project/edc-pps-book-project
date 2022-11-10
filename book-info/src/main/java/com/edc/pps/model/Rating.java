@@ -1,5 +1,6 @@
-package bookinfo;
-import library.Library.*;
+package com.edc.pps.model;
+
+//import library.Library.*;
 
 public class Rating {
     private long ratingId;

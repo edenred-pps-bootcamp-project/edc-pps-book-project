@@ -1,8 +1,9 @@
-package bookinfo;
-
+package com.edc.pps.service;
 import java.util.Set;
 
-import static library.Library.*;
+import static com.edc.pps.model.Library.*;
+import com.edc.pps.model.*;
+
 
 public class BookService {
 
@@ -107,3 +108,4 @@ public class BookService {
     }
 
 }
+
