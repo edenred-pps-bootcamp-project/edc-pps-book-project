@@ -1,7 +1,5 @@
 package com.edc.pps.model;
 
-//import library.Library.*;
-
 public class Rating {
     private long ratingId;
     private double rating;

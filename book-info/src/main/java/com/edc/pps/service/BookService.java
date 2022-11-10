@@ -1,8 +1,12 @@
 package com.edc.pps.service;
+
+import com.edc.pps.model.Book;
+import com.edc.pps.model.Rating;
+
 import java.util.Set;
 
-import static com.edc.pps.model.Library.*;
-import com.edc.pps.model.*;
+import static com.edc.pps.model.Library.getBookList;
+import static com.edc.pps.model.Library.getRatings;
 
 
 public class BookService {
