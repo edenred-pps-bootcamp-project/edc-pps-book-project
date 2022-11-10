@@ -1,4 +1,4 @@
-package com.edc.pps.model;
+package com.edc.pps.info.model;
 
 
 public class Book implements Comparable {

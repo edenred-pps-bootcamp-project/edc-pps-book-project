@@ -1,12 +1,10 @@
-package com.edc.pps.service;
+package com.edc.pps.info.service;
 
-import com.edc.pps.model.Book;
-import com.edc.pps.model.Rating;
+import com.edc.pps.info.model.Library;
+import com.edc.pps.info.model.Rating;
+import com.edc.pps.info.model.Book;
 
 import java.util.Set;
-
-import static com.edc.pps.model.Library.getBookList;
-import static com.edc.pps.model.Library.getRatings;
 
 
 public class BookService {
@@ -25,15 +23,15 @@ public class BookService {
 
     //create
     public Set<Book> createBook(String Title, String Author) {
-        getBookList().add(new Book(Title, Author));
-        return getBookList();
+        Library.getBookList().add(new Book(Title, Author));
+        return Library.getBookList();
     }
 
     ;
 
     //read
     public Book displayBook(String Title) {
-        for (Book book : getBookList()) {
+        for (Book book : Library.getBookList()) {
             if (book.getBookTitle().equals(Title)) {
                 System.out.println(book);
                 return book;
@@ -45,7 +43,7 @@ public class BookService {
     public void displayBookRatings(String Title) {
         Book book = displayBook(Title);
         System.out.println(Title);
-        for (Rating rating : getRatings()) {
+        for (Rating rating : Library.getRatings()) {
             if (rating.getRatingId() == book.getBookId()) {
                 System.out.println(rating.getRating());
             }
@@ -54,14 +52,14 @@ public class BookService {
 
     public void displayAllBooks() {
         System.out.println("bookinfo.Book collection \n");
-        for (Book book : getBookList()) {
+        for (Book book : Library.getBookList()) {
             System.out.println(book);
         }
     }
 
     //update
     public void updateBookTitle(String oldTitle, String newTitle) {
-        for (Book book : getBookList()) {
+        for (Book book : Library.getBookList()) {
             if (book.getBookTitle().equals(oldTitle)) {
                 book.setBookTitle(newTitle);
             }
@@ -72,7 +70,7 @@ public class BookService {
     ;
 
     public void updateBookAuthor(String Title, String newAuthor) {
-        for (Book book : getBookList()) {
+        for (Book book : Library.getBookList()) {
             if (book.getBookTitle().equals(Title)) {
                 book.setBookAuthor(newAuthor);
             }
@@ -83,9 +81,9 @@ public class BookService {
 
     //delete
     public void deleteBook(String Title) {
-        for (Book book : getBookList()) {
+        for (Book book : Library.getBookList()) {
             if (book.getBookTitle().equals(Title)) {
-                getBookList().remove(book);
+                Library.getBookList().remove(book);
                 return;
             }
         }
@@ -96,7 +94,7 @@ public class BookService {
         int count = 0;
         double ratingTotal = 0;
 
-        for (Book book : getBookList()) {
+        for (Book book : Library.getBookList()) {
             if (book.getBookId() == bookId) {
                 for (Rating rating : ratings) {
                     if (book.getBookId() == rating.getRatingId()) {

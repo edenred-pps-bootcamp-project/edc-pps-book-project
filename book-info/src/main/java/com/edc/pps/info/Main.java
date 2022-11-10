@@ -1,6 +1,6 @@
-package com.edc.pps;
+package com.edc.pps.info;
 
-import com.edc.pps.service.BookService;
+import com.edc.pps.info.service.BookService;
 
 public class Main {
     public static void main(String[] args) {

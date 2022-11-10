@@ -1,4 +1,4 @@
-package com.edc.pps.model;
+package com.edc.pps.catalogue.model;
 
 import java.security.InvalidParameterException;
 

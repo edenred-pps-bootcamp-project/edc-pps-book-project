@@ -1,6 +1,6 @@
-package com.edc.pps;
+package com.edc.pps.catalogue;
 
-import com.edc.pps.model.Book;
+import com.edc.pps.info.model.Book;
 public class Main {
 
     public static void main(String[] args) {
