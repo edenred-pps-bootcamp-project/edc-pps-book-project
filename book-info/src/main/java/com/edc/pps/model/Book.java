@@ -1,6 +1,7 @@
 package com.edc.pps.model;
 
 
+// TODO: comparable is generic, use <>
 public class Book implements Comparable {
 
 
@@ -11,8 +12,13 @@ public class Book implements Comparable {
     }
 
     private long bookId;
+
+    // TODO: rename to title
+    // it's clear you are in the book class: book.title vs book.bookTitle
     private String bookTitle;
     private String bookAuthor;
+
+    // TODO: should be integer 1-5
     private double bookRating;
 
     public Book(String bookTitle, String bookAuthor) {

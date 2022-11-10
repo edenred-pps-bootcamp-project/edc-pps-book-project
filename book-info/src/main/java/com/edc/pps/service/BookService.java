@@ -9,8 +9,10 @@ import static com.edc.pps.model.Library.getBookList;
 import static com.edc.pps.model.Library.getRatings;
 
 
+// TODO: format file
 public class BookService {
 
+    // TODO: make final
     public static BookService bookService = new BookService();
 
 
@@ -21,13 +23,16 @@ public class BookService {
         return bookService;
     }
 
-    //create
+    // create
+    // TODO: add javadocs to public methods
     public Set<Book> createBook(String title, String author) {
         getBookList().add(new Book(title, author));
         return getBookList();
     }
 
-    //read
+    // read
+    // TODO: should be void
+    // TODO: refactor methods to use lambda where possible
     public Book displayBook(String title) {
         for (Book book : getBookList()) {
             if (book.getBookTitle().equals(title)) {
@@ -80,6 +85,7 @@ public class BookService {
                 return;
             }
         }
+        // TODO: use english everywhere in code
         throw new RuntimeException("Cartea nu exista.");
     }
 

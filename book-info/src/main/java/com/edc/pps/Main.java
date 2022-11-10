@@ -2,6 +2,7 @@ package com.edc.pps;
 
 import com.edc.pps.service.BookService;
 
+// TODO: rename to BookInfoService
 public class Main {
     public static void main(String[] args) {
         BookService bookService = BookService.getInstance();
