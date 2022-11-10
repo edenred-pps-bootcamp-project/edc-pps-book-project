@@ -9,6 +9,15 @@ Make sure to move the task in the correct folder: `TODO > DOING > DONE`
  
 - check the challenges from the trainer in the TODO tab in intellij (bottom left)
 
+# Git branches
+- all branches will be created from master
+- create merge requests and have someone from another team review it
+
+- each task will have an associated branch with the corresponding id:
+  - `EDC1-book-info-service-submodule`
+  - `EDC2-ignore-folders`
+  - `EDC3-create-book`
+
 # Commit conventions
 Each task will have an id. Use the id in the commit message like so:
 - `EDC1 added the book-info-service submodule`
