@@ -6,7 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="edc-pps-book-project" />
+        <module name="book-catalogue" />
       </profile>
     </annotationProcessing>
   </component>
