@@ -62,7 +62,6 @@ public class BookService {
                 book.setBookTitle(newTitle);
             }
         }
-
     }
 
     public void updateBookAuthor(String title, String newAuthor) {
@@ -84,6 +83,14 @@ public class BookService {
         throw new RuntimeException("Cartea nu exista.");
     }
 
+    public void deleteBooksByAuthor(String author) {
+        for (Book book : getBookList()) {
+            if(book.getBookAuthor().equals(author)) {
+                getBookList().remove(book);
+            }
+        }
+    }
+
     public void displayAuthorBooks(String author) {
         System.out.println("Author: " + author);
         System.out.println("Book title(s): ");
@@ -98,6 +105,8 @@ public class BookService {
             System.out.println("None");
         }
     }
+
+
 
     public void getAverageRating(Long bookId, Set<Rating> ratings) {
         int count = 0;

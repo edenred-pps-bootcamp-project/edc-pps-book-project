@@ -16,6 +16,10 @@ public class Main {
         bookService.createBook("Florin are mere", "Florin");
         bookService.displayAllBooks();
         bookService.displayAuthorBooks("Ana");
+        bookService.displayAllBooks();
+        bookService.deleteBooksByAuthor("Ana");
+        bookService.deleteBook("Florin are mere");
+        bookService.displayAllBooks();
 
     }
 }
