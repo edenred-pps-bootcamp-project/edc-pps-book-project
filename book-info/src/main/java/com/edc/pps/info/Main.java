@@ -1,5 +1,6 @@
 package com.edc.pps.info;
 
+import com.edc.pps.info.model.Library;
 import com.edc.pps.info.service.BookService;
 import com.edc.pps.rating.service.RatingService;
 
@@ -24,5 +25,7 @@ public class Main {
         bookService.displayAllBooks();
         RatingService ratingService = RatingService.getInstance();
         ratingService.addRating(2,2,3);
+
+        Library.getRatings().forEach(System.out::println);
     }
 }
