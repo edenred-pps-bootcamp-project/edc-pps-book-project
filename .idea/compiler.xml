@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="book-catalogue" />
         <module name="book-info" />
+        <module name="rating.info" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

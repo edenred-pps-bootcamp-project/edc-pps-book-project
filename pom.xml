@@ -11,6 +11,7 @@
     <modules>
         <module>book-catalogue</module>
         <module>book-info</module>
+        <module>rating.info</module>
     </modules>
 
     <properties>
