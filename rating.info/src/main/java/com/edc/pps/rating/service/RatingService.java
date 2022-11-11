@@ -1,10 +1,9 @@
-package ratinginfo;
+package com.edc.pps.rating.service;
 
-import library.Library.*;
+import com.edc.pps.info.model.Library;
+import com.edc.pps.rating.model.Rating;
 
 import java.util.Set;
-
-import static library.Library.getRatings;
 
 
 public class RatingService {
@@ -24,9 +23,8 @@ public class RatingService {
     }
 
     public void addRating(long bookId, long userId, int ratingValue){
-        getRatings().add(new Rating(bookId, userId, ratingValue));
+        Library.getRatings().add(new Rating(bookId, userId, ratingValue));
     }
-
 
 
 
