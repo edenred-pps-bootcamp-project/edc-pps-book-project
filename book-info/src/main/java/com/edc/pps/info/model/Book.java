@@ -1,4 +1,4 @@
-package com.edc.pps.model;
+package com.edc.pps.info.model;
 
 
 // TODO: comparable is generic, use <>
