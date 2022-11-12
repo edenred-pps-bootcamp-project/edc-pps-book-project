@@ -10,3 +10,5 @@
 */log/
 */target/
 /*/*/target
+/out/
+/.idea/
