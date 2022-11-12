@@ -10,7 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>book-info</module>
-        <module>rating.info</module>
+        <module>book-rating-service</module>
     </modules>
     <dependencies>
 
