@@ -1,6 +1,6 @@
 package com.edc.pps.rating.model;
 
-public class Rating implements Comparable{
+public class Rating implements Comparable<Rating>{
     private long ratingId = 0;
     private long bookId = 0;
     private long userId = 0;
@@ -26,9 +26,8 @@ public class Rating implements Comparable{
     }
 
     @Override
-    public int compareTo(Object o) {
-        Rating otherRating = (Rating)o;
-        return (int)(this.ratingId-otherRating.ratingId);
+    public int compareTo(Rating rating) {
+        return (int)(this.ratingId-rating.ratingId);
     }
 
     public long getRatingId() {
