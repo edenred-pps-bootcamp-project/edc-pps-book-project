@@ -2,21 +2,13 @@ package com.edc.pps.catalogue.model;
 
 import java.security.InvalidParameterException;
 
-public class User implements Comparable{
+public class User implements Comparable<User>{
     private static Long countId = 0L;
 
     {
         countId++;
     }
     private  Long userId;
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
 
     private String firstName;
     private String lastName;
@@ -31,9 +23,10 @@ public class User implements Comparable{
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
+
     }
 
-    private Long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
@@ -56,10 +49,17 @@ public class User implements Comparable{
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     @Override
     public String toString() {
-        return this.userName.charAt(-1) != 's' ? "User " + this.userName + "'s full name: " +
+        return this.userName.charAt(this.userName.length()-1) != 's' ? "User " + this.userName + "'s full name: " +
                 this.firstName + " " + this.lastName :
                 "User " + this.userName + "' full name: " +
                         this.firstName + " " + this.lastName;
@@ -67,9 +67,8 @@ public class User implements Comparable{
     }
 
     @Override
-    public int compareTo(Object other) {
-        User otherUser = (User) other;
-        return (int) (this.userId - otherUser.getUserId());
+    public int compareTo(User other) {
+        return (int) (this.userId - other.getUserId());
     }
 
 

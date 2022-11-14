@@ -1,45 +1,40 @@
 package com.edc.pps.catalogue.service;
 
 import com.edc.pps.catalogue.model.User;
-import com.edc.pps.info.model.Book;
 import com.edc.pps.info.model.Library;
-import com.edc.pps.info.service.BookService;
 
-import java.security.Provider;
+import java.util.Optional;
 import java.util.Set;
 
 public class UserService {
 
-    public static UserService userService = new UserService();
+    public static final UserService userService = new UserService();
 
-    private UserService(){
+    private UserService() {
 
     }
 
-    public static UserService getInstance(){
+    public static UserService getInstance() {
         return userService;
     }
 
-    public Set<User> createUser(String firstName, String lastName, String userName){
-        Library.getUsers().add(new User(firstName,lastName,userName));
+
+    public Set<User> createUser(String firstName, String lastName, String userName) {
+        Library.getUsers().add(new User(firstName, lastName, userName));
         return Library.getUsers();
 
     }
 
-    public User findUser(String userName){
-        for (User user: Library.getUsers()){
-            if(user.getUserName().equals(user)){
-                return user;
-            }
-        }
-
-        return null;
+    public Optional<User> findUser(String userName) {
+        return Library.getUsers().stream().filter(user -> user.getUserName().equals(userName)).findAny();
     }
 
-    public void displayAllUsers(){
-        for(User user: Library.getUsers()){
-            System.out.println(user);
-        }
+    public void displayAllUsers() {
+        Library.getUsers().forEach(System.out::println);
+    }
+
+    public void displayUser(Long id){
+        Library.getUsers().stream().filter(user -> user.getUserId().equals(id)).forEach(System.out::println);
     }
 
 }
