@@ -3,7 +3,7 @@ package com.edc.pps.catalogue;
 import com.edc.pps.catalogue.model.User;
 import com.edc.pps.catalogue.service.UserService;
 import com.edc.pps.info.model.Book;
-//import com.edc.pps.info.model.Library;
+import com.edc.pps.info.repository.InMemoryBookRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class Main {
 
         System.out.println("Welcome to green team's playground! :)");
 
-        //System.out.println(Library.getUsers());
+        userService.displayAllUsers();
 
 
 
