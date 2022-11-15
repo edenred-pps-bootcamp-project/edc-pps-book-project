@@ -1,4 +1,5 @@
 package com.edc.pps.rating.model;
+import com.edc.pps.info.service.BookService;
 
 public class Rating implements Comparable{
     private long ratingId = 0;

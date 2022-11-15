@@ -6,11 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-      </profile>
-      <profile name="Outer">
-        <module name="rating.info" />
         <module name="book-info" />
+        <module name="rating.info" />
       </profile>
+      <profile name="Outer" />
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="book.-info" target="11" />
