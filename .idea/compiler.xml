@@ -8,11 +8,9 @@
         <outputRelativeToContentRoot value="true" />
         <module name="book-info" />
         <module name="rating.info" />
+        <module name="book-catalogue" />
       </profile>
-      <profile name="Outer" />
+      <profile name="Offed" />
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="book.-info" target="11" />
-    </bytecodeTargetLevel>
   </component>
 </project>
