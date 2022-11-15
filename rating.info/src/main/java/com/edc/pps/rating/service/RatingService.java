@@ -1,12 +1,12 @@
 package com.edc.pps.rating.service;
 
-import com.edc.pps.info.model.Library;
+import com.edc.pps.info.repository.InMemoryBookRepository;
 import com.edc.pps.rating.model.Rating;
 
 import java.util.Set;
 
 
-public class RatingService {
+public class RatingService extends InMemoryBookRepository {
 
     private static RatingService ratingService = new RatingService();
 
@@ -23,7 +23,7 @@ public class RatingService {
     }
 
     public void addRating(long bookId, long userId, int ratingValue){
-        Library.getRatings().add(new Rating(bookId, userId, ratingValue));
+        ratings.add(new Rating(bookId, userId, ratingValue));
     }
 
 

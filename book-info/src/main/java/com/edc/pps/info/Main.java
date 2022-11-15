@@ -1,6 +1,5 @@
 package com.edc.pps.info;
 
-import com.edc.pps.info.model.Library;
 import com.edc.pps.info.service.BookService;
 import com.edc.pps.rating.service.RatingService;
 
@@ -17,15 +16,23 @@ public class Main {
         bookService.createBook("Andrei are mere", "Andrei");
         bookService.createBook("Cosmin are mere", "Cosmin");
         bookService.createBook("Florin are mere", "Florin");
-        bookService.displayAllBooks();
-        bookService.displayAuthorBooks("Ana");
-        bookService.displayAllBooks();
+        //bookService.displayBook("Florin are mere");
+        //bookService.displayAllBooks();
+        //bookService.displayAuthorBooks("Ana");
+        //bookService.displayAllBooks();
         bookService.deleteBooksByAuthor("Ana");
         bookService.deleteBook("Florin are mere");
         bookService.displayAllBooks();
         RatingService ratingService = RatingService.getInstance();
         ratingService.addRating(2,2,3);
-
-        Library.getRatings().forEach(System.out::println);
+        ratingService.addRating(2,2,4);
+        ratingService.addRating(2,2,5);
+        ratingService.getRatings();
+//        double a = 0;
+//        for (int i = 0; i < 21; i++) {
+//            a+=10;
+//            a=a*1.06;
+//        }
+//        System.out.println(a);
     }
 }

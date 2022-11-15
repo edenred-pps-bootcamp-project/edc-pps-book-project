@@ -1,22 +1,23 @@
 package com.edc.pps.info.service;
 
 import com.edc.pps.info.model.Book;
+import com.edc.pps.info.repository.InMemoryBookRepository;
 import com.edc.pps.rating.model.Rating;
 
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import static com.edc.pps.info.model.Library.getBookList;
-import static com.edc.pps.info.model.Library.getRatings;
+import static com.edc.pps.info.repository.InMemoryBookRepository.bookList;
+import static com.edc.pps.info.repository.InMemoryBookRepository.ratings;
 
 
 // TODO: format file
-public class BookService {
+public class BookService extends InMemoryBookRepository {
 
-    // TODO: make final
-    public static BookService bookService = new BookService();
+    public static final BookService bookService = new BookService();
 
-
+    //InMemoryBookRepository in = new InMemoryBookRepository();
     private BookService() {
     }
 
@@ -32,48 +33,46 @@ public class BookService {
     }
 
     // read
-    // TODO: should be void
-    // TODO: refactor methods to use lambda where possible
-    public Book displayBook(String title) {
-        for (Book book : getBookList()) {
-            if (book.getBookTitle().equals(title)) {
-                System.out.println(book);
-                return book;
-            }
-        }
-        return null;
+    public void displayBook(String title) {
+        System.out.println(searchBookByTitle(title));
+    }
+
+    public Book searchBookByTitle(String title){
+        return getBookList()
+                .stream()
+                .filter(book -> book.getTitle()
+                        .equals(title))
+                .findFirst()
+                .orElse(null);
     }
 
     public void displayBookRatings(String title) {
-        Book book = displayBook(title);
+        Book book = searchBookByTitle(title);
         System.out.println(title);
-        for (Rating rating : getRatings()) {
-            if (rating.getRatingId() == book.getBookId()) {
-                System.out.println(rating.getRating());
-            }
-        }
+        getRatings().stream()
+                .forEach(rating -> System.out.println(rating.getRating()));
     }
 
     public void displayAllBooks() {
         System.out.println("bookinfo.Book collection \n");
-        for (Book book : getBookList()) {
-            System.out.println(book);
-        }
+        getBookList()
+                .stream()
+                .forEach(book -> System.out.println(book.toString()));
     }
 
     //update
     public void updateBookTitle(String oldTitle, String newTitle) {
         for (Book book : getBookList()) {
-            if (book.getBookTitle().equals(oldTitle)) {
-                book.setBookTitle(newTitle);
+            if (book.getTitle().equals(oldTitle)) {
+                book.setTitle(newTitle);
             }
         }
     }
 
     public void updateBookAuthor(String title, String newAuthor) {
-        for (Book book : getBookList()) {
-            if (book.getBookTitle().equals(title)) {
-                book.setBookAuthor(newAuthor);
+        for (Book book : bookList) {
+            if (book.getTitle().equals(title)) {
+                book.setAuthor(newAuthor);
             }
         }
     }
@@ -81,21 +80,19 @@ public class BookService {
     //delete
     public void deleteBook(String title) {
         for (Book book : getBookList()) {
-            if (book.getBookTitle().equals(title)) {
+            if (book.getTitle().equals(title)) {
                 getBookList().remove(book);
                 return;
             }
         }
-        // TODO: use english everywhere in code
-        throw new RuntimeException("Cartea nu exista.");
+        throw new RuntimeException("The book doesn't exist.");
     }
 
     public void deleteBooksByAuthor(String author) {
-        for (Book book : getBookList()) {
-            if(book.getBookAuthor().equals(author)) {
-                getBookList().remove(book);
-            }
-        }
+        getBookList()
+                .stream()
+                .filter(book -> book.getAuthor().equals(author))
+                .forEach(book -> getBookList().remove(book));
     }
 
     public void displayAuthorBooks(String author) {
@@ -103,8 +100,8 @@ public class BookService {
         System.out.println("Book title(s): ");
         boolean found = false;
         for (Book book : getBookList()) {
-            if(book.getBookAuthor().equals(author)) {
-                System.out.println(book.getBookTitle());
+            if(book.getAuthor().equals(author)) {
+                System.out.println(book.getTitle());
                 found = true;
             }
         }
@@ -120,18 +117,18 @@ public class BookService {
         double ratingTotal = 0;
 
         for (Book book : getBookList()) {
-            if (book.getBookId() == bookId) {
+            if (book.getId() == bookId) {
                 for (Rating rating : ratings) {
-                    if (book.getBookId() == rating.getRatingId()) {
+                    if (book.getId() == rating.getRatingId()) {
                         count++;
                         ratingTotal += rating.getRating();
                     }
                 }
-                book.setBookRating(ratingTotal / count);
+                book.setAvgRating(ratingTotal / count);
                 return;
             }
         }
-        throw new RuntimeException("Nu exista niciun rating pentru aceasta carte.");
+        throw new RuntimeException("This book has no ratings.");
     }
 
 }
