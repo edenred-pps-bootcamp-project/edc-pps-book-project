@@ -16,13 +16,20 @@ public class Main {
         bookService.createBook("Andrei are mere", "Andrei");
         bookService.createBook("Cosmin are mere", "Cosmin");
         bookService.createBook("Florin are mere", "Florin");
+        bookService.displayBook("Florin are mere");
         bookService.displayAllBooks();
         bookService.displayAuthorBooks("Ana");
         bookService.displayAllBooks();
         bookService.deleteBooksByAuthor("Ana");
         bookService.deleteBook("Florin are mere");
         bookService.displayAllBooks();
-        RatingService ratingService = RatingService.getInstance();
-        ratingService.addRating(2,2,3);
+        //RatingService ratingService = RatingService.getInstance();
+        //ratingService.addRating(2,2,3);
+        double a = 0;
+        for (int i = 0; i < 21; i++) {
+            a+=10;
+            a=a*1.06;
+        }
+        System.out.println(a);
     }
 }
