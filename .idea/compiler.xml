@@ -6,12 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-      </profile>
-      <profile name="Offed">
-        <module name="book-catalogue" />
         <module name="book-info" />
         <module name="rating.info" />
+        <module name="book-catalogue" />
       </profile>
+      <profile name="Offed" />
     </annotationProcessing>
   </component>
 </project>
