@@ -1,8 +1,10 @@
 package com.edc.pps.catalogue.service;
 
 import com.edc.pps.catalogue.model.User;
+import com.edc.pps.info.model.Book;
 import com.edc.pps.info.model.Library;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -19,8 +21,8 @@ public class UserService {
     }
 
 
-    public Set<User> createUser(String firstName, String lastName, String userName) {
-        Library.getUsers().add(new User(firstName, lastName, userName));
+    public Set<User> createUser(String firstName, String lastName, String userName, List<Book> books) {
+        Library.getUsers().add(new User(firstName, lastName, userName,books));
         return Library.getUsers();
 
     }
