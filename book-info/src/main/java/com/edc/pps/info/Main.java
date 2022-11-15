@@ -1,7 +1,6 @@
 package com.edc.pps.info;
 
 import com.edc.pps.info.service.BookService;
-import com.edc.pps.rating.service.RatingService;
 
 // TODO: rename to BookInfoService
 public class Main {
@@ -25,11 +24,6 @@ public class Main {
         bookService.displayAllBooks();
         //RatingService ratingService = RatingService.getInstance();
         //ratingService.addRating(2,2,3);
-        double a = 0;
-        for (int i = 0; i < 21; i++) {
-            a+=10;
-            a=a*1.06;
-        }
-        System.out.println(a);
+
     }
 }
