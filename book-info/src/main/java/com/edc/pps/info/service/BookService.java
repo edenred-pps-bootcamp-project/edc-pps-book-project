@@ -5,8 +5,8 @@ import com.edc.pps.rating.model.Rating;
 
 import java.util.Set;
 
-import static com.edc.pps.info.model.Library.getBookList;
-import static com.edc.pps.info.model.Library.getRatings;
+import static com.edc.pps.info.repository.InMemoryBookRepository.bookList;
+import static com.edc.pps.info.repository.InMemoryBookRepository.ratings;
 
 
 // TODO: format file
@@ -15,7 +15,7 @@ public class BookService {
     // TODO: make final
     public static BookService bookService = new BookService();
 
-
+    //InMemoryBookRepository in = new InMemoryBookRepository();
     private BookService() {
     }
 
@@ -26,15 +26,15 @@ public class BookService {
     // create
     // TODO: add javadocs to public methods
     public Set<Book> createBook(String title, String author) {
-        getBookList().add(new Book(title, author));
-        return getBookList();
+        bookList.add(new Book(title, author));
+        return bookList;
     }
 
     // read
     // TODO: should be void
     // TODO: refactor methods to use lambda where possible
     public Book displayBook(String title) {
-        for (Book book : getBookList()) {
+        for (Book book : bookList) {
             if (book.getBookTitle().equals(title)) {
                 System.out.println(book);
                 return book;
@@ -46,7 +46,7 @@ public class BookService {
     public void displayBookRatings(String title) {
         Book book = displayBook(title);
         System.out.println(title);
-        for (Rating rating : getRatings()) {
+        for (Rating rating : ratings) {
             if (rating.getRatingId() == book.getBookId()) {
                 System.out.println(rating.getRating());
             }
@@ -55,14 +55,14 @@ public class BookService {
 
     public void displayAllBooks() {
         System.out.println("bookinfo.Book collection \n");
-        for (Book book : getBookList()) {
+        for (Book book : bookList) {
             System.out.println(book);
         }
     }
 
     //update
     public void updateBookTitle(String oldTitle, String newTitle) {
-        for (Book book : getBookList()) {
+        for (Book book : bookList) {
             if (book.getBookTitle().equals(oldTitle)) {
                 book.setBookTitle(newTitle);
             }
@@ -70,7 +70,7 @@ public class BookService {
     }
 
     public void updateBookAuthor(String title, String newAuthor) {
-        for (Book book : getBookList()) {
+        for (Book book : bookList) {
             if (book.getBookTitle().equals(title)) {
                 book.setBookAuthor(newAuthor);
             }
@@ -79,9 +79,9 @@ public class BookService {
 
     //delete
     public void deleteBook(String title) {
-        for (Book book : getBookList()) {
+        for (Book book : bookList) {
             if (book.getBookTitle().equals(title)) {
-                getBookList().remove(book);
+                bookList.remove(book);
                 return;
             }
         }
@@ -90,9 +90,9 @@ public class BookService {
     }
 
     public void deleteBooksByAuthor(String author) {
-        for (Book book : getBookList()) {
+        for (Book book : bookList) {
             if(book.getBookAuthor().equals(author)) {
-                getBookList().remove(book);
+                bookList.remove(book);
             }
         }
     }
@@ -101,7 +101,7 @@ public class BookService {
         System.out.println("Author: " + author);
         System.out.println("Book title(s): ");
         boolean found = false;
-        for (Book book : getBookList()) {
+        for (Book book : bookList) {
             if(book.getBookAuthor().equals(author)) {
                 System.out.println(book.getBookTitle());
                 found = true;
@@ -118,7 +118,7 @@ public class BookService {
         int count = 0;
         double ratingTotal = 0;
 
-        for (Book book : getBookList()) {
+        for (Book book : bookList) {
             if (book.getBookId() == bookId) {
                 for (Rating rating : ratings) {
                     if (book.getBookId() == rating.getRatingId()) {
