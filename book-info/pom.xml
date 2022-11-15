@@ -13,13 +13,11 @@
     <dependencies>
         <dependency>
             <groupId>com.edc.pps</groupId>
-            <artifactId>rating.info</artifactId>
+            <artifactId>book-rating-service</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
-<<<<<<< HEAD
-
-=======
     </dependencies>
->>>>>>> master
+
+
+
 </project>
