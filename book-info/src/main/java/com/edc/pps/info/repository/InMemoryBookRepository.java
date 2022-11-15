@@ -12,12 +12,12 @@ public class InMemoryBookRepository implements BookRepository {
 
     @Override
     public Set<Book> getBookList() {
-        return BookRepository.bookList;
+        return bookList;
     }
 
     @Override
     public Set<Rating> getRatings() {
-        return BookRepository.ratings;
+        return ratings;
     }
 
 }
