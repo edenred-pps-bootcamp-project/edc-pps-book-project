@@ -1,14 +1,12 @@
 package com.edc.pps.rating.model;
 // TODO: remove unused imports
-import com.edc.pps.info.service.BookService;
 
-import static com.edc.pps.info.repository.BookRepository.ratings;
 
 public class Rating implements Comparable<Rating>{
 // TODO: format this file
 
 // TODO: Comparable is generic, use <>
-public class Rating implements Comparable{
+
 
     // TODO: the id should have type Long
     // using the Long object, in case the id is missing it will be null

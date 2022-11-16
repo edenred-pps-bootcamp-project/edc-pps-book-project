@@ -1,6 +1,6 @@
 package com.edc.pps.info.repository;
 
-import com.edc.pps.catalogue.model.User;
+
 import com.edc.pps.info.model.*;
 import com.edc.pps.rating.model.Rating;
 
@@ -22,9 +22,6 @@ public class InMemoryBookRepository implements BookRepository {
         return ratings;
     }
 
-    @Override
-    public Set<User> getUsers() {
-        return users;
-    }
+
 
 }
