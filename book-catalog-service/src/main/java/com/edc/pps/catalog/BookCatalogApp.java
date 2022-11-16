@@ -6,7 +6,7 @@ import com.edc.pps.info.model.Book;
 
 import java.util.ArrayList;
 import java.util.List;
-public class BookCatalogueApp {
+public class BookCatalogApp {
 
     public static void main(String[] args) {
 
@@ -31,7 +31,7 @@ public class BookCatalogueApp {
         userListOfBooks.add(book3);
         UserService userService = UserService.getInstance();
 
-        userService.create("Norin", "Seculae","sneculae", userListOfBooks);
+        userService.createExplicit("Norin", "Seculae","sneculae");
 
         System.out.println(book1);
 

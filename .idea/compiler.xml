@@ -9,7 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="book-info" />
         <module name="rating.info" />
-        <module name="book-catalogue-service" />
+        <module name="book-catalog-service" />
       </profile>
       <profile name="Offed" />
     </annotationProcessing>
