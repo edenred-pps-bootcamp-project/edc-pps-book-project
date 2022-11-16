@@ -1,9 +1,6 @@
 package com.edc.pps.info.model;
 
-
-// TODO: comparable is generic, use <>
-public class Book implements Comparable {
-
+public class Book implements Comparable<Book> {
 
     private static long countId = 0L;
 
@@ -11,73 +8,77 @@ public class Book implements Comparable {
         countId++;
     }
 
-    private long bookId;
+    // TODO: use Long for ids
+    private long id;
+    private String title;
+    private String author;
 
-    // TODO: rename to title
-    // it's clear you are in the book class: book.title vs book.bookTitle
-    private String bookTitle;
-    private String bookAuthor;
+    // TODO: remove this, the rating is saved in the book-rating-service
+    private int rating;
+    private double avgRating = .2f;
 
-    // TODO: should be integer 1-5
-    private double bookRating;
-
-    public Book(String bookTitle, String bookAuthor) {
-        this.bookId = countId;
-        this.bookTitle = bookTitle;
-        this.bookAuthor = bookAuthor;
+    public Book(String title, String author) {
+        this.id = countId;
+        this.title = title;
+        this.author = author;
     }
 
-    public long getBookId() {
-        return bookId;
+    public long getId() {
+        return id;
     }
 
-    public void setBookId(long bookId) {
-        this.bookId = bookId;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getBookTitle() {
-        return bookTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setBookTitle(String bookTitle) {
-        this.bookTitle = bookTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getBookAuthor() {
-        return bookAuthor;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setBookAuthor(String bookAuthor) {
-        this.bookAuthor = bookAuthor;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public double getBookRating() {
-        return bookRating;
+    public double getRating() {
+        return rating;
     }
 
-    public void setBookRating(double bookRating) {
-        this.bookRating = bookRating;
+    public void setRating(int rating) {
+        if ((rating < 1) || (rating > 5))
+            throw new IllegalArgumentException("value is out of range for rating; it must be between 1-5");
+        this.rating = rating;
+    }
+    public void setAvgRating(double avgRating) {
+        this.avgRating = avgRating;
     }
 
     @Override
     public String toString() {
-        return bookRating != 0.0 ? "bookinfo.Book details:\n" +
-                "ID: " + bookId + "\n" +
-                "Title: '" + bookTitle + "\'\n" +
-                "Author: " + bookAuthor + "\n" +
-                "bookinfo.Rating: " + bookRating + "\n" :
+        return rating != 0.0 ? "bookinfo.Book details:\n" +
+                "ID: " + id + "\n" +
+                "Title: '" + title + "\'\n" +
+                "Author: " + author + "\n" +
+                "bookinfo.Rating: " + rating + "\n" :
                 "bookinfo.Book details:\n" +
-                        "ID: " + bookId + "\n" +
-                        "Title: '" + bookTitle + "\'\n" +
-                        "Author: " + bookAuthor + "\n" +
+                        "ID: " + id + "\n" +
+                        "Title: '" + title + "\'\n" +
+                        "Author: " + author + "\n" +
                         "Nu are rating" + "\n";
     }
 
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(Book o) {
         Book otherBook = (Book) o;
-        return (int) (this.bookId - otherBook.getBookId());
+        return (int) (this.id - otherBook.getId());
     }
 }
 
