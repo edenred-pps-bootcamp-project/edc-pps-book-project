@@ -1,5 +1,6 @@
 package com.edc.pps.catalogue;
 
+// TODO: remove unused imports
 import com.edc.pps.catalogue.model.User;
 import com.edc.pps.catalogue.service.UserService;
 import com.edc.pps.info.model.Book;
@@ -8,6 +9,7 @@ import com.edc.pps.info.repository.InMemoryBookRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: rename to BookCatalogueApp
 public class Main {
 
     public static void main(String[] args) {
@@ -23,9 +25,11 @@ public class Main {
 
         System.out.println("Welcome to green team's playground! :)");
 
+        // TODO: use new ArrayList<>() instead
         //crearea listei care contine carti
         List<Book> userListOfBooks = new ArrayList<Book>();
 
+        // TODO: use comments in english
         //adaugarea cartilor la lista
         userListOfBooks.add(book1);
         userListOfBooks.add(book2);
@@ -44,7 +48,7 @@ public class Main {
 
 
 
-
+    // TODO: remove empty lines
 
 
 

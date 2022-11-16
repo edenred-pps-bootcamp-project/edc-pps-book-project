@@ -8,10 +8,12 @@ public class Book implements Comparable<Book> {
         countId++;
     }
 
+    // TODO: use Long for ids
     private long id;
     private String title;
     private String author;
 
+    // TODO: remove this, the rating is saved in the book-rating-service
     private int rating;
     private double avgRating = .2f;
 

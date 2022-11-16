@@ -27,6 +27,7 @@ public class BookService extends InMemoryBookRepository {
 
     // create
     // TODO: add javadocs to public methods
+    // TODO: refactor to Book save(Book book)
     public Set<Book> createBook(String title, String author) {
         getBookList().add(new Book(title, author));
         return getBookList();
@@ -53,6 +54,7 @@ public class BookService extends InMemoryBookRepository {
                 .forEach(rating -> System.out.println(rating.getRating()));
     }
 
+    // TODO: refactor to List<Book> findAll()
     public void displayAllBooks() {
         System.out.println("bookinfo.Book collection \n");
         getBookList()
@@ -95,6 +97,7 @@ public class BookService extends InMemoryBookRepository {
                 .forEach(book -> getBookList().remove(book));
     }
 
+    // TODO: use logs instead of system out
     public void displayAuthorBooks(String author) {
         System.out.println("Author: " + author);
         System.out.println("Book title(s): ");

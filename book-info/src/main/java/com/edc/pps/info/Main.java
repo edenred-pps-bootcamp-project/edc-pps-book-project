@@ -3,7 +3,7 @@ package com.edc.pps.info;
 import com.edc.pps.info.service.BookService;
 import com.edc.pps.rating.service.RatingService;
 
-// TODO: rename to BookInfoService
+// TODO: rename to BookInfoApp
 public class Main {
     public static void main(String[] args) {
         BookService bookService = BookService.getInstance();
