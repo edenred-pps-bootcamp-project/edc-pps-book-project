@@ -18,7 +18,7 @@ public class Rating implements Comparable<Rating> {
     // TODO: decide between int and Integer
     // having 0 as default for a book means that all books are trash :)
     // having null as default means that a book has no rating yet
-    private int ratingValue = 0;
+    private int ratingValue;
 
 
     public Rating(long bookId, long userId, int rating) {
