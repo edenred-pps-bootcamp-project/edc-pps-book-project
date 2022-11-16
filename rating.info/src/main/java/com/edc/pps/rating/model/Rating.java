@@ -1,6 +1,9 @@
 package com.edc.pps.rating.model;
 // TODO: remove unused imports
 
+import static com.edc.pps.info.repository.BookRepository.ratings;
+
+public class Rating implements Comparable<Rating>{
 // TODO: format this file
 
 // TODO: Comparable is generic, use <>
@@ -27,7 +30,7 @@ public class Rating implements Comparable{
         this.bookId = bookId;
         this.userId = userId;
         this.ratingValue = rating;
-        //getAverageRating();
+ //       bookService.getAverageRating(bookId, ratings);
     }
 
     // TODO: this should be the last method in the class
@@ -42,7 +45,7 @@ public class Rating implements Comparable{
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(Rating o) {
         Rating otherRating = (Rating)o;
         return (int)(this.ratingId-otherRating.ratingId);
     }
