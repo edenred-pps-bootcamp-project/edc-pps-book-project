@@ -31,7 +31,7 @@ public class BookCatalogueApp {
         userListOfBooks.add(book3);
         UserService userService = UserService.getInstance();
 
-        userService.createUser("Norin", "Seculae","sneculae", userListOfBooks);
+        userService.create("Norin", "Seculae","sneculae", userListOfBooks);
 
         System.out.println(book1);
 

@@ -23,9 +23,10 @@ public class UserService extends InMemoryCatalogRepository {
     }
 
 
-    public Set<User> createUser(String firstName, String lastName, String userName, List<Book> books) {
-        getUsers().add(new User(firstName, lastName, userName,books));
-        return getUsers();
+    public User create(String firstName, String lastName, String userName, List<Book> books) {
+        User user = new User(firstName, lastName, userName,books);
+        getUsers().add(user);
+        return user;
 
     }
 
