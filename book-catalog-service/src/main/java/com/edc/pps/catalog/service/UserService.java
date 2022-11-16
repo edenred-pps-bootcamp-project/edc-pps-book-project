@@ -1,13 +1,12 @@
-package com.edc.pps.catalogue.service;
+package com.edc.pps.catalog.service;
 
-import com.edc.pps.catalogue.dto.CatalogItem;
-import com.edc.pps.catalogue.model.User;
-import com.edc.pps.catalogue.repository.InMemoryCatalogRepository;
+import com.edc.pps.catalog.dto.CatalogItem;
+import com.edc.pps.catalog.model.User;
+import com.edc.pps.catalog.repository.InMemoryCatalogRepository;
 import com.edc.pps.info.model.Book;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class UserService extends InMemoryCatalogRepository {
 

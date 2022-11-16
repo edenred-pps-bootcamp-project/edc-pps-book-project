@@ -1,4 +1,4 @@
-package com.edc.pps.catalogue.dto;
+package com.edc.pps.catalog.dto;
 
 public class CatalogItem {
 

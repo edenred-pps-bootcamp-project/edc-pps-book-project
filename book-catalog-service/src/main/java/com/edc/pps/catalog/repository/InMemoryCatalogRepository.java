@@ -1,6 +1,6 @@
-package com.edc.pps.catalogue.repository;
+package com.edc.pps.catalog.repository;
 
-import com.edc.pps.catalogue.model.User;
+import com.edc.pps.catalog.model.User;
 
 import java.util.HashSet;
 import java.util.Set;

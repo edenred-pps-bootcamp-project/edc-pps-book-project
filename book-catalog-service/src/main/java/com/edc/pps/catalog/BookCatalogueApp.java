@@ -1,7 +1,7 @@
-package com.edc.pps.catalogue;
+package com.edc.pps.catalog;
 
 
-import com.edc.pps.catalogue.service.UserService;
+import com.edc.pps.catalog.service.UserService;
 import com.edc.pps.info.model.Book;
 
 import java.util.ArrayList;
