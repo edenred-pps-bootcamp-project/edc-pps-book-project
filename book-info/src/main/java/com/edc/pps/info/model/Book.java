@@ -12,7 +12,7 @@ public class Book implements Comparable<Book> {
     private String title;
     private String author;
 
-    private double averageRating = .2f;
+    private double averageRating;
 
     public Book(String title, String author) {
         this.id = countId;
@@ -56,8 +56,8 @@ public class Book implements Comparable<Book> {
                 "ID: " + id + "\n" +
                 "Title: '" + title + "\'\n" +
                 "Author: " + author + "\n" +
-                "bookinfo.Rating: " + averageRating + "\n" :
-                "bookinfo.Book details:\n" +
+                "Rating: " + averageRating + "\n" :
+                "Book details:\n" +
                         "ID: " + id + "\n" +
                         "Title: '" + title + "\'\n" +
                         "Author: " + author + "\n" +
