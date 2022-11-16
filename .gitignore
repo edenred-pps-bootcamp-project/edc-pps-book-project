@@ -7,6 +7,9 @@
 .DS_Store
 
 # Maven
+
+# TODO: ignore the out folder
+# it will be recreated every time you run the app in intellij
 */log/
 */target/
 /*/*/target

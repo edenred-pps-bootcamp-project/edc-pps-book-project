@@ -1,5 +1,6 @@
 package com.edc.pps.catalogue.service;
 
+import com.edc.pps.catalogue.dto.CatalogItem;
 import com.edc.pps.catalogue.model.User;
 import com.edc.pps.info.model.Book;
 import com.edc.pps.info.repository.InMemoryBookRepository;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 public class UserService extends InMemoryBookRepository{
 
+    // TODO: use constructor dependency injection
     public static final UserService userService = new UserService();
 
     private UserService() {
@@ -31,12 +33,35 @@ public class UserService extends InMemoryBookRepository{
         return getUsers().stream().filter(user -> user.getUserName().equals(userName)).findAny();
     }
 
+    // TODO: refactor to List<User> findAll()
     public void displayAllUsers() {
         getUsers().forEach(System.out::println);
     }
 
+    // TODO: refactor to User findById()
     public void displayUser(Long id){
         getUsers().stream().filter(user -> user.getUserId().equals(id)).forEach(System.out::println);
     }
 
+    // TODO: implement this
+    public List<CatalogItem> findCatalogItemByUserId(Long userId) {
+        // get all rated book ids, call book-ratings-service
+            // hardcode a result for now like so:
+            // bookId, rating
+            // 1, 5
+            // 1, 4
+            // 2, 2
+
+        // get each book id, call book-info-service and get details
+            // make a call for each book
+            // hardcode two books for now
+
+            // a catalog item will have
+                // bookId (from book-info-service)
+                // bookTitle
+                // bookAuthor
+                // bookRating (from book-rating-service)
+
+        return null;
+    }
 }
