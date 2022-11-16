@@ -8,14 +8,11 @@ public class Book implements Comparable<Book> {
         countId++;
     }
 
-    // TODO: use Long for ids
-    private long id;
+    private Long id;
     private String title;
     private String author;
 
-    // TODO: remove this, the rating is saved in the book-rating-service
-    private int rating;
-    private double avgRating = .2f;
+    private double averageRating = .2f;
 
     public Book(String title, String author) {
         this.id = countId;
@@ -25,10 +22,6 @@ public class Book implements Comparable<Book> {
 
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -47,26 +40,23 @@ public class Book implements Comparable<Book> {
         this.author = author;
     }
 
-    public double getRating() {
-        return rating;
+    public double getAverageRating() {
+        return averageRating;
     }
 
-    public void setRating(int rating) {
-        if ((rating < 1) || (rating > 5))
+    public void setAverageRating(double averageRating) {
+        if ((averageRating < 1) || (averageRating > 5))
             throw new IllegalArgumentException("value is out of range for rating; it must be between 1-5");
-        this.rating = rating;
-    }
-    public void setAvgRating(double avgRating) {
-        this.avgRating = avgRating;
+        this.averageRating = averageRating;
     }
 
     @Override
     public String toString() {
-        return rating != 0.0 ? "bookinfo.Book details:\n" +
+        return averageRating != 0.0 ? "Book details:\n" +
                 "ID: " + id + "\n" +
                 "Title: '" + title + "\'\n" +
                 "Author: " + author + "\n" +
-                "bookinfo.Rating: " + rating + "\n" :
+                "bookinfo.Rating: " + averageRating + "\n" :
                 "bookinfo.Book details:\n" +
                         "ID: " + id + "\n" +
                         "Title: '" + title + "\'\n" +
@@ -76,8 +66,8 @@ public class Book implements Comparable<Book> {
 
 
     @Override
-    public int compareTo(Book o) {
-        Book otherBook = (Book) o;
+    public int compareTo(Book otherBook) {
+        ;
         return (int) (this.id - otherBook.getId());
     }
 }
