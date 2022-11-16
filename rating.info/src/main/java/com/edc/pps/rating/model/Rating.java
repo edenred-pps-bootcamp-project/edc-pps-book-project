@@ -1,6 +1,5 @@
 package com.edc.pps.rating.model;
 // TODO: remove unused imports
-import com.edc.pps.info.service.BookService;
 
 // TODO: format this file
 

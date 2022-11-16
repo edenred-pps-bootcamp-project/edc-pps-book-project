@@ -1,13 +1,12 @@
 package com.edc.pps.rating.service;
 
-import com.edc.pps.info.repository.InMemoryBookRepository;
 import com.edc.pps.rating.model.Rating;
 
 import java.util.List;
 import java.util.Set;
 
 
-public class RatingService extends InMemoryBookRepository {
+public class RatingService {
 
     // TODO use constructor injection for the dependencies
     private static RatingService ratingService = new RatingService();
@@ -43,9 +42,10 @@ public class RatingService extends InMemoryBookRepository {
     }
 
     // TODO: remove this method
+    /*
     public void addRating(long bookId, long userId, int ratingValue){
         ratings.add(new Rating(bookId, userId, ratingValue));
-    }
+    }*/
 
 // TODO: remove empty lines
 
