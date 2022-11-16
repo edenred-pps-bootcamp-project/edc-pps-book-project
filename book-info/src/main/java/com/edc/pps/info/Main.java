@@ -24,10 +24,10 @@ public class Main {
         bookService.deleteBook("Florin are mere");
         bookService.displayAllBooks();
         RatingService ratingService = RatingService.getInstance();
-        ratingService.addRating(2,2,3);
-        ratingService.addRating(2,2,4);
-        ratingService.addRating(2,2,5);
-        ratingService.getRatings();
+//        ratingService.addRating2(2,2,3);
+//        ratingService.addRating2(2,2,4);
+//        ratingService.addRating2(2,2,5);
+//        ratingService.getRatings();
 //        double a = 0;
 //        for (int i = 0; i < 21; i++) {
 //            a+=10;

@@ -43,7 +43,7 @@ public class RatingService extends InMemoryBookRepository {
     }
 
     // TODO: remove this method
-    public void addRating(long bookId, long userId, int ratingValue){
+    public void addRating2(long bookId, long userId, short ratingValue){
         ratings.add(new Rating(bookId, userId, ratingValue));
     }
 
