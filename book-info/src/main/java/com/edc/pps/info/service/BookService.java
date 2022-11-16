@@ -110,9 +110,15 @@ public class BookService extends InMemoryBookRepository {
         }
     }
 
+    public void getTitleById(long bookId) {
+        for (Book book : getBookList()) {
+            if (book.getId() == bookId)
+                System.out.println(book.getTitle());
+        }
+    }
 
 
-    public void getAverageRating(Long bookId, Set<Rating> ratings) {
+    public void getAverageRating(long bookId, Set<Rating> ratings) {
         int count = 0;
         double ratingTotal = 0;
 

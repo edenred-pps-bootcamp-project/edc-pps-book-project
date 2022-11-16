@@ -1,7 +1,9 @@
 package com.edc.pps.rating.model;
 import com.edc.pps.info.service.BookService;
 
-public class Rating implements Comparable{
+import static com.edc.pps.info.repository.BookRepository.ratings;
+
+public class Rating implements Comparable<Rating>{
     private long ratingId = 0;
     private long bookId = 0;
     private long userId = 0;
@@ -13,7 +15,7 @@ public class Rating implements Comparable{
         this.bookId = bookId;
         this.userId = userId;
         this.ratingValue = rating;
-        //getAverageRating();
+ //       bookService.getAverageRating(bookId, ratings);
     }
 
     @Override
@@ -27,7 +29,7 @@ public class Rating implements Comparable{
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(Rating o) {
         Rating otherRating = (Rating)o;
         return (int)(this.ratingId-otherRating.ratingId);
     }
