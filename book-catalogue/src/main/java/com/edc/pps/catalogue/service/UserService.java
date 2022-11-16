@@ -2,6 +2,7 @@ package com.edc.pps.catalogue.service;
 
 import com.edc.pps.catalogue.dto.CatalogItem;
 import com.edc.pps.catalogue.model.User;
+import com.edc.pps.catalogue.repository.InMemoryCatalogRepository;
 import com.edc.pps.info.model.Book;
 import com.edc.pps.info.repository.InMemoryBookRepository;
 
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public class UserService extends InMemoryBookRepository{
+public class UserService extends InMemoryCatalogRepository {
 
     // TODO: use constructor dependency injection
     public static final UserService userService = new UserService();
