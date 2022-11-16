@@ -4,7 +4,6 @@ import com.edc.pps.catalogue.dto.CatalogItem;
 import com.edc.pps.catalogue.model.User;
 import com.edc.pps.catalogue.repository.InMemoryCatalogRepository;
 import com.edc.pps.info.model.Book;
-import com.edc.pps.info.repository.InMemoryBookRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,14 +33,14 @@ public class UserService extends InMemoryCatalogRepository {
         return getUsers().stream().filter(user -> user.getUserName().equals(userName)).findAny();
     }
 
-    // TODO: refactor to List<User> findAll()
-    public void displayAllUsers() {
+
+    public void findAll() {
         getUsers().forEach(System.out::println);
     }
 
-    // TODO: refactor to User findById()
-    public void displayUser(Long id){
-        getUsers().stream().filter(user -> user.getUserId().equals(id)).forEach(System.out::println);
+
+    public Optional<User> findById(Long id){
+        return getUsers().stream().filter(user -> user.getUserId().equals(id)).findAny();
     }
 
     // TODO: implement this
