@@ -10,6 +10,7 @@ private static final Logger log = LoggerFactory.getLogger(RatingLogger.class);
 
 public static void info(String message){
     log.info(message);
+
 }
 
 }
