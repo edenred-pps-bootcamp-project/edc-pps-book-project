@@ -5,6 +5,8 @@
 *.gitignore
 */shelf/*
 
+.idea/*
+
 out/*
 # Mac
 .DS_Store
