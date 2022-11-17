@@ -1,4 +1,4 @@
-package com.edc.pps.catalogue.model;
+package com.edc.pps.catalog.model;
 
 import com.edc.pps.info.model.Book;
 

@@ -1,16 +1,12 @@
-package com.edc.pps.catalogue;
+package com.edc.pps.catalog;
 
-// TODO: remove unused imports
-import com.edc.pps.catalogue.model.User;
-import com.edc.pps.catalogue.service.UserService;
+
+import com.edc.pps.catalog.service.UserService;
 import com.edc.pps.info.model.Book;
-import com.edc.pps.info.repository.InMemoryBookRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-
-// TODO: rename to BookCatalogueApp
-public class Main {
+public class BookCatalogueApp {
 
     public static void main(String[] args) {
 
@@ -25,32 +21,23 @@ public class Main {
 
         System.out.println("Welcome to green team's playground! :)");
 
-        // TODO: use new ArrayList<>() instead
-        //crearea listei care contine carti
-        List<Book> userListOfBooks = new ArrayList<Book>();
+        // creating a list of books
+        List<Book> userListOfBooks = new ArrayList<>();
 
-        // TODO: use comments in english
-        //adaugarea cartilor la lista
+
+        // adding books to the list
         userListOfBooks.add(book1);
         userListOfBooks.add(book2);
         userListOfBooks.add(book3);
         UserService userService = UserService.getInstance();
 
-
-        userService.createUser("Norin", "Seculae","sneculae", userListOfBooks);
-
+        userService.create("Norin", "Seculae","sneculae", userListOfBooks);
 
         System.out.println(book1);
 
         System.out.println("Welcome to green team's playground! :)");
 
-        userService.displayAllUsers();
-
-
-
-    // TODO: remove empty lines
-
-
+        userService.findAll();
 
     }
 

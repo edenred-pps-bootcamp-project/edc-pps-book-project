@@ -1,8 +1,8 @@
-package com.edc.pps.catalogue.dto;
+package com.edc.pps.catalog.dto;
 
 public class CatalogItem {
 
-    private String bookId;
+    private Long bookId;
     private String title;
     private String author;
     private int rating;

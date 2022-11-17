@@ -1,15 +1,14 @@
-package com.edc.pps.catalogue.service;
+package com.edc.pps.catalog.service;
 
-import com.edc.pps.catalogue.dto.CatalogItem;
-import com.edc.pps.catalogue.model.User;
+import com.edc.pps.catalog.dto.CatalogItem;
+import com.edc.pps.catalog.model.User;
+import com.edc.pps.catalog.repository.InMemoryCatalogRepository;
 import com.edc.pps.info.model.Book;
-import com.edc.pps.info.repository.InMemoryBookRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
-public class UserService extends InMemoryBookRepository{
+public class UserService extends InMemoryCatalogRepository {
 
     // TODO: use constructor dependency injection
     public static final UserService userService = new UserService();
@@ -23,9 +22,10 @@ public class UserService extends InMemoryBookRepository{
     }
 
 
-    public Set<User> createUser(String firstName, String lastName, String userName, List<Book> books) {
-        getUsers().add(new User(firstName, lastName, userName,books));
-        return getUsers();
+    public User create(String firstName, String lastName, String userName, List<Book> books) {
+        User user = new User(firstName, lastName, userName,books);
+        getUsers().add(user);
+        return user;
 
     }
 
@@ -33,14 +33,14 @@ public class UserService extends InMemoryBookRepository{
         return getUsers().stream().filter(user -> user.getUserName().equals(userName)).findAny();
     }
 
-    // TODO: refactor to List<User> findAll()
-    public void displayAllUsers() {
+
+    public void findAll() {
         getUsers().forEach(System.out::println);
     }
 
-    // TODO: refactor to User findById()
-    public void displayUser(Long id){
-        getUsers().stream().filter(user -> user.getUserId().equals(id)).forEach(System.out::println);
+
+    public Optional<User> findById(Long id){
+        return getUsers().stream().filter(user -> user.getUserId().equals(id)).findAny();
     }
 
     // TODO: implement this
