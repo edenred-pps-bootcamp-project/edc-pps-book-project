@@ -3,7 +3,8 @@ package com.edc.pps.catalog.service;
 import com.edc.pps.catalog.dto.CatalogItem;
 import com.edc.pps.catalog.model.User;
 import com.edc.pps.catalog.repository.InMemoryCatalogRepository;
-import com.edc.pps.info.model.Book;
+import com.edc.pps.catalog.model.Book;
+import com.edc.pps.rating.model.Rating;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,6 +49,12 @@ public class UserService extends InMemoryCatalogRepository {
         return getUsers().stream().filter(user -> user.getUserId().equals(id)).findAny();
     }
 
+    public void addCatalogItem(Long id, Book book, Rating rating){
+        User user = findById(id).get();
+
+        user.getCatalogItems().add(new CatalogItem(book,rating));
+    }
+
     // TODO: implement this
     public List<CatalogItem> findCatalogItemByUserId(Long userId) {
         // get all rated book ids, call book-ratings-service
@@ -69,4 +76,6 @@ public class UserService extends InMemoryCatalogRepository {
 
         return null;
     }
+
+
 }
