@@ -23,12 +23,11 @@ public class User implements Comparable<User>{
         throw new InvalidParameterException("Provide valid parameters to the constructor");
     }
 
-    public User(String firstName, String lastName, String userName, List<Book> books) {
+    public User(String firstName, String lastName, String userName) {
         this.userId = countId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
-        this.books = books;
 
     }
 
