@@ -2,9 +2,10 @@
 .idea/
 *.iml
 *.iws
-*.xml
 *.gitignore
 */shelf/*
+
+.idea/*
 
 out/*
 # Mac
