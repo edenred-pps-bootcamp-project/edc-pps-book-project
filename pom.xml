@@ -22,7 +22,7 @@
 
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compisler.source>11</maven.compisler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 

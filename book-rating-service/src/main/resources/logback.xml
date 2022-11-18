@@ -9,7 +9,7 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>book-rating-service/logs/application.log</file>
+        <file>book-rating-service/logs/rating.log</file>
         <encoder>
             <pattern>%d{HH:mm:ss,SSS} %-5p [%c] - %m%n</pattern>
         </encoder>

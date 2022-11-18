@@ -1,4 +1,4 @@
-appOwner: company
+appOwner: blueTeam
 releaseVersion: 1.0
 
 # starter-web or jpa is using logback with slf4j as implementation
