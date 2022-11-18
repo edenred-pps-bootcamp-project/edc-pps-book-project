@@ -18,3 +18,4 @@ out/*
 */log/
 */target/
 /*/*/target
+/book-rating-service/logs/application.log
