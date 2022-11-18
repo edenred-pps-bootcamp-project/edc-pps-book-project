@@ -20,9 +20,9 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="book-catalog-service" options="" />
-      <module name="book-info" options="" />
-      <module name="rating.info" options="" />
+      <module name="book-catalog-service" options="-parameters" />
+      <module name="book-info" options="-parameters" />
+      <module name="rating.info" options="-parameters" />
     </option>
   </component>
 </project>

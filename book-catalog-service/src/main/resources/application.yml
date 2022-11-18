@@ -1,0 +1,11 @@
+appOwner: green-team
+releaseVersion: 1.0
+
+# starter-web or jpa is using logback with slf4j as implementation
+logging:
+  # default logging goes to console
+  file: book-catalog-service/logs/boot.log # write logs to this file
+  level:
+    root: INFO
+    org.springframework: ERROR
+    com.edc.pps.catalog: INFO
