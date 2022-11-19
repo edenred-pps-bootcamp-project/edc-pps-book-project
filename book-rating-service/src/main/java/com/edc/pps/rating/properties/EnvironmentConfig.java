@@ -16,7 +16,6 @@ public class EnvironmentConfig {
     CustomProperties customProperties = new CustomProperties();
     customProperties.setAppOwner(environment.getProperty("appOwner"));
     customProperties.setReleaseVersion(environment.getProperty("releaseVersion"));
-    System.out.println(environment.getProperty("appOwner"));
     return customProperties;
 }
 }

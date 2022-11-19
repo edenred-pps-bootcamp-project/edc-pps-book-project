@@ -9,10 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>rating.info</artifactId>
-<dependencies>
+    <artifactId>book-rating-service</artifactId>
 
-
-</dependencies>
 
 </project>
