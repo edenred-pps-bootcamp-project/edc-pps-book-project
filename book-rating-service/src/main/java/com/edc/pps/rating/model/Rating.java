@@ -37,10 +37,6 @@ public class Rating implements Comparable<Rating> {
         return ratingId;
     }
 
-    public void setRatingId(long ratingId) {
-        this.ratingId = ratingId;
-    }
-
     public long getBookId() {
         return bookId;
     }
