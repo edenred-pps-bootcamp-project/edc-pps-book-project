@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 
@@ -30,7 +29,7 @@ public class RatingService {
         this.ratingMapper = ratingMapper;
     }
 
-    public RatingResponse save(RatingRequest request) {
+    public RatingResponse saveOrUpdate(RatingRequest request) {
         log.info("saved rating to db: {}", request);
        Rating rating = ratingMapper.toEntity(request);
        List<Rating> ratings = ratingRepository.findAll();
@@ -51,9 +50,16 @@ public class RatingService {
       }
     }
 
-    // TODO: implement this method to get all ratings
-    public List<Rating> findAll() {
-        return null;
+
+    public List<RatingResponse> findAll() {
+        log.debug("getting all ratings...");
+        List<Rating> ratings = ratingRepository.findAll();
+        return ratingMapper.toDto(ratings);
+    }
+
+    public void delete(Long id) {
+        log.debug("deleting rating with id: {}", id);
+        ratingRepository.deleteById(id);
     }
 
     // TODO: implement this method to update a rating
