@@ -1,7 +1,12 @@
 package com.edc.pps.rating.service;
 
+import com.edc.pps.rating.dto.RatingMapper;
+import com.edc.pps.rating.dto.RatingRequest;
+import com.edc.pps.rating.dto.RatingResponse;
 import com.edc.pps.rating.model.Rating;
 import com.edc.pps.rating.repository.RatingRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,20 +17,26 @@ import java.util.Set;
 public class RatingService {
 
     // TODO use constructor injection for the dependencies
-    private static RatingService ratingService = new RatingService();
+    private static final Logger log = LoggerFactory.getLogger(RatingService.class);
+    private RatingMapper ratingMapper;
+    private RatingRepository ratingRepository;
 
-    private  RatingRepository ratingRepository;
-    private RatingService(){
+    private RatingService() {
     }
+
     @Autowired
-    public RatingService(RatingRepository ratingRepository){
-    this.ratingRepository = ratingRepository;
+    public RatingService(RatingRepository ratingRepository, RatingMapper ratingMapper) {
+        this.ratingRepository = ratingRepository;
+        this.ratingMapper = ratingMapper;
     }
 
 
     // TODO: implement this method to save a user rating
     // the service should save use the repository to save in the database
-    public Rating save(Long userId, Rating request) {
+    public RatingResponse save(RatingRequest request) {
+        log.info("saved new rating to db: {}", request);
+        System.out.println("we are inside the save method in ratingService");
+
         return null;
     }
 
@@ -35,19 +46,17 @@ public class RatingService {
     }
 
     // TODO: implement this method to update a rating
-    public Rating update(Long id, Rating request)  {
+    public Rating update(Long id, Rating request) {
         return null;
     }
 
     // TODO: method names should use camelCase
     // remove this method
-    public void AddRating(Rating rating, Set<Rating> ratingSet){
+    public void AddRating(Rating rating, Set<Rating> ratingSet) {
         ratingSet.add(rating);
     }
 
-    public static RatingService getInstance(){
-        return ratingService;
-    }
+
 
     // TODO: remove this method
     /*
