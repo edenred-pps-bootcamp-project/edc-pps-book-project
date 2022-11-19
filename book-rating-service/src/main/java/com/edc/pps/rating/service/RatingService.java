@@ -1,19 +1,27 @@
 package com.edc.pps.rating.service;
 
 import com.edc.pps.rating.model.Rating;
+import com.edc.pps.rating.repository.RatingRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
 
-
+@Service
 public class RatingService {
 
     // TODO use constructor injection for the dependencies
     private static RatingService ratingService = new RatingService();
 
+    private  RatingRepository ratingRepository;
     private RatingService(){
-
     }
+    @Autowired
+    public RatingService(RatingRepository ratingRepository){
+    this.ratingRepository = ratingRepository;
+    }
+
 
     // TODO: implement this method to save a user rating
     // the service should save use the repository to save in the database
