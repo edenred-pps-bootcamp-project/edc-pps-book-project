@@ -22,7 +22,6 @@ public class Rating implements Comparable<Rating> {
     }
 
     public Rating(long bookId, long userId, int rating) {
-        this.ratingId = bookId * 10000 + userId;
         this.bookId = bookId;
         this.userId = userId;
         this.ratingValue = rating;

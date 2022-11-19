@@ -16,7 +16,7 @@ public class RatingMapper {
         }
         return ratingDtos;
     }
-    private RatingResponse toDto(Rating rating) {
+    public RatingResponse toDto(Rating rating) {
         RatingResponse dto = new RatingResponse();
         dto.setRatingId(rating.getRatingId());
         dto.setBookId(rating.getBookId());
@@ -33,7 +33,7 @@ public class RatingMapper {
     return ratings;
     }
 
-    private Rating toEntity(RatingRequest ratingRequest) {
+    public Rating toEntity(RatingRequest ratingRequest) {
         Rating entity = new Rating();
         entity.setBookId(ratingRequest.getBookId());
         entity.setUserId(ratingRequest.getUserId());
@@ -42,7 +42,7 @@ public class RatingMapper {
     }
 
     //might not need return(same reference)
-    private Rating toEntity(Rating entity, RatingRequest updateInfo){
+    public Rating toEntity(Rating entity, RatingRequest updateInfo){
         entity.setRatingValue(updateInfo.getRatingValue());
         entity.setBookId(updateInfo.getBookId());
         entity.setUserId(updateInfo.getUserId());

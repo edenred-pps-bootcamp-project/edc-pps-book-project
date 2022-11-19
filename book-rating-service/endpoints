@@ -1,0 +1,1 @@
+POST http://localhost:8081//api/ratings (save new rating or update current one for user and book)

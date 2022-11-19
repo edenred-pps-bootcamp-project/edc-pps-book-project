@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 
@@ -18,11 +19,10 @@ public class RatingService {
 
     // TODO use constructor injection for the dependencies
     private static final Logger log = LoggerFactory.getLogger(RatingService.class);
-    private RatingMapper ratingMapper;
-    private RatingRepository ratingRepository;
+    private final RatingMapper ratingMapper;
+    private final RatingRepository ratingRepository;
 
-    private RatingService() {
-    }
+
 
     @Autowired
     public RatingService(RatingRepository ratingRepository, RatingMapper ratingMapper) {
@@ -30,14 +30,25 @@ public class RatingService {
         this.ratingMapper = ratingMapper;
     }
 
-
-    // TODO: implement this method to save a user rating
-    // the service should save use the repository to save in the database
     public RatingResponse save(RatingRequest request) {
-        log.info("saved new rating to db: {}", request);
-        System.out.println("we are inside the save method in ratingService");
+        log.info("saved rating to db: {}", request);
+       Rating rating = ratingMapper.toEntity(request);
+       List<Rating> ratings = ratingRepository.findAll();
+       //check if the user already rated the book
+      long result = ratings.stream().filter(entry -> entry.getBookId() == request.getBookId() && entry.getUserId() == request.getUserId()).count();
 
-        return null;
+        //if the user never rated the book it will be added as a new entry in db
+      if(result == 0) {
+          ratingRepository.save(rating);
+          return ratingMapper.toDto(rating);
+      }
+      //if the user already rated the book it will be updated
+        else{
+          Rating foundRating =  ratingRepository.findByBookIdAndUserId(request.getBookId(),request.getUserId());
+          foundRating.setRatingValue(request.getRatingValue());
+          ratingRepository.save(foundRating);
+        return ratingMapper.toDto(foundRating);
+      }
     }
 
     // TODO: implement this method to get all ratings
