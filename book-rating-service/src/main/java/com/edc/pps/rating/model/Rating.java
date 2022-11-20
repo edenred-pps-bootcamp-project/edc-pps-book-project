@@ -1,5 +1,6 @@
 package com.edc.pps.rating.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
