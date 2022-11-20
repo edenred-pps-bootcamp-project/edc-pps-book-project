@@ -37,5 +37,9 @@ public class RatingController {
         ratingService.delete(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<List<RatingResponse>> getAllRatingsForBook(@PathVariable Long id) {
+        return new ResponseEntity<>(ratingService.getAllRatingsForBook(id), HttpStatus.OK);
+    }
 
 }
