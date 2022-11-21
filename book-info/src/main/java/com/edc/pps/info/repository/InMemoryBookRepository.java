@@ -12,6 +12,7 @@ import java.util.Set;
 // and move the interface and this class to a new package: repository
 public class InMemoryBookRepository implements BookRepository {
 
+
     @Override
     public Set<Book> getBookList() {
         return bookList;

@@ -3,19 +3,19 @@ package com.edc.pps.info.service;
 import com.edc.pps.info.model.Book;
 import com.edc.pps.info.repository.InMemoryBookRepository;
 import com.edc.pps.rating.model.Rating;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static com.edc.pps.info.repository.InMemoryBookRepository.bookList;
-import static com.edc.pps.info.repository.InMemoryBookRepository.ratings;
 
 
 // TODO: format file
 public class BookService extends InMemoryBookRepository {
 
     public static final BookService bookService = new BookService();
+
+    private static Logger LOGGER = LoggerFactory.getLogger(BookService.class);
 
     //InMemoryBookRepository in = new InMemoryBookRepository();
     private BookService() {
@@ -26,71 +26,71 @@ public class BookService extends InMemoryBookRepository {
     }
 
     // create
-    // TODO: add javadocs to public methods
-    // TODO: refactor to Book save(Book book)
-    public Set<Book> createBook(String title, String author) {
-        getBookList().add(new Book(title, author));
-        return getBookList();
+
+    /**
+     * Add a book in a  book Set
+     * @param book
+     */
+    public void save(Book book) {
+        getBookList().add(book);
     }
 
     // read
-    public void displayBook(String title) {
-        System.out.println(searchBookByTitle(title));
+    public void display(String title) {
+        LOGGER.info(searchByTitle(title).toString());
     }
 
-    public Book searchBookByTitle(String title){
+    public Book searchByTitle(String title){
         return getBookList()
                 .stream()
-                .filter(book -> book.getTitle()
-                        .equals(title))
+                .filter(book -> book.getTitle().equals(title))
                 .findFirst()
                 .orElse(null);
     }
 
-    public void displayBookRatings(String title) {
-        Book book = searchBookByTitle(title);
-        System.out.println(title);
+    public void displayRatings(String title) {
+        Book book = searchByTitle(title);
         getRatings().stream()
                 .forEach(rating -> System.out.println(rating.getRating()));
     }
 
-    // TODO: refactor to List<Book> findAll()
-    public void displayAllBooks() {
-        System.out.println("bookinfo.Book collection \n");
+    public Set<Book> finaAll() {
+        LOGGER.info("Book collection \n");
         getBookList()
                 .stream()
                 .forEach(book -> System.out.println(book.toString()));
+        return getBookList();
     }
 
     //update
-    public void updateBookTitle(String oldTitle, String newTitle) {
-        for (Book book : getBookList()) {
-            if (book.getTitle().equals(oldTitle)) {
-                book.setTitle(newTitle);
-            }
-        }
+    public void updateTitle(String oldTitle, String newTitle) {
+        getBookList()
+                .stream()
+                .filter( book -> book.getTitle().equals(oldTitle))
+                .findFirst()
+                .get()
+                .setTitle(newTitle);
     }
 
-    public void updateBookAuthor(String title, String newAuthor) {
-        for (Book book : bookList) {
-            if (book.getTitle().equals(title)) {
-                book.setAuthor(newAuthor);
-            }
-        }
+    public void updateAuthor(String title, String newAuthor) {
+        getBookList()
+                .stream()
+                .filter( book -> book.getTitle().equals(title))
+                .findFirst()
+                .get()
+                .setAuthor(newAuthor);
     }
 
     //delete
-    public void deleteBook(String title) {
-        for (Book book : getBookList()) {
-            if (book.getTitle().equals(title)) {
-                getBookList().remove(book);
-                return;
-            }
-        }
-        throw new RuntimeException("The book doesn't exist.");
+    public void delete(String title) {
+        getBookList().remove(getBookList()
+                .stream()
+                .filter( book -> book.getTitle().equals(title))
+                .findFirst()
+                .get());
     }
 
-    public void deleteBooksByAuthor(String author) {
+    public void deleteByAuthor(String author) {
         getBookList()
                 .stream()
                 .filter(book -> book.getAuthor().equals(author))
@@ -99,29 +99,22 @@ public class BookService extends InMemoryBookRepository {
 
     // TODO: use logs instead of system out
     public void displayAuthorBooks(String author) {
-        System.out.println("Author: " + author);
-        System.out.println("Book title(s): ");
-        boolean found = false;
-        for (Book book : getBookList()) {
-            if(book.getAuthor().equals(author)) {
-                System.out.println(book.getTitle());
-                found = true;
-            }
-        }
-        if (found == false) {
-            System.out.println("None");
-        }
+        LOGGER.info("Author: " + author);
+        LOGGER.info("Book title(s): ");
+        getBookList()
+                .stream()
+                .filter( book -> book.getAuthor().equals(author))
+                .forEach(System.out::println);
     }
 
-    public void getTitleById(long bookId) {
-        for (Book book : getBookList()) {
-            if (book.getId() == bookId)
-                System.out.println(book.getTitle());
-        }
+    public Book getTitleById(long bookId) {
+        return getBookList()
+                .stream()
+                .filter( book -> book.getId()==bookId).findFirst().get();
     }
 
 
-    public void getAverageRating(long bookId, Set<Rating> ratings) {
+    public void getAverageRating(long bookId) {
         int count = 0;
         double ratingTotal = 0;
 
@@ -133,7 +126,7 @@ public class BookService extends InMemoryBookRepository {
                         ratingTotal += rating.getRating();
                     }
                 }
-                book.setAvgRating(ratingTotal / count);
+                book.setAverageRating(ratingTotal / count);
                 return;
             }
         }
