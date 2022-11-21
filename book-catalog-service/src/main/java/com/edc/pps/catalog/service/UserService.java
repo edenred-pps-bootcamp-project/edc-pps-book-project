@@ -9,6 +9,9 @@ import com.edc.pps.rating.model.Rating;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class UserService extends InMemoryCatalogRepository {
 
     // TODO: use constructor dependency injection
