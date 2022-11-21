@@ -11,4 +11,4 @@
 # Maven
 out/*
 */logs/
-/*/*/target
+/*/target
