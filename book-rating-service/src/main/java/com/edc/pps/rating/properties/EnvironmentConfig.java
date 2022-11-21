@@ -8,14 +8,6 @@ import org.springframework.core.env.Environment;
 @Configuration
 public class EnvironmentConfig {
 
-    @Autowired
-    public Environment environment;
-
-@Bean
-    public  CustomProperties customProperties(){
-    CustomProperties customProperties = new CustomProperties();
-    customProperties.setAppOwner(environment.getProperty("appOwner"));
-    customProperties.setReleaseVersion(environment.getProperty("releaseVersion"));
-    return customProperties;
-}
+	@Autowired
+	public Environment environment;
 }

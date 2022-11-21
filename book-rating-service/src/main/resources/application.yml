@@ -1,13 +1,6 @@
 # server port
 server.port: 8081
 
-logging:
-  # default logging goes to console
-  level:
-    root: INFO
-    org.springframework: ERROR
-    com.sda.spring.boot: DEBUG
-
 spring:
   datasource:
     driver-class-name: org.h2.Driver
