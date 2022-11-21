@@ -2,7 +2,12 @@
 .idea/
 *.iml
 *.iws
+*.gitignore
+*/shelf/*
 
+.idea/*
+
+out/*
 # Mac
 .DS_Store
 

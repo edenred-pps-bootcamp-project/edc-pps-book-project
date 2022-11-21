@@ -2,15 +2,27 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="book-info" />
+        <module name="book-catalogue-service" />
         <module name="rating.info" />
-        <module name="book-catalogue" />
+        <module name="book-catalog-service" />
       </profile>
       <profile name="Offed" />
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="book-catalogue" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="book-catalog-service" options="-parameters" />
+      <module name="book-info" options="-parameters" />
+      <module name="rating.info" options="-parameters" />
+    </option>
   </component>
 </project>
