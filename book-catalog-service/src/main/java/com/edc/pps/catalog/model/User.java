@@ -3,12 +3,12 @@ package com.edc.pps.catalog.model;
 import com.edc.pps.catalog.dto.CatalogItem;
 
 import javax.persistence.*;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class User implements Comparable<User> {
+@Table(name = "user")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,15 +20,11 @@ public class User implements Comparable<User> {
     private String lastName;
     @Column(name = "user_name")
     private String userName;
+    @ElementCollection
     @Column(name = "catalog_items")
     private List<CatalogItem> catalogItems;
 
-    public void setCatalogItems(List<CatalogItem> catalogItems) {
-        this.catalogItems = new ArrayList<>(catalogItems);
-    }
-
-    public User() throws InvalidParameterException {
-        throw new InvalidParameterException("Provide valid parameters to the constructor");
+    public User() {
     }
 
     public User(long userId, String firstName, String lastName, String userName) {
@@ -75,6 +71,11 @@ public class User implements Comparable<User> {
         return catalogItems;
     }
 
+
+    public void setCatalogItems(List<CatalogItem> catalogItems) {
+        this.catalogItems = new ArrayList<>(catalogItems);
+    }
+
     @Override
     public String toString() {
         return this.userName.charAt(this.userName.length() - 1) != 's' ? "User " + this.userName + "'s full name: " +
@@ -83,11 +84,5 @@ public class User implements Comparable<User> {
                         this.firstName + " " + this.lastName;
 
     }
-
-    @Override
-    public int compareTo(User other) {
-        return (int) (this.userId - other.getUserId());
-    }
-
 
 }
