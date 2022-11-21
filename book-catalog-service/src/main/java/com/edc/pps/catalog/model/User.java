@@ -1,5 +1,6 @@
 package com.edc.pps.catalog.model;
 
+import com.edc.pps.catalog.dto.CatalogItem;
 import com.edc.pps.info.model.Book;
 
 import java.security.InvalidParameterException;
@@ -17,7 +18,8 @@ public class User implements Comparable<User>{
     private String lastName;
     private String userName;
 
-    private List<Book> books;
+    private List<CatalogItem> catalogItems;
+
 
     public User() throws InvalidParameterException {
         throw new InvalidParameterException("Provide valid parameters to the constructor");
@@ -60,6 +62,10 @@ public class User implements Comparable<User>{
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public List<CatalogItem> getCatalogItems() {
+        return catalogItems;
     }
 
     @Override
