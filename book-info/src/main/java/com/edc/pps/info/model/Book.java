@@ -20,6 +20,7 @@ public class Book implements Comparable<Book> {
         this.author = author;
     }
 
+
     public long getId() {
         return id;
     }

@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 
 public interface BookRepository {
 
+
     // TODO: move theses to the implementation class, never in interface
 
     Set<Book> bookList = new ConcurrentSkipListSet<>();

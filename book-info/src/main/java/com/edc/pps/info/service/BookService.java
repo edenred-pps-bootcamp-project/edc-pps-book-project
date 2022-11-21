@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public class BookService extends InMemoryBookRepository {
 
     public static final BookService bookService = new BookService();
+
     private static Logger LOGGER = LoggerFactory.getLogger(BookService.class);
 
     //InMemoryBookRepository in = new InMemoryBookRepository();
