@@ -2,54 +2,52 @@ package com.edc.pps.catalog.service;
 
 import com.edc.pps.catalog.dto.CatalogItem;
 import com.edc.pps.catalog.model.User;
-import com.edc.pps.catalog.repository.InMemoryCatalogRepository;
 import com.edc.pps.catalog.model.Book;
+import com.edc.pps.catalog.repository.UserRepository;
 import com.edc.pps.rating.model.Rating;
 
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class UserService extends InMemoryCatalogRepository {
+@Service
+public class UserService {
 
-    // TODO: use constructor dependency injection
-    public static final UserService userService = new UserService();
+    public final UserRepository userRepository;
 
-    private UserService() {
-
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
-
-    public static UserService getInstance() {
-        return userService;
-    }
-
 
     public User createExplicit(String firstName, String lastName, String userName) {
         User user = new User(firstName, lastName, userName);
-        getUsers().add(user);
+        userRepository.findAll().add(user);
         return user;
-
     }
 
     public User create(User user){
-        getUsers().add(user);
+        userRepository.findAll().add(user);
         return user;
     }
 
     public Optional<User> findUser(String userName) {
-        return getUsers().stream().filter(user -> user.getUserName().equals(userName)).findAny();
+        return userRepository.findAll().stream().filter(user -> user.getUserName().equals(userName)).findAny();
     }
 
 
     public void findAll() {
-        getUsers().forEach(System.out::println);
+        userRepository.findAll().forEach(System.out::println);
     }
 
 
     public Optional<User> findById(Long id){
-        return getUsers().stream().filter(user -> user.getUserId().equals(id)).findAny();
+        return userRepository.findAll().stream().filter(user -> user.getUserId().equals(id)).findAny();
     }
 
     public void addCatalogItem(Long id, Book book, Rating rating){
