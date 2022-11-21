@@ -12,6 +12,7 @@ public class RatingCommandLineRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-    logger.info("did operation1");
+    logger.info("did infoOperation1");
+    logger.info("did infoOperation2");
     }
 }

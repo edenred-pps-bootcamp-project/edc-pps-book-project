@@ -8,8 +8,9 @@ import org.springframework.stereotype.Component;
 public class RatingLogger {
 private static final Logger log = LoggerFactory.getLogger(RatingLogger.class);
 
-public static void info(String message){
+public void info(String message){
     log.info(message);
+
 }
 
 }
