@@ -1,7 +1,6 @@
 package com.edc.pps.catalog.dto;
 
 import com.edc.pps.catalog.model.Book;
-import com.edc.pps.rating.model.Rating;
 
 public class CatalogItem {
 
@@ -10,15 +9,16 @@ public class CatalogItem {
     private String author;
     private int rating;
 
-    public Long getBookId() {
-        return bookId;
-    }
 
-    public CatalogItem(Book book, Rating rating) {
+    public CatalogItem(Book book, int rating) {
         this.bookId = book.getId();
         this.author = book.getAuthor();
         this.title = book.getTitle();
-        this.rating = rating.getRating();
+        this.rating = rating;
+    }
+
+    public Long getBookId() {
+        return bookId;
     }
 
     public void setBookId(Long bookId) {

@@ -4,7 +4,7 @@ import com.edc.pps.catalog.dto.CatalogItem;
 import com.edc.pps.catalog.model.User;
 import com.edc.pps.catalog.model.Book;
 import com.edc.pps.catalog.repository.UserRepository;
-import com.edc.pps.rating.model.Rating;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -25,8 +25,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User createExplicit(String firstName, String lastName, String userName) {
-        User user = new User(firstName, lastName, userName);
+    public User createExplicit(Long id, String firstName, String lastName, String userName) {
+        User user = new User(id, firstName, lastName, userName);
         userRepository.findAll().add(user);
         return user;
     }
@@ -50,7 +50,7 @@ public class UserService {
         return userRepository.findAll().stream().filter(user -> user.getUserId().equals(id)).findAny();
     }
 
-    public void addCatalogItem(Long id, Book book, Rating rating){
+    public void addCatalogItem(Long id, Book book, int rating){
         User user = findById(id).get();
 
         user.getCatalogItems().add(new CatalogItem(book,rating));
