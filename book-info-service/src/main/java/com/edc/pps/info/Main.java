@@ -2,7 +2,6 @@ package com.edc.pps.info;
 
 import com.edc.pps.info.model.Book;
 import com.edc.pps.info.service.BookService;
-import com.edc.pps.rating.service.RatingService;
 
 // TODO: rename to BookInfoApp
 public class Main {
