@@ -4,20 +4,12 @@ import com.edc.pps.catalog.model.Book;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "catalog_item")
+@Embeddable
 public class CatalogItem {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name = "id")
     private Long bookId;
-
-    @Column(name = "title")
     private String title;
-    @Column(name = "author")
     private String author;
-    @Column(name = "rating")
     private int rating;
 
 
