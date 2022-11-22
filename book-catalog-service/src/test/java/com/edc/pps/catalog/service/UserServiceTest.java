@@ -3,19 +3,19 @@ package com.edc.pps.catalog.service;
 import com.edc.pps.catalog.model.User;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 class UserServiceTest {
 
-    private static final UserService userService = UserService.getInstance();
-
-    @BeforeAll
-    static void beforeAll() {
-        UserService userService = UserService.getInstance();
-    }
+    @Autowired
+    private UserService userService;
 
     @Test
     void givenUser_whenCreate_thenReturnUser(){

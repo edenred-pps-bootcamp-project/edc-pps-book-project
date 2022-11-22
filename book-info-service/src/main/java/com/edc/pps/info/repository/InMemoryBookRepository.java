@@ -1,28 +1,26 @@
 package com.edc.pps.info.repository;
 
-
-import com.edc.pps.info.model.*;
-import com.edc.pps.rating.model.Rating;
-
-
+import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.ConcurrentSkipListSet;
 
-// TODO: rename to InMemoryBookRepository
-// extract an interface for this class: BookRepository
-// and move the interface and this class to a new package: repository
+import com.edc.pps.info.dto.RatingResponse;
+import com.edc.pps.info.model.Book;
+
 public class InMemoryBookRepository implements BookRepository {
 
+	private Set<Book> bookList = new TreeSet<>();
 
-    @Override
-    public Set<Book> getBookList() {
-        return bookList;
-    }
+	private Set<RatingResponse> ratings = new HashSet<>();
 
-    @Override
-    public Set<Rating> getRatings() {
-        return ratings;
-    }
+	@Override
+	public Set<Book> getBookList() {
+		return bookList;
+	}
 
-
-
+	@Override
+	public Set<RatingResponse> getRatings() {
+		return ratings;
+	}
 }
