@@ -1,4 +1,4 @@
-package com.edc.pps.catalog.dto;
+package com.edc.pps.catalog.dto.rating;
 import java.util.Objects;
 
 public class RatingResponse {

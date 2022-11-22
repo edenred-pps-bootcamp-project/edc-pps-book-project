@@ -23,7 +23,8 @@ class UserServiceTest {
         String firstName = "first name";
         String lastName = "last name";
         String userName = "username";
-        User user = new User(firstName,lastName,userName);
+        Long id = 0L;
+        User user = new User(id,firstName,lastName,userName);
 
         // when
         User actualUser = userService.create(user);
@@ -38,10 +39,11 @@ class UserServiceTest {
         String firstName = "first name";
         String lastName = "last name";
         String userName = "username";
+        Long id = 0L;
 
 
         // when
-        User actualUser = userService.createExplicit(firstName, lastName, userName);
+        User actualUser = userService.createExplicit(id, firstName, lastName, userName);
 
         // then
         assertThat(actualUser.getUserId()).isNotNull();
