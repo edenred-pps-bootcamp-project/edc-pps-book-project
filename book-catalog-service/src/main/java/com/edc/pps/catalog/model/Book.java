@@ -1,8 +1,7 @@
 package com.edc.pps.catalog.model;
 
-// TODO: implement this
-// you need the same object from the book-info-service
-public class Book {
+public class Book implements Comparable<Book> {
+
     private static long countId = 0L;
 
     {
@@ -13,18 +12,17 @@ public class Book {
     private String title;
     private String author;
 
+    private double averageRating;
+
     public Book(String title, String author) {
         this.id = countId;
         this.title = title;
         this.author = author;
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
+    public long getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -43,19 +41,35 @@ public class Book {
         this.author = author;
     }
 
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        if ((averageRating < 1) || (averageRating > 5))
+            throw new IllegalArgumentException("value is out of range for rating; it must be between 1-5");
+        this.averageRating = averageRating;
+    }
+
     @Override
     public String toString() {
-        return
+        return averageRating != 0.0 ? "Book details:\n" +
                 "ID: " + id + "\n" +
-                "Title: '" + title + "'\n" +
+                "Title: '" + title + "\'\n" +
                 "Author: " + author + "\n" +
-                "book-catalog-service.Book details:\n" +
+                "Rating: " + averageRating + "\n" :
+                "Book details:\n" +
                         "ID: " + id + "\n" +
-                        "Title: '" + title + "\n" +
-                        "Author: " + author + "\n" ;
+                        "Title: '" + title + "\'\n" +
+                        "Author: " + author + "\n" +
+                        "Nu are rating" + "\n";
     }
 
 
-
-
+    @Override
+    public int compareTo(Book otherBook) {
+        ;
+        return (int) (this.id - otherBook.getId());
+    }
 }
+
