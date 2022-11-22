@@ -1,17 +1,18 @@
 package com.edc.pps.catalog.model;
 
 import com.edc.pps.catalog.dto.CatalogItem;
-import com.edc.pps.info.model.Book;
 
 import java.security.InvalidParameterException;
 import java.util.List;
 
+// TODO: (cosmin bucur) transform to entity
 public class User implements Comparable<User>{
     private static Long countId = 0L;
 
     {
         countId++;
     }
+
     private  Long userId;
 
     private String firstName;
@@ -20,9 +21,7 @@ public class User implements Comparable<User>{
 
     private List<CatalogItem> catalogItems;
 
-
-    public User() throws InvalidParameterException {
-        throw new InvalidParameterException("Provide valid parameters to the constructor");
+    public User() {
     }
 
     public User(String firstName, String lastName, String userName) {
@@ -30,7 +29,6 @@ public class User implements Comparable<User>{
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
-
     }
 
     public Long getUserId() {
@@ -74,13 +72,11 @@ public class User implements Comparable<User>{
                 this.firstName + " " + this.lastName :
                 "User " + this.userName + "' full name: " +
                         this.firstName + " " + this.lastName;
-
     }
 
     @Override
     public int compareTo(User other) {
         return (int) (this.userId - other.getUserId());
     }
-
 
 }

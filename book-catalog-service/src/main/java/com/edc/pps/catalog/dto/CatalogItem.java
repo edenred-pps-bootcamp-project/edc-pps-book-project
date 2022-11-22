@@ -1,7 +1,6 @@
 package com.edc.pps.catalog.dto;
 
 import com.edc.pps.catalog.model.Book;
-import com.edc.pps.rating.model.Rating;
 
 public class CatalogItem {
 
