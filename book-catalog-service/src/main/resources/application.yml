@@ -1,3 +1,4 @@
+server.port: 8081
 
 # starter-web or jpa is using logback with slf4j as implementation
 logging:
@@ -8,3 +9,10 @@ logging:
     com.edc.pps.catalog: INFO
   file:
     name: book-catalog-service/logs/boot.log
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;NON_KEYWORDS=USER
+    username: sa
+    password:
+  h2.console.enabled: true # the JDBC URL is jdbc:h2:mem:testdb

@@ -2,6 +2,9 @@ package com.edc.pps.catalog.dto;
 
 import com.edc.pps.catalog.model.Book;
 
+import javax.persistence.*;
+
+@Embeddable
 public class CatalogItem {
 
     private Long bookId;
@@ -9,6 +12,9 @@ public class CatalogItem {
     private String author;
     private int rating;
 
+
+    public CatalogItem() {
+    }
 
     public CatalogItem(Book book, int rating) {
         this.bookId = book.getId();

@@ -2,41 +2,45 @@ package com.edc.pps.catalog.model;
 
 import com.edc.pps.catalog.dto.CatalogItem;
 
-import java.security.InvalidParameterException;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
-// TODO: (cosmin bucur) transform to entity
-public class User implements Comparable<User>{
-    private static Long countId = 0L;
+@Entity
+@Table(name = "user")
+public class User {
 
-    {
-        countId++;
-    }
-
-    private  Long userId;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
+    @Column(name = "user_name")
     private String userName;
-
-    private List<CatalogItem> catalogItems;
+    @ElementCollection
+    @CollectionTable(name = "catalog_items", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "catalog_items")
+    private List<CatalogItem> catalogItems = new ArrayList<>();
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String userName) {
-        this.userId = countId;
+    public User(long userId, String firstName, String lastName, String userName) {
+        this.id = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
+
     }
 
     public Long getUserId() {
-        return userId;
+        return id;
     }
 
     public void setUserId(Long userId) {
-        this.userId = userId;
+        this.id = userId;
     }
 
     public String getFirstName() {
@@ -54,6 +58,7 @@ public class User implements Comparable<User>{
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
     public String getUserName() {
         return userName;
     }
@@ -66,17 +71,18 @@ public class User implements Comparable<User>{
         return catalogItems;
     }
 
-    @Override
-    public String toString() {
-        return this.userName.charAt(this.userName.length()-1) != 's' ? "User " + this.userName + "'s full name: " +
-                this.firstName + " " + this.lastName :
-                "User " + this.userName + "' full name: " +
-                        this.firstName + " " + this.lastName;
+
+    public void setCatalogItems(List<CatalogItem> catalogItems) {
+        this.catalogItems = new ArrayList<>(catalogItems);
     }
 
     @Override
-    public int compareTo(User other) {
-        return (int) (this.userId - other.getUserId());
+    public String toString() {
+        return this.userName.charAt(this.userName.length() - 1) != 's' ? "User " + this.userName + "'s full name: " +
+                this.firstName + " " + this.lastName :
+                "User " + this.userName + "' full name: " +
+                        this.firstName + " " + this.lastName;
+
     }
 
 }
