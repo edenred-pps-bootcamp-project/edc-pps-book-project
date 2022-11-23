@@ -1,4 +1,4 @@
-server.port: 8082
+server.port: 8081
 
 # starter-web or jpa is using logback with slf4j as implementation
 logging:
