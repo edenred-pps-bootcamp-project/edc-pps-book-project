@@ -15,7 +15,7 @@ public class UserMapper {
 
     public UserResponse toDto(User user) {
         UserResponse dto = new UserResponse();
-        dto.setUserId(user.getUserId());
+        dto.setUserId(user.getId());
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
         dto.setUserName(user.getUserName());
@@ -34,7 +34,7 @@ public class UserMapper {
         entity.setLastName(userRequest.getLastName());
         entity.setFirstName(userRequest.getFirstName());
         entity.setUserName(userRequest.getUserName());
-        entity.setUserId(userRequest.getUserId());
+        entity.setId(userRequest.getUserId());
         entity.setCatalogItems(userRequest.getCatalogItems());
 
         return entity;
