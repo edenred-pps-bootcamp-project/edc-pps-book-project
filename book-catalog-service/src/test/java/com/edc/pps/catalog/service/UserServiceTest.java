@@ -30,7 +30,7 @@ class UserServiceTest {
         User actualUser = userService.create(user);
 
         // then
-        assertThat(actualUser.getUserId()).isNotNull();
+        assertThat(actualUser.getId()).isNotNull();
     }
 
     @Test
@@ -46,7 +46,7 @@ class UserServiceTest {
         User actualUser = userService.createExplicit(id, firstName, lastName, userName);
 
         // then
-        assertThat(actualUser.getUserId()).isNotNull();
+        assertThat(actualUser.getId()).isNotNull();
     }
 
 }
