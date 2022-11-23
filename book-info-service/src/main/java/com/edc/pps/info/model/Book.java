@@ -1,19 +1,32 @@
 package com.edc.pps.info.model;
 
-public class Book implements Comparable<Book> {
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "books")
+public class Book {
 
     private static long countId = 0L;
 
     {
         countId++;
     }
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "title")
     private String title;
     private String author;
 
+    @Column(name = "average_rating")
     private double averageRating;
 
+    public Book() {
+    }
+
+    @Autowired
     public Book(String title, String author) {
         this.id = countId;
         this.title = title;
@@ -65,11 +78,5 @@ public class Book implements Comparable<Book> {
                         "Nu are rating" + "\n";
     }
 
-
-    @Override
-    public int compareTo(Book otherBook) {
-        ;
-        return (int) (this.id - otherBook.getId());
-    }
 }
 
