@@ -1,15 +1,18 @@
 package com.edc.pps.info.repository;
 
-import java.util.Set;
-
-import com.edc.pps.info.dto.RatingResponse;
 import com.edc.pps.info.model.Book;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-public interface BookRepository {
+import java.util.List;
+import java.util.Optional;
 
-	// TODO: move theses to the implementation class, never in interface
-	Set<Book> getBookList();
+@Repository
+public interface BookRepository extends JpaRepository<Book, Long> {
 
-	Set<RatingResponse> getRatings();
+    List<Book> findByTitle(@Param("title") String title);
+    List<Book> findByAuthor(@Param("author") String author);
 
+    Book findByTitleAndAuthor(String title, String author);
 }

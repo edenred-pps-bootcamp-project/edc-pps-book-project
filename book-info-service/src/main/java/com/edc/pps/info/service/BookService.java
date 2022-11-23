@@ -1,137 +1,112 @@
 package com.edc.pps.info.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
-import org.slf4j.log;
-import org.slf4j.logFactory;
 
+import com.edc.pps.info.dto.BookMapper;
+import com.edc.pps.info.dto.BookRequest;
+import com.edc.pps.info.dto.BookResponse;
+import com.edc.pps.info.exceptions.BookNotFoundException;
 import com.edc.pps.info.model.Book;
-import com.edc.pps.info.repository.InMemoryBookRepository;
-import com.edc.pps.rating.model.Rating;
+import com.edc.pps.info.repository.BookRepository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Slf4j
-public class BookService extends InMemoryBookRepository {
+@Service
+public class BookService {
 
-	public static final BookService bookService = new BookService();
+    private final BookMapper bookMapper;
+    private final BookRepository bookRepository;
 
-	//InMemoryBookRepository in = new InMemoryBookRepository();
-	private BookService() {
-	}
+    @Autowired
+    public BookService(BookRepository bookRepository, BookMapper bookMapper) {
+        this.bookRepository = bookRepository;
+        this.bookMapper = bookMapper;
+    }
 
-	public static BookService getInstance() {
-		return bookService;
-	}
+    public BookResponse save(BookRequest request) {
+        log.info("saved book to db: {}", request);
 
-	// create
+        List<Book> bookList = bookRepository.findAll();
+        Book book = bookMapper.toEntity(request);
 
-	/**
-	 * Add a book in a  book Set
-	 *
-	 * @param book
-	 */
-	public void save(Book book) {
-		getBookList().add(book);
-	}
+        if (bookList.stream()
+                .filter(entry -> entry.getTitle() == request.getTitle() && entry.getAuthor() == request.getAuthor())
+                .count() == 0) {
+            bookRepository.save(book);
+        }
+        return bookMapper.toDto(book);
+    }
 
-	// read
-	public void display(String title) {
-		log.info(searchByTitle(title).toString());
-	}
-
-	public Book searchByTitle(String title) {
-		return getBookList()
-				.stream()
-				.filter(book -> book.getTitle().equals(title))
-				.findFirst()
-				.orElse(null);
-	}
-
-	public void displayRatings(String title) {
-		Book book = searchByTitle(title);
-		getRatings().stream()
-				.forEach(rating -> System.out.println(rating.getRating()));
-	}
-
-	public Set<Book> finaAll() {
-		log.info("Book collection \n");
-		getBookList()
-				.stream()
-				.forEach(book -> System.out.println(book.toString()));
-		return getBookList();
-	}
-
-	//update
-	public void updateTitle(String oldTitle, String newTitle) {
-		getBookList()
-				.stream()
-				.filter(book -> book.getTitle().equals(oldTitle))
-				.findFirst()
-				.get()
-				.setTitle(newTitle);
-	}
-
-	public void updateAuthor(String title, String newAuthor) {
-		getBookList()
-				.stream()
-				.filter(book -> book.getTitle().equals(title))
-				.findFirst()
-				.get()
-				.setAuthor(newAuthor);
-	}
-
-	//delete
-	public void delete(String title) {
-		getBookList().remove(getBookList()
-				.stream()
-				.filter(book -> book.getTitle().equals(title))
-				.findFirst()
-				.get());
-	}
-
-	public void deleteByAuthor(String author) {
-		getBookList()
-				.stream()
-				.filter(book -> book.getAuthor().equals(author))
-				.forEach(book -> getBookList().remove(book));
-	}
-
-	// TODO: use logs instead of system out
-	public void displayAuthorBooks(String author) {
-		log.info("Author: " + author);
-		log.info("Book title(s): ");
-		getBookList()
-				.stream()
-				.filter(book -> book.getAuthor().equals(author))
-				.forEach(System.out::println);
-	}
-
-	public Book getTitleById(long bookId) {
-		return getBookList()
-				.stream()
-				.filter(book -> book.getId() == bookId).findFirst().get();
-	}
+    public List<BookResponse> findAll() {
+        log.debug("getting all books...");
+        List<Book> books = bookRepository.findAll();
+        return bookMapper.toDto(books);
+    }
+    public List<BookResponse> getBooksForTitle(String title) {
+        log.debug("getting all books with title {}",title);
+        List<Book> bookList = bookRepository.findByTitle(title);
+        return bookMapper.toDto(bookList);
+    }
 
 
-	public void getAverageRating(long bookId) {
-		int count = 0;
-		double ratingTotal = 0;
+//    public void displayRatings(String title) {
+//        Book book = searchByTitle(title);
+//        getRatings().stream()
+//                .forEach(rating -> System.out.println(rating.getRating()));
+//    }
 
-		for (Book book : getBookList()) {
-			if (book.getId() == bookId) {
-				for (Rating rating : ratings) {
-					if (book.getId() == rating.getRatingId()) {
-						count++;
-						ratingTotal += rating.getRating();
-					}
-				}
-				book.setAverageRating(ratingTotal / count);
-				return;
-			}
-		}
-		throw new RuntimeException("This book has no ratings.");
-	}
+    public void updateTitle(BookRequest request, String newTitle) {
+        Book foundBook = bookRepository.findByTitleAndAuthor(request.getTitle(),request.getAuthor());
+        foundBook.setTitle(newTitle);
+        bookRepository.save(foundBook);
+    }
+
+    public void updateAuthor(BookRequest request, String newAuthor) {
+        Book foundBook = bookRepository.findByTitleAndAuthor(request.getTitle(),request.getAuthor());
+        foundBook.setAuthor(newAuthor);
+        bookRepository.save(foundBook);
+    }
+
+    public void delete(Long id) throws BookNotFoundException {
+        Optional<Book> foundBook = bookRepository.findById(id);
+        if (foundBook.isEmpty()) {
+            throw new BookNotFoundException("no book with id: " + id);
+        } else {
+            log.debug("deleting book with id: {}", id);
+            bookRepository.deleteById(id);
+        }
+    }
+    public List<BookResponse> getBooksByAUhtor(String author) {
+        log.debug("getting all books by author {}",author);
+        List<Book> bookList = bookRepository.findByAuthor(author);
+        return bookMapper.toDto(bookList);
+
+    }
+//    public void getAverageRating(long bookId) {
+//        int count = 0;
+//        double ratingTotal = 0;
+//
+//        for (Book book : getBookList()) {
+//            if (book.getId() == bookId) {
+//                for (Rating rating : ratings) {
+//                    if (book.getId() == rating.getRatingId()) {
+//                        count++;
+//                        ratingTotal += rating.getRating();
+//                    }
+//                }
+//                book.setAverageRating(ratingTotal / count);
+//                return;
+//            }
+//        }
+//        throw new RuntimeException("This book has no ratings.");
+//    }
 
 }
 
