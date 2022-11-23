@@ -1,21 +1,14 @@
 package com.edc.pps.info.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name = "books")
 public class Book {
 
-    private static long countId = 0L;
-
-    {
-        countId++;
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     @Column(name = "title")
     private String title;
     private String author;
@@ -26,12 +19,7 @@ public class Book {
     public Book() {
     }
 
-    @Autowired
-    public Book(String title, String author) {
-        this.id = countId;
-        this.title = title;
-        this.author = author;
-    }
+
 
 
     public long getId() {
