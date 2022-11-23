@@ -1,4 +1,5 @@
 package com.edc.pps.rating.dto;
+
 import java.util.Objects;
 
 public class RatingResponse {

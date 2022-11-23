@@ -16,7 +16,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RatingNotFoundException.class)
     public ResponseEntity<Object> handleNotFoundException(RatingNotFoundException exception) {
-
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("Timestamp: ", LocalDateTime.now());
         body.put("Message:", exception.getLocalizedMessage());
