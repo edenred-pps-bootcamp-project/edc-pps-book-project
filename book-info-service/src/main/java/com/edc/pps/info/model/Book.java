@@ -8,14 +8,10 @@ import javax.persistence.*;
 @Table(name = "books")
 public class Book {
 
-    private static long countId = 0L;
-
-    {
-        countId++;
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private long id;
     @Column(name = "title")
     private String title;
     private String author;
@@ -25,14 +21,6 @@ public class Book {
 
     public Book() {
     }
-
-    @Autowired
-    public Book(String title, String author) {
-        this.id = countId;
-        this.title = title;
-        this.author = author;
-    }
-
 
     public long getId() {
         return id;
@@ -68,7 +56,7 @@ public class Book {
     public String toString() {
         return averageRating != 0.0 ? "Book details:\n" +
                 "ID: " + id + "\n" +
-                "Title: '" + title + "\'\n" +
+                "Title: " + title + "\n" +
                 "Author: " + author + "\n" +
                 "Rating: " + averageRating + "\n" :
                 "Book details:\n" +
