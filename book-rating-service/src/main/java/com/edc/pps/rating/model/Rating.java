@@ -1,5 +1,6 @@
 package com.edc.pps.rating.model;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class Rating {
     @Setter(AccessLevel.NONE)
     private long ratingId;
     @Column(name = "book_id")
+    @NotNull
     private long bookId;
     @Column(name = "user_id")
     private long userId;

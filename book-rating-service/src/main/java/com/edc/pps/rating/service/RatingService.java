@@ -72,4 +72,5 @@ public class RatingService {
         List<Rating> ratings = ratingRepository.findByBookId(bookId);
         return ratingMapper.toDto(ratings);
     }
+
 }
