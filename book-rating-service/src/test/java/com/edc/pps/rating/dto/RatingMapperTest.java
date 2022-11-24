@@ -1,4 +1,4 @@
-package com.edc.pps.rating;
+package com.edc.pps.rating.dto;
 
 import com.edc.pps.rating.dto.RatingMapper;
 import com.edc.pps.rating.dto.RatingRequest;
