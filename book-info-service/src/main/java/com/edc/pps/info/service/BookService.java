@@ -39,6 +39,7 @@ public class BookService {
         List<Book> bookList = bookRepository.findAll();
         Book book = bookMapper.toEntity(request);
 
+        // TODO: use equals() instead of == when comparing objects (String)
         if (bookList.stream()
                 .filter(entry -> entry.getTitle() == request.getTitle() && entry.getAuthor() == request.getAuthor())
                 .count() == 0) {
@@ -100,12 +101,14 @@ public class BookService {
         bookRepository.save(foundBook);
     }
 
+    // TODO: don't use throws in method signature
     /**
      * Deletes the book with the provided id
      * @param id The id of the book we want to delete
      * @throws BookNotFoundException throws exception it there is no book with the provided id
      */
     public void delete(Long id) throws BookNotFoundException {
+        // TODO: use orElseThrow
         Optional<Book> foundBook = bookRepository.findById(id);
         if (foundBook.isEmpty()) {
             throw new BookNotFoundException("no book with id: " + id);

@@ -1,5 +1,6 @@
 package com.edc.pps.catalog.config;
 
+import com.edc.pps.catalog.interceptors.HeaderModifierInterceptor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ public class RestClientConfig {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplateBuilder()
+                .interceptors(new HeaderModifierInterceptor())
                 .build();
     }
 }
