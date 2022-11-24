@@ -20,6 +20,7 @@ public class RatingController {
 	}
 	@PostMapping
 	public ResponseEntity<RatingResponse> saveOrUpdate(@RequestBody RatingRequest request) {
+		System.out.println("do we get here?");
 		return new ResponseEntity<>(ratingService.saveOrUpdate(request), HttpStatus.CREATED);
 	}
 	@GetMapping

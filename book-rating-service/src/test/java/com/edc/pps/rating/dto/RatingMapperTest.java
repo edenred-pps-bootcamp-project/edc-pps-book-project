@@ -1,10 +1,7 @@
 package com.edc.pps.rating.dto;
 
-import com.edc.pps.rating.dto.RatingMapper;
-import com.edc.pps.rating.dto.RatingRequest;
-import com.edc.pps.rating.dto.RatingResponse;
 import com.edc.pps.rating.model.Rating;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +14,12 @@ public class RatingMapperTest {
         RatingMapper ratingMapper = new RatingMapper();
         Rating rating = new Rating();
         rating.setRatingValue(5);
-        rating.setBookId(1);
-        rating.setUserId(2);
+        rating.setBookId((long)1);
+        rating.setUserId((long)2);
 
         RatingResponse expected = new RatingResponse();
-        expected.setUserId(2);
-        expected.setBookId(1);
+        expected.setUserId((long)2);
+        expected.setBookId((long)1);
         expected.setRatingValue(5);
 
         RatingResponse actual = ratingMapper.toDto(rating);
@@ -33,14 +30,14 @@ public class RatingMapperTest {
     void givenRatingRequest_whenToEntity_thenReturnEntity(){
         RatingMapper ratingMapper = new RatingMapper();
         RatingRequest ratingRequest = new RatingRequest();
-        ratingRequest.setBookId(1);
-        ratingRequest.setUserId(2);
+        ratingRequest.setBookId((long)1);
+        ratingRequest.setUserId((long)2);
         ratingRequest.setRatingValue(5);
 
         Rating expected = new Rating();
         expected.setRatingValue(5);
-        expected.setBookId(1);
-        expected.setUserId(2);
+        expected.setBookId((long)1);
+        expected.setUserId((long)2);
 
         Rating actual = ratingMapper.toEntity(ratingRequest);
         assertThat(actual)
@@ -54,14 +51,14 @@ public class RatingMapperTest {
         List<Rating> ratings = new ArrayList<Rating>();
         Rating rating = new Rating();
         rating.setRatingValue(5);
-        rating.setBookId(1);
-        rating.setUserId(2);
+        rating.setBookId((long)1);
+        rating.setUserId((long)2);
         ratings.add(rating);
 
         List<RatingResponse> expected = new ArrayList<RatingResponse>();
         RatingResponse ratingResponse = new RatingResponse();
-        ratingResponse.setUserId(2);
-        ratingResponse.setBookId(1);
+        ratingResponse.setUserId((long)2);
+        ratingResponse.setBookId((long)1);
         ratingResponse.setRatingValue(5);
         expected.add(ratingResponse);
 
@@ -75,16 +72,16 @@ public class RatingMapperTest {
         RatingMapper ratingMapper = new RatingMapper();
         List<RatingRequest> ratingRequests = new ArrayList<RatingRequest>();
         RatingRequest ratingRequest = new RatingRequest();
-        ratingRequest.setBookId(1);
-        ratingRequest.setUserId(2);
+        ratingRequest.setBookId((long)1);
+        ratingRequest.setUserId((long)2);
         ratingRequest.setRatingValue(5);
         ratingRequests.add(ratingRequest);
 
         List<Rating> expected = new ArrayList<Rating>();
         Rating rating = new Rating();
         rating.setRatingValue(5);
-        rating.setBookId(1);
-        rating.setUserId(2);
+        rating.setBookId((long)1);
+        rating.setUserId((long)2);
         expected.add(rating);
 
         List<Rating> actual = ratingMapper.toEntity(ratingRequests);

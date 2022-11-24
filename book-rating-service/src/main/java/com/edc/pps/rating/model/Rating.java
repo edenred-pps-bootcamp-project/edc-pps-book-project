@@ -21,6 +21,7 @@ public class Rating {
     @NotNull
     private Long bookId;
     @Column(name = "user_id")
+    @NotNull
     private Long userId;
     @Column(name = "rating_value")
     private int ratingValue;

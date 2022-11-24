@@ -3,6 +3,7 @@ package com.edc.pps.rating.service;
 import com.edc.pps.rating.dto.RatingMapper;
 import com.edc.pps.rating.dto.RatingRequest;
 import com.edc.pps.rating.dto.RatingResponse;
+import com.edc.pps.rating.exception.BadRequestException;
 import com.edc.pps.rating.exception.RatingNotFoundException;
 import com.edc.pps.rating.model.Rating;
 import com.edc.pps.rating.repository.RatingRepository;
@@ -33,9 +34,12 @@ public class RatingService {
         //check if the user already rated the book
         long result = ratings.stream().filter(entry -> entry.getBookId() == request.getBookId() && entry.getUserId() == request.getUserId()).count();
 
-//        if(request.getUserId() == null || request.getRatingValue() == null || request.getBookId() == null){
-//
-//        }
+
+        if(request.getUserId() == null || request.getBookId() == null){
+            throw new BadRequestException("bad request");
+        }
+
+
 
         //if the user never rated the book it will be added as a new entry in db
         if (result == 0) {
@@ -76,5 +80,6 @@ public class RatingService {
         List<Rating> ratings = ratingRepository.findByBookId(bookId);
         return ratingMapper.toDto(ratings);
     }
+
 
 }
