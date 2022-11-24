@@ -68,5 +68,8 @@ public class BookService {
         Map<String, Long> params = Map.of("id", id);
         restTemplate.delete(INFO_RESOURCE + "/" + id, params);
     }
+
+
+
 }
 
