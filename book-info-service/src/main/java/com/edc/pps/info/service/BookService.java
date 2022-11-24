@@ -105,7 +105,7 @@ public class BookService {
     /**
      * Deletes the book with the provided id
      * @param id The id of the book we want to delete
-     * @throws BookNotFoundException throws exception it there is no book with the provided id
+     * @throws BookNotFoundException throws exception if there is no book with the provided id
      */
     public void delete(Long id) throws BookNotFoundException {
         // TODO: use orElseThrow
