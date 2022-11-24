@@ -1,48 +1,15 @@
 package com.edc.pps.rating.dto;
 
+import lombok.Data;
+
 import java.util.Objects;
 
+@Data
 public class RatingResponse {
-
     private long ratingId;
-
     private long bookId;
-
     private long userId;
-
     private int ratingValue;
-
-    public long getRatingId() {
-        return ratingId;
-    }
-
-    public void setRatingId(long ratingId) {
-        this.ratingId = ratingId;
-    }
-
-    public long getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(long bookId) {
-        this.bookId = bookId;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public int getRatingValue() {
-        return ratingValue;
-    }
-
-    public void setRatingValue(int ratingValue) {
-        this.ratingValue = ratingValue;
-    }
 
     @Override
     public boolean equals(Object o) {
