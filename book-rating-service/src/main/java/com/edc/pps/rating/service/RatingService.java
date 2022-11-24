@@ -33,6 +33,10 @@ public class RatingService {
         //check if the user already rated the book
         long result = ratings.stream().filter(entry -> entry.getBookId() == request.getBookId() && entry.getUserId() == request.getUserId()).count();
 
+//        if(request.getUserId() == null || request.getRatingValue() == null || request.getBookId() == null){
+//
+//        }
+
         //if the user never rated the book it will be added as a new entry in db
         if (result == 0) {
             Rating rating = ratingMapper.toEntity(request);

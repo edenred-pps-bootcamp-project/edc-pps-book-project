@@ -6,9 +6,9 @@ import java.util.Objects;
 
 @Data
 public class RatingResponse {
-    private long ratingId;
-    private long bookId;
-    private long userId;
+    private Long ratingId;
+    private Long bookId;
+    private Long userId;
     private int ratingValue;
 
     @Override

@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class RatingRequest {
 
-    private long bookId;
+    private Long bookId;
 
-    private long userId;
+    private Long userId;
 
     private int ratingValue;
 

@@ -16,12 +16,12 @@ public class Rating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @Setter(AccessLevel.NONE)
-    private long ratingId;
+    private Long ratingId;
     @Column(name = "book_id")
     @NotNull
-    private long bookId;
+    private Long bookId;
     @Column(name = "user_id")
-    private long userId;
+    private Long userId;
     @Column(name = "rating_value")
     private int ratingValue;
 
