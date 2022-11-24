@@ -1,6 +1,5 @@
-server.port: 8081
+server.port: 25432
 
-# TODO: no point overriding logging properties here if you have logback.xml
 # starter-web or jpa is using logback with slf4j as implementation
 logging:
   # default logging goes to console
