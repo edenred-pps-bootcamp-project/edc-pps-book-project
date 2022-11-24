@@ -1,4 +1,4 @@
-package com.edc.pps.rating;
+package com.edc.pps.rating.dto;
 
 import org.junit.jupiter.api.Test;
 
