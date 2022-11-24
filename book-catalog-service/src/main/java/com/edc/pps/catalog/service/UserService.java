@@ -13,17 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Service
 public class UserService {
 
-
     public final UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, RestTemplate restTemplate) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -42,13 +40,14 @@ public class UserService {
         return userRepository.findAll().stream().filter(user -> user.getUserName().equals(userName)).findAny();
     }
 
+
     public void findAll() {
         userRepository.findAll().forEach(System.out::println);
     }
 
 
     public Optional<User> findById(Long id){
-        return userRepository.findAll().stream().filter(user -> user.getId().equals(id)).findAny();
+        return userRepository.findAll().stream().filter(user -> user.getUserId().equals(id)).findAny();
     }
 
     public void addCatalogItem(Long id, Book book, int rating){

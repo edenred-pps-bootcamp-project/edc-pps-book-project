@@ -1,18 +1,12 @@
 package com.edc.pps.catalog.model;
 
 import com.edc.pps.catalog.dto.CatalogItem;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
 @Table(name = "user")
 public class User {
 
@@ -30,6 +24,8 @@ public class User {
     @Column(name = "catalog_items")
     private List<CatalogItem> catalogItems = new ArrayList<>();
 
+    public User() {
+    }
 
     public User(long userId, String firstName, String lastName, String userName) {
         this.id = userId;
@@ -37,6 +33,47 @@ public class User {
         this.lastName = lastName;
         this.userName = userName;
 
+    }
+
+    public Long getUserId() {
+        return id;
+    }
+
+    public void setUserId(Long userId) {
+        this.id = userId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public List<CatalogItem> getCatalogItems() {
+        return catalogItems;
+    }
+
+
+    public void setCatalogItems(List<CatalogItem> catalogItems) {
+        this.catalogItems = new ArrayList<>(catalogItems);
     }
 
     @Override
