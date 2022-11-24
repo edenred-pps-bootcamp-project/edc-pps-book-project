@@ -29,17 +29,6 @@ class RatingServiceTest {
 
     @Test
     void givenRatingRequest_whenSaveOrUpdate_thenReturnRatingResponse() {
-        List<Rating> ratings = new ArrayList<>();
-        Rating rating = new Rating();
-        ratings.add(rating);
-        long result = 1;
-        RatingRequest request = new RatingRequest();
-
-
-        Mockito.when(ratingrepository.findAll()).thenReturn(ratings);
-        Mockito.when(ratingMapper.toEntity(request)).thenReturn(rating);
-
-        assertEquals(ratings, ratingService.saveOrUpdate(request));
 
     }
 
