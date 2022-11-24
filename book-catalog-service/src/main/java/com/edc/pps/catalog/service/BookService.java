@@ -49,6 +49,16 @@ public class BookService {
     }
 
     /**
+     * Get book by id
+     * @param id The id of the book we want to return
+     * @return bookResponse
+     */
+    public BookResponse findById(Long id){
+        log.debug("finding book with id: {}", id);
+        return restTemplate.getForObject(INFO_RESOURCE + "/" + id, BookResponse.class);
+    }
+
+    /**
      * Updates book with the provided id
      * @param id The id of the book we want to update
      */
