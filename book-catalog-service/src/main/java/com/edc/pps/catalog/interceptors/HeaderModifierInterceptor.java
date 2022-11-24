@@ -7,6 +7,7 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
+// TODO: this class is not needed, you don't need additional headers on response/request
 public class HeaderModifierInterceptor implements ClientHttpRequestInterceptor {
 
     // add custom header
