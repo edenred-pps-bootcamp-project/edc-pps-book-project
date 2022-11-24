@@ -1,5 +1,6 @@
 package com.edc.pps.catalog.service;
 
+import com.edc.pps.catalog.dto.UserRequest;
 import com.edc.pps.catalog.dto.UserResponse;
 import com.edc.pps.catalog.model.User;
 import org.junit.jupiter.api.BeforeAll;
@@ -25,7 +26,11 @@ class UserServiceTest {
         String lastName = "last name";
         String userName = "username";
         Long id = 0L;
-        User user = new User(id,firstName,lastName,userName);
+        UserRequest user = new UserRequest();
+        user.setUserId(id);
+        user.setUserName(userName);
+        user.setLastName(lastName);
+        user.setFirstName(firstName);
 
         // when
         UserResponse actualUser = userService.save(user);
