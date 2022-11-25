@@ -1,18 +1,20 @@
 package com.edc.pps.catalog.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.edc.pps.catalog.dto.rating.RatingMapper;
 import com.edc.pps.catalog.dto.rating.RatingRequest;
 import com.edc.pps.catalog.dto.rating.RatingResponse;
 import com.edc.pps.catalog.exception.RatingNotFoundException;
 import com.edc.pps.catalog.model.Rating;
 import com.edc.pps.catalog.repository.RatingRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
-import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Service
@@ -22,7 +24,6 @@ public class RatingService {
     private final RatingMapper ratingMapper;
     private final RatingRepository ratingRepository;
     private final RestTemplate restTemplate;
-
     @Autowired
     public RatingService(RatingRepository ratingRepository, RatingMapper ratingMapper, RestTemplate restTemplate) {
         this.ratingRepository = ratingRepository;

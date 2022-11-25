@@ -36,20 +36,20 @@ public class RatingServiceTest {
     void givenRatingRequest_whenSaveOrUpdate_thenReturnRatingResponse(){
         RatingRequest ratingRequest = new RatingRequest();
         ratingRequest.setRatingValue(5);
-        ratingRequest.setBookId(1);
-        ratingRequest.setUserId(23);
+        ratingRequest.setBookId(1L);
+        ratingRequest.setUserId(23L);
 
         List<Rating> mockRatings = new ArrayList<>();
         Rating rating = new Rating();
-        rating.setUserId(23);
+        rating.setUserId(23L);
         rating.setRatingValue(5);
-        rating.setBookId(1);
+        rating.setBookId(1L);
         mockRatings.add(rating);
 
         RatingResponse expected = new RatingResponse();
-        expected.setUserId(23);
+        expected.setUserId(23L);
         expected.setRatingValue(5);
-        expected.setBookId(1);
+        expected.setBookId(1L);
 
         when(ratingMapper.toEntity(any(RatingRequest.class)))
                 .thenReturn(rating);
