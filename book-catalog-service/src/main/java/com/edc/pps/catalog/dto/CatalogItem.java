@@ -16,10 +16,10 @@ public class CatalogItem {
     public CatalogItem() {
     }
 
-    public CatalogItem(Long bookId, String title, String author, int rating) {
-        this.bookId = bookId;
-        this.author = author;
-        this.title = title;
+    public CatalogItem(Book book, int rating) {
+        this.bookId = book.getId();
+        this.author = book.getAuthor();
+        this.title = book.getTitle();
         this.rating = rating;
     }
 

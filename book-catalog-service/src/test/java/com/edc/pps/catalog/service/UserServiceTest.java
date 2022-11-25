@@ -1,7 +1,5 @@
 package com.edc.pps.catalog.service;
 
-import com.edc.pps.catalog.dto.UserRequest;
-import com.edc.pps.catalog.dto.UserResponse;
 import com.edc.pps.catalog.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +22,29 @@ class UserServiceTest {
         String lastName = "last name";
         String userName = "username";
         Long id = 0L;
-        UserRequest user = new UserRequest();
-        user.setUserId(id);
-        user.setUserName(userName);
-        user.setLastName(lastName);
-        user.setFirstName(firstName);
+        User user = new User(id,firstName,lastName,userName);
 
         // when
-        UserResponse actualUser = userService.save(user);
+        User actualUser = userService.create(user);
 
         // then
-        assertThat(actualUser.getId()).isNotNull();
+        assertThat(actualUser.getUserId()).isNotNull();
+    }
+
+    @Test
+    void givenUserParams_whenCreateExplicit_thenReturnUser(){
+        // given
+        String firstName = "first name";
+        String lastName = "last name";
+        String userName = "username";
+        Long id = 0L;
+
+
+        // when
+        User actualUser = userService.createExplicit(id, firstName, lastName, userName);
+
+        // then
+        assertThat(actualUser.getUserId()).isNotNull();
     }
 
 }
