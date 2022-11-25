@@ -20,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class RatingService {
 
-    private static final String RATING_RESOURCE = "http://localhost:8081/api/ratings";
+    private static final String RATING_RESOURCE = "http://localhost:7601/api/ratings";
     private final RatingMapper ratingMapper;
     private final RatingRepository ratingRepository;
     private final RestTemplate restTemplate;

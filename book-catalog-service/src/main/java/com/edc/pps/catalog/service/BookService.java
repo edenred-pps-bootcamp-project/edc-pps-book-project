@@ -16,7 +16,7 @@ import java.util.Map;
 @Slf4j
 @Service
 public class BookService {
-    private static final String INFO_RESOURCE = "http://localhost:8082/api/books";
+    private static final String INFO_RESOURCE = "http://localhost:14283/api/books";
     private final RestTemplate restTemplate;
 
     @Autowired
