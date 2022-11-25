@@ -1,5 +1,6 @@
 package com.edc.pps.catalog.service;
 
+import com.edc.pps.catalog.dto.UserResponse;
 import com.edc.pps.catalog.model.User;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -27,26 +28,10 @@ class UserServiceTest {
         User user = new User(id,firstName,lastName,userName);
 
         // when
-        User actualUser = userService.create(user);
+        UserResponse actualUser = userService.save(user);
 
         // then
-        assertThat(actualUser.getUserId()).isNotNull();
-    }
-
-    @Test
-    void givenUserParams_whenCreateExplicit_thenReturnUser(){
-        // given
-        String firstName = "first name";
-        String lastName = "last name";
-        String userName = "username";
-        Long id = 0L;
-
-
-        // when
-        User actualUser = userService.createExplicit(id, firstName, lastName, userName);
-
-        // then
-        assertThat(actualUser.getUserId()).isNotNull();
+        assertThat(actualUser.getId()).isNotNull();
     }
 
 }

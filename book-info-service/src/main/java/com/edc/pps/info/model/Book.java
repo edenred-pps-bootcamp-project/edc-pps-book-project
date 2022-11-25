@@ -56,7 +56,7 @@ public class Book {
     public String toString() {
         return averageRating != 0.0 ? "Book details:\n" +
                 "ID: " + id + "\n" +
-                "Title: " + title + "\n" +
+                "Title: '" + title + "\'\n" +
                 "Author: " + author + "\n" +
                 "Rating: " + averageRating + "\n" :
                 "Book details:\n" +
