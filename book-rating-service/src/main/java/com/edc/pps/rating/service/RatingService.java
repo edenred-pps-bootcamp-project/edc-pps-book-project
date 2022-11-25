@@ -34,12 +34,9 @@ public class RatingService {
         //check if the user already rated the book
         long result = ratings.stream().filter(entry -> entry.getBookId() == request.getBookId() && entry.getUserId() == request.getUserId()).count();
 
-
-        if(request.getUserId() == null || request.getBookId() == null){
+        if(request.getUserId() == null || request.getBookId() == null || request.getRatingValue() == null){
             throw new BadRequestException("bad request");
         }
-
-
 
         //if the user never rated the book it will be added as a new entry in db
         if (result == 0) {
@@ -78,6 +75,7 @@ public class RatingService {
     public List<RatingResponse> getAllRatingsForBook(long bookId) {
         log.debug("getting all rating for bookId: {}", bookId);
         List<Rating> ratings = ratingRepository.findByBookId(bookId);
+
         return ratingMapper.toDto(ratings);
     }
 

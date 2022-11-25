@@ -9,7 +9,7 @@ public class RatingResponse {
     private Long ratingId;
     private Long bookId;
     private Long userId;
-    private int ratingValue;
+    private Integer ratingValue;
 
     @Override
     public boolean equals(Object o) {
