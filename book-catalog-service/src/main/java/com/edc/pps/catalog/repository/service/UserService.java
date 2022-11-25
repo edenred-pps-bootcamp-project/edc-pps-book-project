@@ -1,4 +1,4 @@
-package com.edc.pps.catalog.service;
+package com.edc.pps.catalog.repository.service;
 
 import com.edc.pps.catalog.dto.*;
 import com.edc.pps.catalog.dto.info.BookResponse;
@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Service
@@ -48,9 +47,13 @@ public class UserService {
         throw new NotFoundException("user with given username is not registered");
     }
 
-    public UserResponseList findAll() {
+    public List<UserResponse> findAll() {
+
         log.info("get all users");
-        return (UserResponseList) userRepository.findAll().stream().map(userMapper::toDto).collect(Collectors.toList());
+        //return (UserResponseList) userRepository.findAll().stream().map(userMapper::toDto).collect(Collectors.toList());
+
+        List<User> users = userRepository.findAll();
+        return userMapper.toDto(users);
     }
 
 

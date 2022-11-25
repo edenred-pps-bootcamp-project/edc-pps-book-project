@@ -1,19 +1,12 @@
 package com.edc.pps.catalog.service;
 
 import com.edc.pps.catalog.dto.rating.RatingMapper;
-import com.edc.pps.catalog.dto.rating.RatingRequest;
-import com.edc.pps.catalog.model.Rating;
 import com.edc.pps.catalog.repository.RatingRepository;
+import com.edc.pps.catalog.repository.service.RatingService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class RatingServiceTest {

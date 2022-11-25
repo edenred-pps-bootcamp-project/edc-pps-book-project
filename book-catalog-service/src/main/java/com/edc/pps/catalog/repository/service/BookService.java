@@ -1,4 +1,4 @@
-package com.edc.pps.catalog.service;
+package com.edc.pps.catalog.repository.service;
 
 import com.edc.pps.catalog.dto.info.BookRequest;
 import com.edc.pps.catalog.dto.info.BookResponse;
