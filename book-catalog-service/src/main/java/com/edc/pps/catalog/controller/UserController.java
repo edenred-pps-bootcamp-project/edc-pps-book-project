@@ -15,14 +15,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UserController {
 
-    private final BookService bookService;
-    private final RatingService ratingService;
     private final UserService userService;
 
     @Autowired
-    public UserController(BookService bookService, RatingService ratingService, UserService userService) {
-        this.bookService = bookService;
-        this.ratingService = ratingService;
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
