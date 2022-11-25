@@ -1,8 +1,6 @@
 package com.edc.pps.catalog.service;
 
-import com.edc.pps.catalog.dto.UserResponse;
 import com.edc.pps.catalog.model.User;
-import com.edc.pps.catalog.repository.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

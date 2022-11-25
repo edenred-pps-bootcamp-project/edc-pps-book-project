@@ -1,16 +1,14 @@
-package com.edc.pps.catalog.repository.service;
+package com.edc.pps.catalog.service;
 
 import com.edc.pps.catalog.dto.info.BookRequest;
 import com.edc.pps.catalog.dto.info.BookResponse;
 import com.edc.pps.catalog.dto.info.BookResponseList;
 import com.edc.pps.catalog.exception.BookNotFoundException;
-import com.edc.pps.catalog.model.Book;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -79,7 +77,7 @@ public class BookService {
     }
 
     public BookResponseList getBooksForTitle(String title) {
-        log.debug("getting all books with title {}",title);
+        log.debug("getting all books with title {}", title);
         return restTemplate.getForObject(INFO_RESOURCE + "/" + title, BookResponseList.class);
     }
 }

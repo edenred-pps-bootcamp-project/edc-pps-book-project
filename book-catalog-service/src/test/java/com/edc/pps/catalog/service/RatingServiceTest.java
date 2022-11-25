@@ -2,7 +2,6 @@ package com.edc.pps.catalog.service;
 
 import com.edc.pps.catalog.dto.rating.RatingMapper;
 import com.edc.pps.catalog.repository.RatingRepository;
-import com.edc.pps.catalog.repository.service.RatingService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

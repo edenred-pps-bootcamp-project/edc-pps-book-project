@@ -1,19 +1,13 @@
-package com.edc.pps.catalog.repository.service;
+package com.edc.pps.catalog.service;
 
-import com.edc.pps.catalog.dto.info.BookResponse;
-import com.edc.pps.catalog.dto.rating.RatingMapper;
 import com.edc.pps.catalog.dto.rating.RatingRequest;
 import com.edc.pps.catalog.dto.rating.RatingResponse;
-import com.edc.pps.catalog.exception.RatingNotFoundException;
-import com.edc.pps.catalog.model.Rating;
-import com.edc.pps.catalog.repository.RatingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -29,7 +23,6 @@ public class RatingService {
     }
 
     /**
-     *
      * @param request
      * @return
      */
@@ -39,7 +32,6 @@ public class RatingService {
     }
 
     /**
-     *
      * @return
      */
     public List<RatingResponse> findAll() {
@@ -49,7 +41,6 @@ public class RatingService {
     }
 
     /**
-     *
      * @param id
      */
     public void delete(Long id) {

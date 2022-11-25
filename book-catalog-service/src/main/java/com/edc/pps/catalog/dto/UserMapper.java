@@ -34,7 +34,7 @@ public class UserMapper {
         entity.setLastName(userRequest.getLastName());
         entity.setFirstName(userRequest.getFirstName());
         entity.setUserName(userRequest.getUserName());
-        entity.setId(userRequest.getUserId());
+        //entity.setId(userRequest.get());
         entity.setCatalogItems(userRequest.getCatalogItems());
 
         return entity;

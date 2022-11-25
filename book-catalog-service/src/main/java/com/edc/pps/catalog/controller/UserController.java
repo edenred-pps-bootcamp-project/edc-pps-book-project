@@ -2,8 +2,7 @@ package com.edc.pps.catalog.controller;
 
 import com.edc.pps.catalog.dto.UserRequest;
 import com.edc.pps.catalog.dto.UserResponse;
-import com.edc.pps.catalog.dto.UserResponseList;
-import com.edc.pps.catalog.repository.service.UserService;
+import com.edc.pps.catalog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

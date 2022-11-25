@@ -17,7 +17,7 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "first_name")
     private String firstName;
@@ -31,7 +31,7 @@ public class User {
     private List<CatalogItem> catalogItems = new ArrayList<>();
 
 
-    public User(long userId, String firstName, String lastName, String userName) {
+    public User(Long userId, String firstName, String lastName, String userName) {
         this.id = userId;
         this.firstName = firstName;
         this.lastName = lastName;

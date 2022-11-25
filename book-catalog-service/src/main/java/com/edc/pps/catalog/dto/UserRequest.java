@@ -8,7 +8,6 @@ import java.util.List;
 @Getter
 @Setter
 public class UserRequest {
-    private  Long userId;
     private String firstName;
     private String lastName;
     private String userName;
