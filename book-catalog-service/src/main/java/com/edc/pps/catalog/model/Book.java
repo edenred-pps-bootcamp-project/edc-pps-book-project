@@ -1,31 +1,48 @@
 package com.edc.pps.catalog.model;
 
-import lombok.Getter;
-import lombok.Setter;
+public class Book implements Comparable<Book> {
 
-import javax.persistence.*;
+    private static long countId = 0L;
 
-@Entity
-@Table(name = "books")
-public class Book {
+    {
+        countId++;
+    }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    private long id;
-    @Column(name = "title")
-    @Getter
-    @Setter
+    private Long id;
     private String title;
-    @Getter
-    @Setter
     private String author;
 
-    @Column(name = "average_rating")
-    @Getter
     private double averageRating;
 
-    public Book() {
+    public Book(String title, String author) {
+        this.id = countId;
+        this.title = title;
+        this.author = author;
+    }
+
+
+    public long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public double getAverageRating() {
+        return averageRating;
     }
 
     public void setAverageRating(double averageRating) {
@@ -48,5 +65,11 @@ public class Book {
                         "Nu are rating" + "\n";
     }
 
+
+    @Override
+    public int compareTo(Book otherBook) {
+        ;
+        return (int) (this.id - otherBook.getId());
+    }
 }
 

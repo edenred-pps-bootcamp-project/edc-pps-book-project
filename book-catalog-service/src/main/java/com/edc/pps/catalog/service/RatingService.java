@@ -1,33 +1,31 @@
 package com.edc.pps.catalog.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.edc.pps.catalog.dto.rating.RatingMapper;
 import com.edc.pps.catalog.dto.rating.RatingRequest;
 import com.edc.pps.catalog.dto.rating.RatingResponse;
 import com.edc.pps.catalog.exception.RatingNotFoundException;
 import com.edc.pps.catalog.model.Rating;
 import com.edc.pps.catalog.repository.RatingRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
-import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 public class RatingService {
 
-    private static final String RATING_RESOURCE = "http://localhost:8081/api/ratings";
     private final RatingMapper ratingMapper;
     private final RatingRepository ratingRepository;
-    private final RestTemplate restTemplate;
 
     @Autowired
-    public RatingService(RatingRepository ratingRepository, RatingMapper ratingMapper, RestTemplate restTemplate) {
+    public RatingService(RatingRepository ratingRepository, RatingMapper ratingMapper) {
         this.ratingRepository = ratingRepository;
         this.ratingMapper = ratingMapper;
-        this.restTemplate = restTemplate;
     }
 
     public RatingResponse saveOrUpdate(RatingRequest request) {
@@ -58,7 +56,6 @@ public class RatingService {
         return ratingMapper.toDto(ratings);
     }
 
-    // RESTTemplate delete method
     public void delete(Long id) {
         //1. rating with id was not found
         Optional<Rating> rating = ratingRepository.findByRatingId(id);
@@ -66,7 +63,7 @@ public class RatingService {
             throw new RatingNotFoundException("no rating with id: " + id);
         } else {
             log.debug("deleting rating with id: {}", id);
-            restTemplate.delete(RATING_RESOURCE + "/" + id);
+            ratingRepository.deleteById(id);
         }
     }
 
