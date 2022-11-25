@@ -1,33 +1,22 @@
 package com.edc.pps.catalog.service;
 
-import com.edc.pps.catalog.dto.info.BookMapper;
 import com.edc.pps.catalog.dto.info.BookRequest;
 import com.edc.pps.catalog.dto.info.BookResponse;
 import com.edc.pps.catalog.dto.info.BookResponseList;
 import com.edc.pps.catalog.exception.BookNotFoundException;
 import com.edc.pps.catalog.model.Book;
-import com.edc.pps.catalog.repository.BookRepository;
-import jdk.jfr.Frequency;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.Map;
-
 
 @Slf4j
 @Service
 public class BookService {
-
-    private static final String INFO_RESOURCE = "http://localhost:8082/api/books";
+    private static final String INFO_RESOURCE = "http://localhost:14283/api/books";
     private final RestTemplate restTemplate;
 
     @Autowired
@@ -43,7 +32,6 @@ public class BookService {
      */
     public BookResponse save(BookRequest request) {
         log.info("saved book to db: {}", request);
-
         return restTemplate.postForObject(INFO_RESOURCE, request, BookResponse.class);
     }
 
@@ -59,10 +47,6 @@ public class BookService {
 
     /**
      * Get book by id
-     * @param id The id of the book we want to return
-     * @return bookResponse
-     */
-    public BookResponse findById(Long id){
      *
      * @param id The id of the book we want to return
      * @return bookResponse
@@ -74,14 +58,11 @@ public class BookService {
 
     /**
      * Updates book with the provided id
-     * @param id The id of the book we want to update
-     */
-    public void update(Long id, BookRequest request){
      *
      * @param id The id of the book we want to update
      */
     public void update(Long id, BookRequest request) {
-        log.info("updating book");
+        log.info("updating book with id: {}", id);
         restTemplate.put(INFO_RESOURCE + "/" + id, request);
     }
 
@@ -92,10 +73,13 @@ public class BookService {
      * @throws BookNotFoundException throws exception it there is no book with the provided id
      */
     public void delete(Long id) throws BookNotFoundException {
-        log.info("deleting book");
-
+        log.info("deleting book {}", id);
         Map<String, Long> params = Map.of("id", id);
         restTemplate.delete(INFO_RESOURCE + "/" + id, params);
     }
-}
 
+    public BookResponseList getBooksForTitle(String title) {
+        log.debug("getting all books with title {}",title);
+        return restTemplate.getForObject(INFO_RESOURCE + "/" + title, BookResponseList.class);
+    }
+}
