@@ -70,11 +70,12 @@ public class RatingService {
         }
     }
 
-    // method to get all ratings for a certain book to calculate average
-
     public List<RatingResponse> getAllRatingsForBook(long bookId) {
         log.debug("getting all rating for bookId: {}", bookId);
         List<Rating> ratings = ratingRepository.findByBookId(bookId);
+        if(ratings.isEmpty()){
+            throw  new RatingNotFoundException("the book with id  " + bookId + " has no ratings");
+        }
 
         return ratingMapper.toDto(ratings);
     }
