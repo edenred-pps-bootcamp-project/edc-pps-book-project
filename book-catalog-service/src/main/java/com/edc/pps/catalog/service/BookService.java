@@ -1,15 +1,27 @@
 package com.edc.pps.catalog.service;
 
+import com.edc.pps.catalog.dto.info.BookMapper;
 import com.edc.pps.catalog.dto.info.BookRequest;
 import com.edc.pps.catalog.dto.info.BookResponse;
 import com.edc.pps.catalog.dto.info.BookResponseList;
 import com.edc.pps.catalog.exception.BookNotFoundException;
+import com.edc.pps.catalog.model.Book;
+import com.edc.pps.catalog.repository.BookRepository;
+import jdk.jfr.Frequency;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
+
 
 @Slf4j
 @Service
@@ -47,6 +59,10 @@ public class BookService {
 
     /**
      * Get book by id
+     * @param id The id of the book we want to return
+     * @return bookResponse
+     */
+    public BookResponse findById(Long id){
      *
      * @param id The id of the book we want to return
      * @return bookResponse
@@ -58,6 +74,9 @@ public class BookService {
 
     /**
      * Updates book with the provided id
+     * @param id The id of the book we want to update
+     */
+    public void update(Long id, BookRequest request){
      *
      * @param id The id of the book we want to update
      */
@@ -78,7 +97,5 @@ public class BookService {
         Map<String, Long> params = Map.of("id", id);
         restTemplate.delete(INFO_RESOURCE + "/" + id, params);
     }
-
-
 }
 

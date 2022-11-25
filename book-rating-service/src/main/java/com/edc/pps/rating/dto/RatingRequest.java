@@ -1,37 +1,15 @@
 package com.edc.pps.rating.dto;
 
+import lombok.Data;
 
+@Data
 public class RatingRequest {
 
-    private long bookId;
+    private Long bookId;
 
-    private long userId;
+    private Long userId;
 
     private int ratingValue;
-
-    public long getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(long bookId) {
-        this.bookId = bookId;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public int getRatingValue() {
-        return ratingValue;
-    }
-
-    public void setRatingValue(int ratingValue) {
-        this.ratingValue = ratingValue;
-    }
 
     @Override
     public String toString() {
