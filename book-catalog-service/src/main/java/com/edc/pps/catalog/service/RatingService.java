@@ -56,8 +56,12 @@ public class RatingService {
 
     // method to get all ratings for a certain book to calculate average
 
-    public List<RatingResponse> getAllRatingsForBook(long bookId) {
+    public RatingResponse[] getAllRatingsForBook(Long bookId) {
         log.debug("getting all rating for bookId: {}", bookId);
-        return (List<RatingResponse>) restTemplate.getForObject(RATING_RESOURCE + "/" + bookId, RatingResponse.class);
+        return restTemplate.getForObject(RATING_RESOURCE + "/books/" + bookId, RatingResponse[].class);
+    }
+
+    public List<RatingResponse> getAllRatingsForUser(Long userId) {
+        return (List<RatingResponse>) restTemplate.getForObject(RATING_RESOURCE + "/users/" + userId, RatingResponse.class);
     }
 }

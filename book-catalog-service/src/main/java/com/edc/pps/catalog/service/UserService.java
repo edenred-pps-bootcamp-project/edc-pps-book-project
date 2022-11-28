@@ -4,10 +4,10 @@ import com.edc.pps.catalog.dto.CatalogItem;
 import com.edc.pps.catalog.dto.UserMapper;
 import com.edc.pps.catalog.dto.UserRequest;
 import com.edc.pps.catalog.dto.UserResponse;
+import com.edc.pps.catalog.dto.info.BookMapper;
 import com.edc.pps.catalog.dto.info.BookResponse;
 import com.edc.pps.catalog.dto.rating.RatingResponse;
 import com.edc.pps.catalog.model.User;
-import com.edc.pps.catalog.repository.CataogItemRepository;
 import com.edc.pps.catalog.repository.UserRepository;
 import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -27,16 +27,16 @@ public class UserService {
     private final BookService bookService;
     private final RatingService ratingService;
     private final UserMapper userMapper;
-    private final CataogItemRepository cataogItemRepository;
+    private final BookMapper bookMapper;
 
 
     @Autowired
-    public UserService(UserRepository userRepository, BookService bookService, RatingService ratingService, UserMapper userMapper, CataogItemRepository cataogItemRepository) {
+    public UserService(UserRepository userRepository, BookService bookService, RatingService ratingService, UserMapper userMapper, BookMapper bookMapper) {
         this.userRepository = userRepository;
         this.bookService = bookService;
         this.ratingService = ratingService;
         this.userMapper = userMapper;
-        this.cataogItemRepository = cataogItemRepository;
+        this.bookMapper = bookMapper;
     }
 
     public UserResponse save(UserRequest request) {
@@ -72,14 +72,18 @@ public class UserService {
     }
 
     public UserResponse addCatalogItem(Long userId, Long bookId, Long ratingId) throws NotFoundException {
-        UserResponse user = findById(userId);
+        User user = userRepository.findById(userId).get();
         BookResponse book = bookService.findById(bookId);
-        RatingResponse rating = ratingService.findById(ratingId);
-        CatalogItem catalogItem = new CatalogItem(book.getId(), book.getTitle(), book.getTitle(), rating.getRatingValue());
+        List<RatingResponse> ratings = ratingService.getAllRatingsForUser(userId);
 
-        user.getCatalogItems().add(catalogItem);
-        cataogItemRepository.save(catalogItem);
-        return user;
+        CatalogItem catalogItem = new CatalogItem(book.getId(), book.getTitle(), book.getTitle(), ratings.get(0).getRatingValue());
+
+        List<CatalogItem> catalogItems = user.getCatalogItems();
+        catalogItems.add(catalogItem);
+
+        user.setCatalogItems(catalogItems);
+        userRepository.save(user);
+        return userMapper.toDto(user);
     }
 
 

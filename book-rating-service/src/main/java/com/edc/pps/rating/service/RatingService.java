@@ -92,7 +92,7 @@ public class RatingService {
     }
 
     public List<RatingResponse> getAllBooksForUser(long userId) {
-        log.debug("getting all rating for bookId: {}", userId);
+        log.debug("getting all rating for userId: {}", userId);
         List<Rating> ratings = ratingRepository.findByUserId(userId);
         return ratingMapper.toDto(ratings);
     }

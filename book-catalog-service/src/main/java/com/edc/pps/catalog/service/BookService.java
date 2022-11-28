@@ -51,7 +51,7 @@ public class BookService {
      */
     public BookResponse findById(Long id) {
         log.debug("finding book with id: {}", id);
-        return restTemplate.getForObject(INFO_RESOURCE + "/" + id, BookResponse.class);
+        return restTemplate.getForObject(INFO_RESOURCE + "/find/" + id, BookResponse.class);
     }
 
     /**
