@@ -1,9 +1,15 @@
 package com.edc.pps.catalog.service;
 
+import com.edc.pps.catalog.dto.CatalogItem;
+import com.edc.pps.catalog.dto.UserRequest;
+import com.edc.pps.catalog.dto.UserResponse;
 import com.edc.pps.catalog.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,19 +22,24 @@ class UserServiceTest {
     private UserService userService;
 
     @Test
-    void givenUser_whenCreate_thenReturnUser(){
+    void givenUser_whenCreate_thenReturnUserResponse(){
         // given
-        String firstName = "first name";
-        String lastName = "last name";
-        String userName = "username";
-        Long id = 0L;
-        User user = new User(id,firstName,lastName,userName);
+
+        List<CatalogItem> catalogItems = new ArrayList<>();
+
+        UserRequest userRequest = new UserRequest();
+
+        userRequest.setFirstName("Popescu");
+        userRequest.setLastName("Andrei");
+        userRequest.setUserName("andreip");
+        userRequest.setCatalogItems(catalogItems);
 
         // when
-        //UserResponse actualUser = userService.save(user);
+        UserResponse actualUser = userService.save(userRequest);
 
         // then
-        //assertThat(actualUser.getId()).isNotNull();
+        assertThat(actualUser.getId()).isNotNull();
+
     }
 
 }
