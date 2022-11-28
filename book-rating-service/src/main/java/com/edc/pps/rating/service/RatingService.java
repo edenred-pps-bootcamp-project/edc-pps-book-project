@@ -28,7 +28,7 @@ public class RatingService {
     }
 
     /**
-     *  Saves or Updates the RatingRequest
+     *  Saves or Updates the Rating
      * @param request The ratingRequest
      * @return Returns a ratingResponse
      */
@@ -68,7 +68,7 @@ public class RatingService {
     }
 
     /**
-     * @param id deleted the rating by id
+     * @param id Rating id to be deleted.
      */
     public void delete(Long id) {
         //1. rating with id was not found
@@ -81,6 +81,10 @@ public class RatingService {
         }
     }
 
+    /** Given a book id will return all the ratings for the specified book.
+     * @param bookId The book id
+     * @return Returns a list of RatingResponse,
+     */
     public List<RatingResponse> getAllRatingsForBook(long bookId) {
         log.debug("getting all rating for bookId: {}", bookId);
         List<Rating> ratings = ratingRepository.findByBookId(bookId);
@@ -91,9 +95,16 @@ public class RatingService {
         return ratingMapper.toDto(ratings);
     }
 
-    public List<RatingResponse> getAllBooksForUser(long userId) {
+    /** Given an user id will return all the books that the user has rated.
+     * @param userId The user id
+     * @return Returns a list of RatingResponse.
+     */
+    public List<RatingResponse> getAllRatingsForUser(long userId) {
         log.debug("getting all rating for bookId: {}", userId);
         List<Rating> ratings = ratingRepository.findByUserId(userId);
+        if(ratings.isEmpty()){
+            throw  new RatingNotFoundException("the user with id  " + userId + " didn't rate any books");
+        }
         return ratingMapper.toDto(ratings);
     }
 
