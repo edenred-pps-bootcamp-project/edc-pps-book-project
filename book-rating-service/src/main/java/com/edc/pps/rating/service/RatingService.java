@@ -37,7 +37,7 @@ public class RatingService {
         //get all ratings from db
         List<Rating> ratings = ratingRepository.findAll();
         //check if the user already rated the book
-        long result = ratings.stream().filter(entry -> entry.getBookId() == request.getBookId() && entry.getUserId() == request.getUserId()).count();
+        long result = ratings.stream().filter(entry -> entry.getBookId().equals(request.getBookId()) && entry.getUserId().equals(request.getUserId())).count();
 
         if(request.getUserId() == null || request.getBookId() == null || request.getRatingValue() == null){
             throw new BadRequestException("bad request");
