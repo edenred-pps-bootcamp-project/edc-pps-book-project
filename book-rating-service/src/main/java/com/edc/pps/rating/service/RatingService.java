@@ -27,6 +27,11 @@ public class RatingService {
         this.ratingMapper = ratingMapper;
     }
 
+    /**
+     *  Saves or Updates the RatingRequest
+     * @param request The ratingRequest
+     * @return Returns a ratingResponse
+     */
     public RatingResponse saveOrUpdate(RatingRequest request) {
         log.info("saved rating to db: {}", request);
         //get all ratings from db
@@ -53,12 +58,18 @@ public class RatingService {
         }
     }
 
+    /**
+     * @return The list of Ratings in the db
+     */
     public List<RatingResponse> findAll() {
         log.debug("getting all ratings...");
         List<Rating> ratings = ratingRepository.findAll();
         return ratingMapper.toDto(ratings);
     }
 
+    /**
+     * @param id deleted the rating by id
+     */
     public void delete(Long id) {
         //1. rating with id was not found
         Optional<Rating> rating = ratingRepository.findByRatingId(id);
@@ -77,6 +88,12 @@ public class RatingService {
             throw  new RatingNotFoundException("the book with id  " + bookId + " has no ratings");
         }
 
+        return ratingMapper.toDto(ratings);
+    }
+
+    public List<RatingResponse> getAllBooksForUser(long userId) {
+        log.debug("getting all rating for bookId: {}", userId);
+        List<Rating> ratings = ratingRepository.findByUserId(userId);
         return ratingMapper.toDto(ratings);
     }
 
