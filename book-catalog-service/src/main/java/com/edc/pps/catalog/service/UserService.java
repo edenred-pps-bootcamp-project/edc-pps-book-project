@@ -5,7 +5,9 @@ import com.edc.pps.catalog.dto.UserMapper;
 import com.edc.pps.catalog.dto.UserRequest;
 import com.edc.pps.catalog.dto.UserResponse;
 import com.edc.pps.catalog.dto.info.BookResponse;
+import com.edc.pps.catalog.dto.rating.RatingResponse;
 import com.edc.pps.catalog.model.User;
+import com.edc.pps.catalog.repository.CataogItemRepository;
 import com.edc.pps.catalog.repository.UserRepository;
 import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -23,18 +25,23 @@ public class UserService {
 
     public final UserRepository userRepository;
     private final BookService bookService;
+    private final RatingService ratingService;
     private final UserMapper userMapper;
+    private final CataogItemRepository cataogItemRepository;
+
 
     @Autowired
-    public UserService(UserRepository userRepository, BookService bookService, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, BookService bookService, RatingService ratingService, UserMapper userMapper, CataogItemRepository cataogItemRepository) {
         this.userRepository = userRepository;
         this.bookService = bookService;
+        this.ratingService = ratingService;
         this.userMapper = userMapper;
+        this.cataogItemRepository = cataogItemRepository;
     }
 
     public UserResponse save(UserRequest request) {
         User user = userMapper.toEntity(request);
-        userRepository.findAll().add(user);
+        userRepository.save(user);
         return userMapper.toDto(user);
     }
 
@@ -64,11 +71,14 @@ public class UserService {
         throw new NotFoundException("user with given id is not registered");
     }
 
-    public UserResponse addCatalogItem(Long userId, Long bookId, int rating) throws NotFoundException {
+    public UserResponse addCatalogItem(Long userId, Long bookId, Long ratingId) throws NotFoundException {
         UserResponse user = findById(userId);
         BookResponse book = bookService.findById(bookId);
+        RatingResponse rating = ratingService.findById(ratingId);
+        CatalogItem catalogItem = new CatalogItem(book.getId(), book.getTitle(), book.getTitle(), rating.getRatingValue());
 
-        user.getCatalogItems().add(new CatalogItem(book.getId(), book.getTitle(), book.getTitle(), rating));
+        user.getCatalogItems().add(catalogItem);
+        cataogItemRepository.save(catalogItem);
         return user;
     }
 

@@ -40,6 +40,12 @@ public class RatingService {
         return (List<RatingResponse>) restTemplate.getForObject(RATING_RESOURCE, RatingResponse.class);
     }
 
+    public RatingResponse findById(Long id){
+        log.debug("getting rating with id {}", id);
+
+        return restTemplate.getForObject(RATING_RESOURCE + "/" + id, RatingResponse.class);
+    }
+
     /**
      * @param id
      */
