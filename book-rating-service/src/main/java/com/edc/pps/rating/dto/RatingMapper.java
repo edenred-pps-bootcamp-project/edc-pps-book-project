@@ -41,7 +41,6 @@ public class RatingMapper {
         return entity;
     }
 
-    //might not need return(same reference)
     public Rating toEntity(Rating entity, RatingRequest updateInfo) {
         entity.setRatingValue(updateInfo.getRatingValue());
         entity.setBookId(updateInfo.getBookId());

@@ -9,7 +9,7 @@ public class RatingRequest {
 
     private Long userId;
 
-    private int ratingValue;
+    private Integer ratingValue;
 
     @Override
     public String toString() {
