@@ -170,8 +170,34 @@ public class RatingServiceTest {
     }
 
     @Test
-    void whenFindAll_thenReturnRatingResponseList(){
+    void givenTwoRatings_whenFindAll_returnListOfRatingResponse(){
+        RatingRequest firstRatingRequest = new RatingRequest();
+        firstRatingRequest.setRatingValue(2);
+        firstRatingRequest.setBookId(1L);
+        firstRatingRequest.setUserId(23L);
+        RatingRequest secondRatingRequest = new RatingRequest();
+        secondRatingRequest.setRatingValue(4);
+        secondRatingRequest.setBookId(1L);
+        secondRatingRequest.setUserId(23L);
 
+        RatingResponse firstRatingResponse = new RatingResponse();
+        firstRatingResponse.setUserId(23L);
+        firstRatingResponse.setRatingValue(2);
+        firstRatingResponse.setBookId(1L);
+        RatingResponse secondRatingResponse = new RatingResponse();
+        secondRatingResponse.setUserId(23L);
+        secondRatingResponse.setRatingValue(4);
+        secondRatingResponse.setBookId(2L);
+        List<RatingResponse> expected = new ArrayList<RatingResponse>();
+        //expected.add(firstRatingResponse);
+        //expected.add(secondRatingResponse);
+
+        ratingService.saveOrUpdate(firstRatingRequest);
+        ratingService.saveOrUpdate(secondRatingRequest);
+
+        List<RatingResponse> actual = ratingService.findAll();
+
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test

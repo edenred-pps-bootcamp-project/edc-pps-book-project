@@ -41,5 +41,4 @@ public class RatingController {
 	public ResponseEntity<List<RatingResponse>> getAllRatingsForUser(@PathVariable Long id) {
 		return new ResponseEntity<>(ratingService.getAllRatingsForUser(id), HttpStatus.OK);
 	}
-
 }
