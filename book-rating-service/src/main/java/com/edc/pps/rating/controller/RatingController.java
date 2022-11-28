@@ -20,7 +20,6 @@ public class RatingController {
 	}
 	@PostMapping
 	public ResponseEntity<RatingResponse> saveOrUpdate(@RequestBody RatingRequest request) {
-		System.out.println("do we get here?");
 		return new ResponseEntity<>(ratingService.saveOrUpdate(request), HttpStatus.CREATED);
 	}
 	@GetMapping
@@ -32,12 +31,15 @@ public class RatingController {
 		ratingService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-	// api/ratings/{id}
-	// api/ratings/{bookId}
-	// api/ratings/books/{bookId}/rating
-	@GetMapping("/{id}")
+
+	@GetMapping("/books/{id}")
 	public ResponseEntity<List<RatingResponse>> getAllRatingsForBook(@PathVariable Long id) {
 		return new ResponseEntity<>(ratingService.getAllRatingsForBook(id), HttpStatus.OK);
+	}
+
+	@GetMapping("/users/{id}")
+	public ResponseEntity<List<RatingResponse>> getAllBooksForUser(@PathVariable Long id) {
+		return new ResponseEntity<>(ratingService.getAllBooksForUser(id), HttpStatus.OK);
 	}
 
 }
