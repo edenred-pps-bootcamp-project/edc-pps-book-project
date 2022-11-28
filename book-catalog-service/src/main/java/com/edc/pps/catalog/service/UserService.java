@@ -1,9 +1,6 @@
 package com.edc.pps.catalog.service;
 
-import com.edc.pps.catalog.dto.CatalogItem;
-import com.edc.pps.catalog.dto.UserMapper;
-import com.edc.pps.catalog.dto.UserRequest;
-import com.edc.pps.catalog.dto.UserResponse;
+import com.edc.pps.catalog.dto.*;
 import com.edc.pps.catalog.dto.info.BookResponse;
 import com.edc.pps.catalog.model.User;
 import com.edc.pps.catalog.repository.UserRepository;
@@ -30,13 +27,14 @@ public class UserService {
     private final UserMapper userMapper;
 
     @Autowired
-    public UserService(UserRepository userRepository, RestTemplate restTemplate, BookService bookService, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, BookService bookService, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.bookService = bookService;
         this.userMapper = userMapper;
     }
 
-    public UserResponse save(User user){
+    public UserResponse save(UserRequest request){
+        User user = userMapper.toEntity(request);
         userRepository.findAll().add(user);
         return userMapper.toDto(user);
     }
@@ -50,9 +48,9 @@ public class UserService {
         throw new NotFoundException("user with given username is not registered");
     }
 
-    public List<UserResponse> findAll() {
+    public UserResponseList findAll() {
         log.info("get all users");
-        return userRepository.findAll().stream().map(userMapper::toDto).collect(Collectors.toList());
+        return (UserResponseList) userRepository.findAll().stream().map(userMapper::toDto).collect(Collectors.toList());
     }
 
 
