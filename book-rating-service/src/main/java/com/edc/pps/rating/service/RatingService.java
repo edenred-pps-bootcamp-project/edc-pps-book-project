@@ -37,11 +37,9 @@ public class RatingService {
         //get all ratings from db
         List<Rating> ratings = ratingRepository.findAll();
         //check if the user already rated the book
-        long result = ratings.stream().filter(entry -> entry.getBookId() == request.getBookId() && entry.getUserId() == request.getUserId()).count();
+        long result = ratings.stream().filter(entry -> entry.getBookId().equals(request.getBookId()) && entry.getUserId().equals(request.getUserId())).count();
 
-        if(request.getUserId() == null || request.getBookId() == null || request.getRatingValue() == null){
-            throw new BadRequestException("bad request");
-        }
+        validateRequest(request);
 
         //if the user never rated the book it will be added as a new entry in db
         if (result == 0) {
@@ -108,5 +106,18 @@ public class RatingService {
         return ratingMapper.toDto(ratings);
     }
 
+    private boolean validateRequest(RatingRequest request){
+        if(request.getUserId() == null){
+            log.info("UserId cannot be null: \n" + request.toString());
+            throw new BadRequestException("UserId cannot be null");
+        } if(request.getBookId() == null){
+            log.info("BookId cannot be null: \n" + request.toString()) ;
+            throw new BadRequestException("BookId cannot be null");
+        } if(request.getRatingValue() == null){
+            log.info("RatingValue cannot be null: \n" + request.toString());
+            throw new BadRequestException("RatingValue cannot be null");
+        }
+        return true;
+    }
 
 }
