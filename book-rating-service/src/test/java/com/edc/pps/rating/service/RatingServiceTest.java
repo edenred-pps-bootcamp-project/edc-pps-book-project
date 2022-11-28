@@ -120,9 +120,9 @@ public class RatingServiceTest {
         BadRequestException thrown = assertThrows(
                 BadRequestException.class,
                 () ->  ratingService.saveOrUpdate(ratingRequest),
-                "bad request"
+                "BookId cannot be null"
         );
-        assertTrue(thrown.getMessage().contains("bad request"));
+        assertTrue(thrown.getMessage().contains("BookId cannot be null"));
     }
 
     @Test
@@ -142,9 +142,9 @@ public class RatingServiceTest {
         BadRequestException thrown = assertThrows(
                 BadRequestException.class,
                 () ->  ratingService.saveOrUpdate(ratingRequest),
-                "bad request"
+                "UserId cannot be null"
         );
-        assertTrue(thrown.getMessage().contains("bad request"));
+        assertTrue(thrown.getMessage().contains("UserId cannot be null"));
     }
 
     @Test
@@ -164,9 +164,9 @@ public class RatingServiceTest {
         BadRequestException thrown = assertThrows(
                 BadRequestException.class,
                 () ->  ratingService.saveOrUpdate(ratingRequest),
-                "bad request"
+                "RatingValue cannot be null"
         );
-        assertTrue(thrown.getMessage().contains("bad request"));
+        assertTrue(thrown.getMessage().contains("RatingValue cannot be null"));
     }
 
     @Test
