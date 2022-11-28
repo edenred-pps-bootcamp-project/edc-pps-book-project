@@ -67,6 +67,43 @@ public class RatingServiceTest {
     }
 
     @Test
+    void givenDuplicateRating_whenSaveOrUpdate_thenUpdateRatingAndReturnRatingResponse(){
+        RatingRequest firstRatingRequest = new RatingRequest();
+        firstRatingRequest.setRatingValue(2);
+        firstRatingRequest.setBookId(1L);
+        firstRatingRequest.setUserId(23L);
+
+        RatingRequest secondRatingRequest = new RatingRequest();
+        secondRatingRequest.setRatingValue(4);
+        secondRatingRequest.setBookId(1L);
+        secondRatingRequest.setUserId(23L);
+
+        List<Rating> mockRatings = new ArrayList<>();
+        Rating rating = new Rating();
+        rating.setUserId(23L);
+        rating.setRatingValue(5);
+        rating.setBookId(1L);
+        mockRatings.add(rating);
+
+        RatingResponse expected = new RatingResponse();
+        expected.setUserId(23L);
+        expected.setRatingValue(4);
+        expected.setBookId(1L);
+
+        when(ratingMapper.toEntity(any(RatingRequest.class)))
+                .thenReturn(rating);
+        when(ratingRepository.save(any(Rating.class)))
+                .thenReturn(rating);
+        when(ratingMapper.toDto(any(Rating.class)))
+                .thenReturn(expected);
+
+        ratingService.saveOrUpdate(firstRatingRequest);
+        RatingResponse actual = ratingService.saveOrUpdate(secondRatingRequest);
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
     void givenNullBookId_whenSaveOrUpdate_thenThrowException(){
         RatingRequest ratingRequest = new RatingRequest();
         ratingRequest.setRatingValue(5);
@@ -143,7 +180,6 @@ public class RatingServiceTest {
     }
     @Test
     void givenBookId_whenGetAllRatingsForBook_thenReturnRatingResponseList(){
-
 
     }
 
