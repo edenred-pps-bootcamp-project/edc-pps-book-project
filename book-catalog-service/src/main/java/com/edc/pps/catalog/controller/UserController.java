@@ -2,14 +2,19 @@ package com.edc.pps.catalog.controller;
 
 import com.edc.pps.catalog.dto.UserRequest;
 import com.edc.pps.catalog.dto.UserResponse;
-import com.edc.pps.catalog.model.User;
+import com.edc.pps.catalog.dto.UserResponseList;
+import com.edc.pps.catalog.dto.info.BookResponse;
+import com.edc.pps.catalog.dto.info.BookResponseList;
 import com.edc.pps.catalog.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
+import java.sql.SQLOutput;
+import java.util.Arrays;
 import java.util.List;
 
 @RequestMapping("api/users")
@@ -17,10 +22,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RestTemplate restTemplate) {
         this.userService = userService;
+        this.restTemplate = restTemplate;
     }
 
     @PostMapping
@@ -38,6 +45,15 @@ public class UserController {
     public ResponseEntity<UserResponse> addCatalogItem(@PathVariable("userId") Long userId,
                                                        @RequestParam(name = "bookId") Long bookId,
                                                        @RequestParam(name = "ratingId") Long ratingId) throws NotFoundException {
+        BookResponse[] response = restTemplate.getForObject("http://localhost:8082/api/books/find/" + userId, BookResponse[].class);
+        List<BookResponse> books = Arrays.asList(response);
+
+        if(books.size() == 0){
+            System.out.println("No books");
+        } else{
+            System.out.println("there is a book");
+        }
+
         return new ResponseEntity<>(userService.addCatalogItem(userId, bookId, ratingId), HttpStatus.OK);
     }
 

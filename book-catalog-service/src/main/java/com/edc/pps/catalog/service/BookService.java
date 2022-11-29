@@ -6,6 +6,7 @@ import com.edc.pps.catalog.dto.info.BookResponseList;
 import com.edc.pps.catalog.exception.BookNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,7 +15,7 @@ import java.util.Map;
 @Slf4j
 @Service
 public class BookService {
-    private static final String INFO_RESOURCE = "http://localhost:14283/api/books";
+    private static final String INFO_RESOURCE = "http://localhost:8082/api/books";
     private final RestTemplate restTemplate;
 
     @Autowired
@@ -49,9 +50,10 @@ public class BookService {
      * @param id The id of the book we want to return
      * @return bookResponse
      */
-    public BookResponse findById(Long id) {
+    public BookResponseList findById(Long id) {
         log.debug("finding book with id: {}", id);
-        return restTemplate.getForObject(INFO_RESOURCE + "/find/" + id, BookResponse.class);
+        System.out.println(INFO_RESOURCE + "/find/" + id);
+        return restTemplate.getForObject(INFO_RESOURCE + "/find/" + id, BookResponseList.class);
     }
 
     /**

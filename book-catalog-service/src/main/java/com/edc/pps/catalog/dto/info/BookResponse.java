@@ -1,6 +1,11 @@
 package com.edc.pps.catalog.dto.info;
 
-public class BookResponse {
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+
+@NoArgsConstructor
+public class BookResponse implements Serializable {
     private Long id;
 
     private String title;

@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -73,10 +74,11 @@ public class UserService {
 
     public UserResponse addCatalogItem(Long userId, Long bookId, Long ratingId) throws NotFoundException {
         User user = userRepository.findById(userId).get();
-        BookResponse book = bookService.findById(bookId);
-        List<RatingResponse> ratings = ratingService.getAllRatingsForUser(userId);
+        System.out.println(bookService.findById(bookId).getBookResponses());
+        BookResponse book = bookService.findById(bookId).getBookResponses().get(0);
+        RatingResponse ratings = Arrays.asList(ratingService.getAllRatingsForUser(userId)).get(0);
 
-        CatalogItem catalogItem = new CatalogItem(book.getId(), book.getTitle(), book.getTitle(), ratings.get(0).getRatingValue());
+        CatalogItem catalogItem = new CatalogItem(book.getId(), book.getTitle(), book.getTitle(), ratings.getRatingValue());
 
         List<CatalogItem> catalogItems = user.getCatalogItems();
         catalogItems.add(catalogItem);

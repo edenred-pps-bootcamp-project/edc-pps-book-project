@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class RatingService {
 
-    private static final String RATING_RESOURCE = "http://localhost:8082/api/ratings";
+    private static final String RATING_RESOURCE = "http://localhost:7601/api/ratings";
 
     private final RestTemplate restTemplate;
 
@@ -61,7 +61,7 @@ public class RatingService {
         return restTemplate.getForObject(RATING_RESOURCE + "/books/" + bookId, RatingResponse[].class);
     }
 
-    public List<RatingResponse> getAllRatingsForUser(Long userId) {
-        return (List<RatingResponse>) restTemplate.getForObject(RATING_RESOURCE + "/users/" + userId, RatingResponse.class);
+    public RatingResponse[] getAllRatingsForUser(Long userId) {
+        return restTemplate.getForObject(RATING_RESOURCE + "/users/" + userId, RatingResponse[].class);
     }
 }
