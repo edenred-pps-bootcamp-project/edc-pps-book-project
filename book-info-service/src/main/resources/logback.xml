@@ -1,3 +1,25 @@
 <!--TODO: add logback config to log in console and in file -->
 <configuration>
-</configuration>
+
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>
+                    %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
+                </pattern>
+            </encoder>
+        </appender>
+
+        <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+            <file>book-info-service/logs/info.log</file>
+            <encoder>
+                <pattern>%d{HH:mm:ss,SSS} %-5p [%c] - %m%n</pattern>
+            </encoder>
+        </appender>
+
+        <logger name="com.edc.pps.info" level="INFO"/>
+
+        <root level="info">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE"/>
+        </root>
+    </configuration>
