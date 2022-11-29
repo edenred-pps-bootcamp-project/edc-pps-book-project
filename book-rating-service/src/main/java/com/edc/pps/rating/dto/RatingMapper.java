@@ -9,6 +9,9 @@ import java.util.List;
 @Component
 public class RatingMapper {
     public List<RatingResponse> toDto(List<Rating> entities) {
+        if(entities == null){
+            return null;
+        }
         List<RatingResponse> dtos = new ArrayList<>();
         for (Rating entity : entities) {
             dtos.add(toDto(entity));
@@ -17,6 +20,9 @@ public class RatingMapper {
     }
 
     public RatingResponse toDto(Rating rating) {
+        if(rating == null){
+            return null;
+        }
         RatingResponse dto = new RatingResponse();
         dto.setRatingId(rating.getRatingId());
         dto.setBookId(rating.getBookId());
@@ -26,6 +32,9 @@ public class RatingMapper {
     }
 
     public List<Rating> toEntity(List<RatingRequest> ratingRequests) {
+        if(ratingRequests == null){
+            return null;
+        }
         List<Rating> ratings = new ArrayList<>();
         for (RatingRequest ratingRequest : ratingRequests) {
             ratings.add(toEntity(ratingRequest));
@@ -34,6 +43,9 @@ public class RatingMapper {
     }
 
     public Rating toEntity(RatingRequest ratingRequest) {
+        if(ratingRequest == null){
+            return null;
+        }
         Rating entity = new Rating();
         entity.setBookId(ratingRequest.getBookId());
         entity.setUserId(ratingRequest.getUserId());
@@ -42,6 +54,9 @@ public class RatingMapper {
     }
 
     public Rating toEntity(Rating entity, RatingRequest updateInfo) {
+        if(updateInfo == null){
+            return null;
+        }
         entity.setRatingValue(updateInfo.getRatingValue());
         entity.setBookId(updateInfo.getBookId());
         entity.setUserId(updateInfo.getUserId());

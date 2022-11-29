@@ -29,6 +29,7 @@ public class BookController {
 
     @GetMapping
     public ResponseEntity<List<BookResponse>> findAll() {
+        bookService.getAverageRating(1);
         return new ResponseEntity<>(bookService.findAll(), HttpStatus.OK);
     }
 
@@ -43,8 +44,13 @@ public class BookController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{title}")
+    @GetMapping("/title={title}")
     public ResponseEntity<List<BookResponse>> getBooksForTitle(@PathVariable(name = "title") String title) {
         return new ResponseEntity<>(bookService.getBooksForTitle(title), HttpStatus.OK);
+    }
+
+    @GetMapping("/author={author}")
+    public ResponseEntity<List<BookResponse>> getBooksByAuthor(@PathVariable(name = "author") String author) {
+        return new ResponseEntity<>(bookService.getBooksByAuthor(author), HttpStatus.OK);
     }
 }

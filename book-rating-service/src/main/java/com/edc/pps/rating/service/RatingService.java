@@ -28,7 +28,7 @@ public class RatingService {
     }
 
     /**
-     *  Saves or Updates the RatingRequest
+     *  Saves or Updates the Rating
      * @param request The ratingRequest
      * @return Returns a ratingResponse
      */
@@ -37,11 +37,9 @@ public class RatingService {
         //get all ratings from db
         List<Rating> ratings = ratingRepository.findAll();
         //check if the user already rated the book
-        long result = ratings.stream().filter(entry -> entry.getBookId() == request.getBookId() && entry.getUserId() == request.getUserId()).count();
+        long result = ratings.stream().filter(entry -> entry.getBookId().equals(request.getBookId()) && entry.getUserId().equals(request.getUserId())).count();
 
-        if(request.getUserId() == null || request.getBookId() == null || request.getRatingValue() == null){
-            throw new BadRequestException("bad request");
-        }
+        validateRequest(request);
 
         //if the user never rated the book it will be added as a new entry in db
         if (result == 0) {
@@ -68,7 +66,7 @@ public class RatingService {
     }
 
     /**
-     * @param id deleted the rating by id
+     * @param id Rating id to be deleted.
      */
     public void delete(Long id) {
         //1. rating with id was not found
@@ -81,6 +79,10 @@ public class RatingService {
         }
     }
 
+    /** Given a book id will return all the ratings for the specified book.
+     * @param bookId The book id
+     * @return Returns a list of RatingResponse,
+     */
     public List<RatingResponse> getAllRatingsForBook(long bookId) {
         log.debug("getting all rating for bookId: {}", bookId);
         List<Rating> ratings = ratingRepository.findByBookId(bookId);
@@ -91,11 +93,31 @@ public class RatingService {
         return ratingMapper.toDto(ratings);
     }
 
-    public List<RatingResponse> getAllBooksForUser(long userId) {
-        log.debug("getting all rating for userId: {}", userId);
+    /** Given an user id will return all the books that the user has rated.
+     * @param userId The user id
+     * @return Returns a list of RatingResponse.
+     */
+    public List<RatingResponse> getAllRatingsForUser(long userId) {
+        log.debug("getting all rating for bookId: {}", userId);
         List<Rating> ratings = ratingRepository.findByUserId(userId);
+        if(ratings.isEmpty()){
+            throw  new RatingNotFoundException("the user with id  " + userId + " didn't rate any books");
+        }
         return ratingMapper.toDto(ratings);
     }
 
+    private boolean validateRequest(RatingRequest request){
+        if(request.getUserId() == null){
+            log.info("UserId cannot be null: \n" + request.toString());
+            throw new BadRequestException("UserId cannot be null");
+        } if(request.getBookId() == null){
+            log.info("BookId cannot be null: \n" + request.toString()) ;
+            throw new BadRequestException("BookId cannot be null");
+        } if(request.getRatingValue() == null){
+            log.info("RatingValue cannot be null: \n" + request.toString());
+            throw new BadRequestException("RatingValue cannot be null");
+        }
+        return true;
+    }
 
 }

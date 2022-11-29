@@ -1,8 +1,8 @@
 package com.edc.pps.rating.service;
 
 import com.edc.pps.rating.dto.RatingMapper;
-import com.edc.pps.rating.dto.RatingRequest;
-import com.edc.pps.rating.dto.RatingResponse;
+import com.edc.pps.rating.dto.*;
+import com.edc.pps.rating.exception.BadRequestException;
 import com.edc.pps.rating.model.Rating;
 import com.edc.pps.rating.repository.RatingRepository;
 import com.edc.pps.rating.service.RatingService;
@@ -11,11 +11,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import sun.jvm.hotspot.utilities.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -64,8 +67,137 @@ public class RatingServiceTest {
     }
 
     @Test
-    void whenFindAll_thenReturnRatingResponseList(){
+    void givenDuplicateRating_whenSaveOrUpdate_thenUpdateRatingAndReturnRatingResponse(){
+        RatingRequest firstRatingRequest = new RatingRequest();
+        firstRatingRequest.setRatingValue(2);
+        firstRatingRequest.setBookId(1L);
+        firstRatingRequest.setUserId(23L);
 
+        RatingRequest secondRatingRequest = new RatingRequest();
+        secondRatingRequest.setRatingValue(4);
+        secondRatingRequest.setBookId(1L);
+        secondRatingRequest.setUserId(23L);
+
+        List<Rating> mockRatings = new ArrayList<>();
+        Rating rating = new Rating();
+        rating.setUserId(23L);
+        rating.setRatingValue(5);
+        rating.setBookId(1L);
+        mockRatings.add(rating);
+
+        RatingResponse expected = new RatingResponse();
+        expected.setUserId(23L);
+        expected.setRatingValue(4);
+        expected.setBookId(1L);
+
+        when(ratingMapper.toEntity(any(RatingRequest.class)))
+                .thenReturn(rating);
+        when(ratingRepository.save(any(Rating.class)))
+                .thenReturn(rating);
+        when(ratingMapper.toDto(any(Rating.class)))
+                .thenReturn(expected);
+
+        ratingService.saveOrUpdate(firstRatingRequest);
+        RatingResponse actual = ratingService.saveOrUpdate(secondRatingRequest);
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void givenNullBookId_whenSaveOrUpdate_thenThrowException(){
+        RatingRequest ratingRequest = new RatingRequest();
+        ratingRequest.setRatingValue(5);
+        ratingRequest.setBookId(null);
+        ratingRequest.setUserId(23L);
+
+        List<Rating> mockRatings = new ArrayList<>();
+        Rating rating = new Rating();
+        rating.setUserId(23L);
+        rating.setRatingValue(5);
+        rating.setBookId(1L);
+        mockRatings.add(rating);
+
+        BadRequestException thrown = assertThrows(
+                BadRequestException.class,
+                () ->  ratingService.saveOrUpdate(ratingRequest),
+                "BookId cannot be null"
+        );
+        assertTrue(thrown.getMessage().contains("BookId cannot be null"));
+    }
+
+    @Test
+    void givenNullUserId_whenSaveOrUpdate_thenThrowException(){
+        RatingRequest ratingRequest = new RatingRequest();
+        ratingRequest.setRatingValue(5);
+        ratingRequest.setBookId(1L);
+        ratingRequest.setUserId(null);
+
+        List<Rating> mockRatings = new ArrayList<>();
+        Rating rating = new Rating();
+        rating.setUserId(23L);
+        rating.setRatingValue(5);
+        rating.setBookId(1L);
+        mockRatings.add(rating);
+
+        BadRequestException thrown = assertThrows(
+                BadRequestException.class,
+                () ->  ratingService.saveOrUpdate(ratingRequest),
+                "UserId cannot be null"
+        );
+        assertTrue(thrown.getMessage().contains("UserId cannot be null"));
+    }
+
+    @Test
+    void givenNullRatingValue_whenSaveOrUpdate_thenThrowException(){
+        RatingRequest ratingRequest = new RatingRequest();
+        ratingRequest.setRatingValue(null);
+        ratingRequest.setBookId(1L);
+        ratingRequest.setUserId(23L);
+
+        List<Rating> mockRatings = new ArrayList<>();
+        Rating rating = new Rating();
+        rating.setUserId(23L);
+        rating.setRatingValue(5);
+        rating.setBookId(1L);
+        mockRatings.add(rating);
+
+        BadRequestException thrown = assertThrows(
+                BadRequestException.class,
+                () ->  ratingService.saveOrUpdate(ratingRequest),
+                "RatingValue cannot be null"
+        );
+        assertTrue(thrown.getMessage().contains("RatingValue cannot be null"));
+    }
+
+    @Test
+    void givenTwoRatings_whenFindAll_returnListOfRatingResponse(){
+        RatingRequest firstRatingRequest = new RatingRequest();
+        firstRatingRequest.setRatingValue(2);
+        firstRatingRequest.setBookId(1L);
+        firstRatingRequest.setUserId(23L);
+        RatingRequest secondRatingRequest = new RatingRequest();
+        secondRatingRequest.setRatingValue(4);
+        secondRatingRequest.setBookId(1L);
+        secondRatingRequest.setUserId(23L);
+
+        RatingResponse firstRatingResponse = new RatingResponse();
+        firstRatingResponse.setUserId(23L);
+        firstRatingResponse.setRatingValue(2);
+        firstRatingResponse.setBookId(1L);
+        RatingResponse secondRatingResponse = new RatingResponse();
+        secondRatingResponse.setUserId(23L);
+        secondRatingResponse.setRatingValue(4);
+        secondRatingResponse.setBookId(2L);
+        List<RatingResponse> expected = new ArrayList<RatingResponse>();
+        //expected.add(firstRatingResponse);
+        //expected.add(secondRatingResponse);
+
+        ratingService.saveOrUpdate(firstRatingRequest);
+        ratingService.saveOrUpdate(secondRatingRequest);
+
+        List<RatingResponse> actual = ratingService.findAll();
+
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -74,7 +206,6 @@ public class RatingServiceTest {
     }
     @Test
     void givenBookId_whenGetAllRatingsForBook_thenReturnRatingResponseList(){
-
 
     }
 

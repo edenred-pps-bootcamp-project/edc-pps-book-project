@@ -38,8 +38,7 @@ public class RatingController {
 	}
 
 	@GetMapping("/users/{id}")
-	public ResponseEntity<List<RatingResponse>> getAllBooksForUser(@PathVariable Long id) {
-		return new ResponseEntity<>(ratingService.getAllBooksForUser(id), HttpStatus.OK);
+	public ResponseEntity<List<RatingResponse>> getAllRatingsForUser(@PathVariable Long id) {
+		return new ResponseEntity<>(ratingService.getAllRatingsForUser(id), HttpStatus.OK);
 	}
-
 }
