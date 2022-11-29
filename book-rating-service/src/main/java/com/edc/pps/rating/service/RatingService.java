@@ -106,7 +106,7 @@ public class RatingService {
         return ratingMapper.toDto(ratings);
     }
 
-    private boolean validateRequest(RatingRequest request){
+    private void validateRequest(RatingRequest request){
         if(request.getUserId() == null){
             log.info("UserId cannot be null: \n" + request.toString());
             throw new BadRequestException("UserId cannot be null");
@@ -117,7 +117,7 @@ public class RatingService {
             log.info("RatingValue cannot be null: \n" + request.toString());
             throw new BadRequestException("RatingValue cannot be null");
         }
-        return true;
+
     }
 
 }
