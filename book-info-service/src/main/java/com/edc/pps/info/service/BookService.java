@@ -10,9 +10,9 @@ import com.edc.pps.info.exceptions.BookNotFoundException;
 import com.edc.pps.info.model.Book;
 import com.edc.pps.info.repository.BookRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -43,9 +43,7 @@ public class BookService {
      * @return Returns the saved book
      */
     public BookResponse save(BookRequest request) throws BookAlreadyExistsException {
-        //validateRequest(request);
         log.info("saved book to db: {}", request);
-
         Book book = bookMapper.toEntity(request);
         try {
             bookRepository.save(book);
@@ -159,16 +157,23 @@ public class BookService {
      */
     public BookResponse getAverageRating(long bookId) {
         Double ratingTotal = 0d;
-        List<RatingResponse> responses = Arrays.asList(client.getForObject(RATING_RESOURCE + bookId, RatingResponse[].class));
+        Book foundBook = null;
+        List<RatingResponse> responses = null;
+        try {
+            responses = Arrays.asList(client.getForObject(RATING_RESOURCE + bookId, RatingResponse[].class));
+            for (RatingResponse response : responses) {
+                ratingTotal += response.getRatingValue();
+            }
+            foundBook = bookRepository.findById(bookId).get();
 
-        for (RatingResponse response : responses) {
-            ratingTotal += response.getRatingValue();
+            Double avgRating = new BigDecimal(ratingTotal / responses.size()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            foundBook.setAverageRating(avgRating);
+            bookRepository.save(foundBook);
+            return bookMapper.toDto(foundBook);
+        } catch (HttpClientErrorException e) {
+            foundBook = bookRepository.findById(bookId).get();
+            return bookMapper.toDto(foundBook);
         }
-        Book foundBook = bookRepository.findById(bookId).get();
-        Double avgRating = new BigDecimal(ratingTotal / responses.size()).setScale(2, RoundingMode.HALF_UP).doubleValue();
-        foundBook.setAverageRating(avgRating);
-        bookRepository.save(foundBook);
-        return bookMapper.toDto(foundBook);
     }
 
 }

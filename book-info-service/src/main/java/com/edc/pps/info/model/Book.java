@@ -62,7 +62,7 @@ public class Book {
 
     public void setAverageRating(double averageRating) {
         if ((averageRating < 1) || (averageRating > 5))
-            throw new IllegalArgumentException("value is out of range for rating; it must be between 1-5");
+            throw new IllegalArgumentException("Value is out of range for rating. It must be between 1-5");
         this.averageRating = averageRating;
     }
 
