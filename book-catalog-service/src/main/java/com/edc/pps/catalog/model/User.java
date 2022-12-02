@@ -1,10 +1,7 @@
 package com.edc.pps.catalog.model;
 
 import com.edc.pps.catalog.dto.CatalogItem;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,17 +11,22 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "user")
-@Data
+@Table(name = "user",
+        uniqueConstraints = {
+        @UniqueConstraint(columnNames = "user_name")
+        })
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NonNull
     @Column(name = "first_name")
     private String firstName;
+    @NonNull
     @Column(name = "last_name")
     private String lastName;
+    @NonNull
     @Column(name = "user_name")
     private String userName;
     @ElementCollection

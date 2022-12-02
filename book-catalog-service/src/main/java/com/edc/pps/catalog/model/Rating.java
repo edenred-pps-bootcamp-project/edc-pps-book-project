@@ -1,5 +1,8 @@
 package com.edc.pps.catalog.model;
 
+import com.sun.istack.NotNull;
+import lombok.*;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,21 +12,24 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "rating")
+@NoArgsConstructor
+@ToString
 public class Rating {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long ratingId;
+    @Setter(AccessLevel.NONE)
+    private Long ratingId;
     @Column(name = "book_id")
-    private long bookId;
+    @NotNull
+    private Long bookId;
     @Column(name = "user_id")
-    private long userId;
+    @NotNull
+    private Long userId;
     @Column(name = "rating_value")
-    private int ratingValue;
-
-    public Rating() {
-    }
+    @NotNull
+    private Integer ratingValue;
 
     public Rating(long bookId, long userId, int rating) {
         this.bookId = bookId;
@@ -31,41 +37,4 @@ public class Rating {
         this.ratingValue = rating;
     }
 
-    public long getRatingId() {
-        return ratingId;
-    }
-
-    public long getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(long bookId) {
-        this.bookId = bookId;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public int getRatingValue() {
-        return ratingValue;
-    }
-
-    public void setRatingValue(int ratingValue) {
-        this.ratingValue = ratingValue;
-    }
-
-    @Override
-    public String toString() {
-        return "Rating{" +
-                "Rating ID=" + ratingId +
-                ", Book ID=" + bookId +
-                ", User ID=" + userId +
-                ", Rating Value=" + ratingValue +
-                '}';
-    }
 }

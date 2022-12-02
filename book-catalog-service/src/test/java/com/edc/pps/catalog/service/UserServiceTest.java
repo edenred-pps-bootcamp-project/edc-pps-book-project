@@ -7,22 +7,15 @@ import com.edc.pps.catalog.dto.UserResponse;
 import com.edc.pps.catalog.dto.info.BookMapper;
 import com.edc.pps.catalog.model.User;
 import com.edc.pps.catalog.repository.UserRepository;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -30,24 +23,26 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
+    @Mock
+    private static UserRepository userRepository;
+    @Mock
+    private static BookService bookService;
+    @Mock
+    private static RatingService ratingService;
+    @Mock
+    private static UserMapper userMapper;
+    @Mock
+    private static BookMapper bookMapper;
 
-    private UserRepository userRepository;
-    private BookService bookService;
-    private RatingService ratingService;
-    private UserMapper userMapper;
-    private BookMapper bookMapper;
 
-
-
-
-    private UserService userService;
+    private static UserService userService;
 
 
     @BeforeAll
-    public void setup(){
+    public static void setup() {
 
         userRepository = mock(UserRepository.class);
-        userService = new UserService(userRepository,bookService,ratingService,userMapper,bookMapper);
+        userService = new UserService(userRepository, bookService, ratingService, userMapper);
 
     }
 
@@ -75,14 +70,14 @@ class UserServiceTest {
     }*/
 
     @Test
-    void findAll(){
+    void findAll() {
 
         // given
 
         List<User> mockUsers = new ArrayList<>();
 
         User user = new User();
-
+        user.setId(1L);
         user.setFirstName("Popescu");
         user.setLastName("Andrei");
         user.setUserName("andreip");
@@ -100,7 +95,6 @@ class UserServiceTest {
         userService.save(userRequest);
 
 
-
         //MOCK ALERT: return mocked result set on find
         when(userRepository.findAll()).thenReturn(mockUsers);
 
@@ -110,7 +104,7 @@ class UserServiceTest {
         //MOCK ALERT : verify the method was called
         verify(userRepository).findAll();
 
-        assertEquals(null,actual);
+        assertEquals(null, actual);
     }
 
 }
