@@ -1,5 +1,8 @@
 package com.edc.pps.catalog.dto.info;
 
+import lombok.Data;
+
+@Data
 public class BookRequest {
 
     private String title;

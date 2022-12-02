@@ -4,19 +4,17 @@ import com.edc.pps.catalog.dto.info.BookRequest;
 import com.edc.pps.catalog.dto.info.BookResponse;
 import com.edc.pps.catalog.dto.info.BookResponseList;
 import com.edc.pps.catalog.exception.BookNotFoundException;
-import com.edc.pps.catalog.model.Book;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
 @Service
 public class BookService {
-    private static final String INFO_RESOURCE = "http://localhost:14283/api/books";
+    private static final String INFO_RESOURCE = "http://localhost:8082/api/books";
     private final RestTemplate restTemplate;
 
     @Autowired
@@ -53,7 +51,7 @@ public class BookService {
      */
     public BookResponse findById(Long id) {
         log.debug("finding book with id: {}", id);
-        return restTemplate.getForObject(INFO_RESOURCE + "/" + id, BookResponse.class);
+        return restTemplate.getForObject(INFO_RESOURCE + "/find/" + id, BookResponse.class);
     }
 
     /**
@@ -79,7 +77,7 @@ public class BookService {
     }
 
     public BookResponseList getBooksForTitle(String title) {
-        log.debug("getting all books with title {}",title);
+        log.debug("getting all books with title {}", title);
         return restTemplate.getForObject(INFO_RESOURCE + "/" + title, BookResponseList.class);
     }
 }

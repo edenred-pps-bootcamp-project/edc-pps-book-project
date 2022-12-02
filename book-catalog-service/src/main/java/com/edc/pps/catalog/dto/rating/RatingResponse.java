@@ -1,7 +1,8 @@
 package com.edc.pps.catalog.dto.rating;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class RatingResponse {
+public class RatingResponse implements Serializable {
 
     private long ratingId;
 

@@ -100,6 +100,10 @@ public class BookService {
         bookRepository.save(foundBook);
     }
 
+    public BookResponse findById(Long id){
+        return bookMapper.toDto(bookRepository.findById(id).get());
+    }
+
     /**
      * Updates the author of the requested book
      *
