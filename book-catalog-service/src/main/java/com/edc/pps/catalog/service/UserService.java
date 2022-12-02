@@ -72,12 +72,28 @@ public class UserService {
         throw new NotFoundException("user with given id is not registered");
     }
 
-    public UserResponse addCatalogItem(Long userId, Long bookId, Long ratingId) throws NotFoundException {
+    public UserResponse addCatalogItem(Long userId, Long bookId) throws NotFoundException {
         User user = userRepository.findById(userId).get();
-        RatingResponse ratings = Arrays.asList(ratingService.getAllRatingsForUser(userId)).get(0);
-        BookResponse book = bookService.findById(1L);
 
-        CatalogItem catalogItem = new CatalogItem(book.getId(), book.getTitle(), book.getTitle(), ratings.getRatingValue());
+        List<RatingResponse> ratings = Arrays.asList(ratingService.getAllRatingsForUser(userId));
+        BookResponse book = bookService.findById(bookId);
+
+        CatalogItem catalogItem = new CatalogItem();
+
+        for (RatingResponse rating : ratings) {
+            if (bookId == rating.getBookId()) {
+                catalogItem.setBookId(book.getId());
+                catalogItem.setAuthor(book.getAuthor());
+                catalogItem.setTitle(book.getTitle());
+                catalogItem.setRating(rating.getRatingValue());
+
+            } else {
+                catalogItem.setBookId(book.getId());
+                catalogItem.setAuthor(book.getAuthor());
+                catalogItem.setTitle(book.getTitle());
+                catalogItem.setRating(0);
+            }
+        }
 
         List<CatalogItem> catalogItems = user.getCatalogItems();
         catalogItems.add(catalogItem);
