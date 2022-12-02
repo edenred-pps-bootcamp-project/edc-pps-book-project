@@ -6,6 +6,7 @@ import com.edc.pps.catalog.dto.UserRequest;
 import com.edc.pps.catalog.dto.UserResponse;
 import com.edc.pps.catalog.dto.info.BookResponse;
 import com.edc.pps.catalog.dto.rating.RatingResponse;
+import com.edc.pps.catalog.exception.UserAlreadyRegisteredException;
 import com.edc.pps.catalog.model.User;
 import com.edc.pps.catalog.repository.UserRepository;
 import javassist.NotFoundException;
@@ -43,9 +44,13 @@ public class UserService {
      * @param request Request object to be saved
      * @return Response object - created user
      */
-    public UserResponse save(UserRequest request) {
+    public UserResponse save(UserRequest request) throws UserAlreadyRegisteredException {
         User user = userMapper.toEntity(request);
-        userRepository.save(user);
+        try {
+            userRepository.save(user);
+        } catch (Exception e) {
+            throw new UserAlreadyRegisteredException("User already registered!");
+        }
         return userMapper.toDto(user);
     }
 
