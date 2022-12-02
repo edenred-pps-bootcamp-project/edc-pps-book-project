@@ -2,6 +2,7 @@ package com.edc.pps.info.controller;
 
 import com.edc.pps.info.dto.BookRequest;
 import com.edc.pps.info.dto.BookResponse;
+import com.edc.pps.info.exceptions.BookAlreadyExistsException;
 import com.edc.pps.info.exceptions.BookNotFoundException;
 import com.edc.pps.info.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,12 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<BookResponse> save(@RequestBody BookRequest request) {
+    public ResponseEntity<BookResponse> save(@RequestBody BookRequest request) throws BookAlreadyExistsException {
         return new ResponseEntity<>(bookService.save(request), HttpStatus.CREATED);
     }
 
     @GetMapping
     public ResponseEntity<List<BookResponse>> findAll() {
-        bookService.getAverageRating(1);
         return new ResponseEntity<>(bookService.findAll(), HttpStatus.OK);
     }
 

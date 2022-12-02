@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import com.edc.pps.info.dto.BookMapper;
 import com.edc.pps.info.dto.BookRequest;
 import com.edc.pps.info.dto.BookResponse;
+import com.edc.pps.info.exceptions.BookAlreadyExistsException;
 import com.edc.pps.info.model.Book;
 import com.edc.pps.info.repository.BookRepository;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,7 @@ class BookServiceTest {
 	private BookService bookService;
 
 	@Test
-	void givenBookRequest_whenSave_thenReturnBookResponse(){
+	void givenBookRequest_whenSave_thenReturnBookResponse() throws BookAlreadyExistsException {
 		BookRequest bookRequest = new BookRequest();
 		bookRequest.setAuthor("author");
 		bookRequest.setTitle("title");

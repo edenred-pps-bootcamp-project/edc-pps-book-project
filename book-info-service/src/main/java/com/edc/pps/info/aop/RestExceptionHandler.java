@@ -1,6 +1,42 @@
 package com.edc.pps.info.aop;
 
-public class RestExceptionHandler {
+import com.edc.pps.info.exceptions.BadRequestException;
+import com.edc.pps.info.exceptions.BookAlreadyExistsException;
+import com.edc.pps.info.exceptions.BookNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-		// TODO: create a global exception handler for the api
+import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+@ControllerAdvice
+public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler(BookNotFoundException.class)
+    public ResponseEntity<Object> handleNotFoundException(BookNotFoundException exception) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("Timestamp: ", LocalDateTime.now());
+        body.put("Message:", exception.getLocalizedMessage());
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(BookAlreadyExistsException.class)
+    public ResponseEntity<Object> badRequest(BookAlreadyExistsException exception) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("Timestamp: ", LocalDateTime.now());
+        body.put("Message:", exception.getLocalizedMessage());
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Object> badRequest(BadRequestException exception) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("Timestamp: ", LocalDateTime.now());
+        body.put("Message:", exception.getLocalizedMessage());
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
 }
