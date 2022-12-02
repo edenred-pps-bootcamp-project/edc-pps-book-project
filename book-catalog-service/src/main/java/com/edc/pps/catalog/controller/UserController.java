@@ -44,9 +44,9 @@ public class UserController {
 
     @PostMapping("/catalog/{userId}")
     @ResponseBody
-    public ResponseEntity<UserResponse> addCatalogItem(@PathVariable("userId") Long userId,
+    public ResponseEntity<UserResponse> saveCatalogItem(@PathVariable("userId") Long userId,
                                                        @RequestParam(name = "bookId") Long bookId) throws NotFoundException {
-        return new ResponseEntity<>(userService.addCatalogItem(userId, bookId), HttpStatus.OK);
+        return new ResponseEntity<>(userService.saveCatalogItem(userId, bookId), HttpStatus.OK);
     }
 
 
