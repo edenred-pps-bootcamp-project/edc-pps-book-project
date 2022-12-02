@@ -74,9 +74,8 @@ public class UserService {
 
     public UserResponse addCatalogItem(Long userId, Long bookId, Long ratingId) throws NotFoundException {
         User user = userRepository.findById(userId).get();
-        System.out.println(bookService.findById(bookId).getBookResponses());
-        BookResponse book = bookService.findById(bookId).getBookResponses().get(0);
         RatingResponse ratings = Arrays.asList(ratingService.getAllRatingsForUser(userId)).get(0);
+        BookResponse book = bookService.findById(1L);
 
         CatalogItem catalogItem = new CatalogItem(book.getId(), book.getTitle(), book.getTitle(), ratings.getRatingValue());
 

@@ -33,9 +33,10 @@ public class BookController {
         return new ResponseEntity<>(bookService.findAll(), HttpStatus.OK);
     }
 
-    @RequestMapping("/find/{id}")
+    @GetMapping("/find/{id}")
     public ResponseEntity<BookResponse> findById(@PathVariable Long id){
-        return new ResponseEntity<>(bookService.findById(id), HttpStatus.OK);
+        BookResponse response = bookService.findById(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

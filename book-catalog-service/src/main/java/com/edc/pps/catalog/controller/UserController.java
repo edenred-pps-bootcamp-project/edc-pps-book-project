@@ -45,15 +45,6 @@ public class UserController {
     public ResponseEntity<UserResponse> addCatalogItem(@PathVariable("userId") Long userId,
                                                        @RequestParam(name = "bookId") Long bookId,
                                                        @RequestParam(name = "ratingId") Long ratingId) throws NotFoundException {
-        BookResponse[] response = restTemplate.getForObject("http://localhost:8082/api/books/find/" + userId, BookResponse[].class);
-        List<BookResponse> books = Arrays.asList(response);
-
-        if(books.size() == 0){
-            System.out.println("No books");
-        } else{
-            System.out.println("there is a book");
-        }
-
         return new ResponseEntity<>(userService.addCatalogItem(userId, bookId, ratingId), HttpStatus.OK);
     }
 

@@ -50,10 +50,9 @@ public class BookService {
      * @param id The id of the book we want to return
      * @return bookResponse
      */
-    public BookResponseList findById(Long id) {
+    public BookResponse findById(Long id) {
         log.debug("finding book with id: {}", id);
-        System.out.println(INFO_RESOURCE + "/find/" + id);
-        return restTemplate.getForObject(INFO_RESOURCE + "/find/" + id, BookResponseList.class);
+        return restTemplate.getForObject(INFO_RESOURCE + "/find/" + id, BookResponse.class);
     }
 
     /**
