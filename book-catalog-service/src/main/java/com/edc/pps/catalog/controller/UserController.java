@@ -35,11 +35,20 @@ public class UserController {
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
+    @PutMapping("/update/{userId}")
+    public ResponseEntity<UserResponse> update(@PathVariable(name ="userId") Long userId,@RequestBody UserRequest request) throws NotFoundException {
+
+        UserResponse response = userService.update(userId, request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PostMapping("/catalog/{userId}")
     @ResponseBody
     public ResponseEntity<UserResponse> addCatalogItem(@PathVariable("userId") Long userId,
                                                        @RequestParam(name = "bookId") Long bookId) throws NotFoundException {
         return new ResponseEntity<>(userService.addCatalogItem(userId, bookId), HttpStatus.OK);
     }
+
+
 
 }

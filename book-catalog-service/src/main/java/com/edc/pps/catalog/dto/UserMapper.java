@@ -39,4 +39,12 @@ public class UserMapper {
 
         return entity;
     }
+
+    public User toEntity(User entity, UserRequest updateInfo) {
+        entity.setFirstName(updateInfo.getUserName());
+        entity.setLastName(updateInfo.getLastName());
+        entity.setUserName(updateInfo.getUserName());
+        entity.setCatalogItems(updateInfo.getCatalogItems());
+        return entity;
+    }
 }
