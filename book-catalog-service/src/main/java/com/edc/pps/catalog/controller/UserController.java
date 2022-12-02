@@ -2,9 +2,6 @@ package com.edc.pps.catalog.controller;
 
 import com.edc.pps.catalog.dto.UserRequest;
 import com.edc.pps.catalog.dto.UserResponse;
-import com.edc.pps.catalog.dto.UserResponseList;
-import com.edc.pps.catalog.dto.info.BookResponse;
-import com.edc.pps.catalog.dto.info.BookResponseList;
 import com.edc.pps.catalog.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.sql.SQLOutput;
-import java.util.Arrays;
 import java.util.List;
 
 @RequestMapping("api/users")
@@ -49,10 +44,9 @@ public class UserController {
 
     @PostMapping("/catalog/{userId}")
     @ResponseBody
-    public ResponseEntity<UserResponse> addCatalogItem(@PathVariable("userId") Long userId,
-                                                       @RequestParam(name = "bookId") Long bookId,
-                                                       @RequestParam(name = "ratingId") Long ratingId) throws NotFoundException {
-        return new ResponseEntity<>(userService.addCatalogItem(userId, bookId, ratingId), HttpStatus.OK);
+    public ResponseEntity<UserResponse> saveCatalogItem(@PathVariable("userId") Long userId,
+                                                       @RequestParam(name = "bookId") Long bookId) throws NotFoundException {
+        return new ResponseEntity<>(userService.saveCatalogItem(userId, bookId), HttpStatus.OK);
     }
 
 
