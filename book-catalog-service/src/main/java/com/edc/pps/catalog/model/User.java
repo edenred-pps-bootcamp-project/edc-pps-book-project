@@ -1,6 +1,7 @@
 package com.edc.pps.catalog.model;
 
 import com.edc.pps.catalog.dto.CatalogItem;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Table(name = "user")
+@Data
 public class User {
 
     @Id
@@ -31,13 +33,14 @@ public class User {
     private List<CatalogItem> catalogItems = new ArrayList<>();
 
 
+    /*
     public User(Long userId, String firstName, String lastName, String userName) {
         this.id = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
 
-    }
+    }*/
 
     @Override
     public String toString() {

@@ -46,6 +46,25 @@ public class UserService {
         return userMapper.toDto(user);
     }
 
+
+   public UserResponse update(Long userId, UserRequest request) throws NotFoundException {
+        log.debug("updating by user id: {} with request body : {}", userId, request);
+
+        //search user entity to update
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("user not found"));
+
+        //update data
+        User updatedUser = userMapper.toEntity(user, request);
+
+        //save updated entity
+        User savedUser = userRepository.save(updatedUser);
+
+        //convert to dto
+        return userMapper.toDto(savedUser);
+    }
+
+
     public UserResponse findUser(String userName) throws NotFoundException {
         log.info("getting user with username: {}", userName);
         Optional<User> response = userRepository.findAll().stream().filter(user -> user.getUserName().equals(userName)).findAny();
