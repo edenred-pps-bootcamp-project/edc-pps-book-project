@@ -2,10 +2,11 @@ package com.edc.pps.info.dto.rating;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Data
-public class RatingResponse {
+public class RatingResponse implements Serializable {
     private Long ratingId;
     private Long bookId;
     private Long userId;

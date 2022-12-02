@@ -4,28 +4,33 @@ import com.edc.pps.info.dto.BookMapper;
 import com.edc.pps.info.dto.BookRequest;
 import com.edc.pps.info.dto.BookResponse;
 import com.edc.pps.info.dto.rating.RatingResponse;
+import com.edc.pps.info.exceptions.BadRequestException;
 import com.edc.pps.info.exceptions.BookAlreadyExistsException;
 import com.edc.pps.info.exceptions.BookNotFoundException;
 import com.edc.pps.info.model.Book;
 import com.edc.pps.info.repository.BookRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
 @Service
 public class BookService {
 
+    private static final String RATING_RESOURCE = "http://localhost:7601/api/ratings/books/";
     private final BookMapper bookMapper;
     private final BookRepository bookRepository;
-
-    private final BookRatingClient client;
+    private final RestTemplate client;
 
     @Autowired
-    public BookService(BookRepository bookRepository, BookMapper bookMapper, BookRatingClient client) {
+    public BookService(BookRepository bookRepository, BookMapper bookMapper, RestTemplate client) {
         this.bookRepository = bookRepository;
         this.bookMapper = bookMapper;
         this.client = client;
@@ -37,20 +42,15 @@ public class BookService {
      * @param request object of the BookRequest dto
      * @return Returns the saved book
      */
-    public BookResponse save(BookRequest request) {
+    public BookResponse save(BookRequest request) throws BookAlreadyExistsException {
+        //validateRequest(request);
         log.info("saved book to db: {}", request);
 
-        List<Book> bookList = bookRepository.findAll();
         Book book = bookMapper.toEntity(request);
-
-        if (bookList.stream()
-                .filter(entry -> entry.getTitle().equals(request.getTitle()) && entry.getAuthor().equals(request.getAuthor()))
-                .count() == 0) {
+        try {
             bookRepository.save(book);
-        } else try {
-            throw new BookAlreadyExistsException("Book already exists!");
-        } catch (BookAlreadyExistsException e) {
-            throw new RuntimeException(e);
+        } catch (ConstraintViolationException e) {
+            throw new BookAlreadyExistsException("Book already exists");
         }
         return bookMapper.toDto(book);
     }
@@ -75,58 +75,12 @@ public class BookService {
     public List<BookResponse> getBooksForTitle(String title) {
         log.debug("getting all books with title {}", title);
         List<Book> bookList = bookRepository.findByTitle(title);
-        return bookMapper.toDto(bookList);
-    }
-
-//    /**
-//     * Get all ratings for the requested book
-//     * @param title Title of the book
-//     */
-//    public void displayRatings(String title) {
-//        Book book = searchByTitle(title);
-//        getRatings().stream()
-//                .forEach(rating -> System.out.println(rating.getRating()));
-//    }
-
-    /**
-     * Changes the title of the requested book
-     *
-     * @param request  The book whose title we want to change
-     * @param newTitle The new title wanted
-     */
-    public void updateTitle(BookRequest request, String newTitle) {
-        Book foundBook = bookRepository.findByTitleAndAuthor(request.getTitle(), request.getAuthor());
-        foundBook.setTitle(newTitle);
-        bookRepository.save(foundBook);
-    }
-
-    /**
-     * Updates the author of the requested book
-     *
-     * @param request   The book whose author we want to update
-     * @param newAuthor The new author wanted
-     */
-    public void updateAuthor(BookRequest request, String newAuthor) {
-        Book foundBook = bookRepository.findByTitleAndAuthor(request.getTitle(), request.getAuthor());
-        foundBook.setAuthor(newAuthor);
-        bookRepository.save(foundBook);
-    }
-
-    /**
-     * Deletes the book with the provided id
-     *
-     * @param id The id of the book we want to delete
-     * @throws BookNotFoundException throws exception if there is no book with the provided id
-     */
-    public void delete(Long id) {
-        try {
-            Book foundBook = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("no book with id: " + id));
+        if (bookList.size() == 0) try {
+            throw new BookNotFoundException("No book with title: \"" + title + "\"");
         } catch (BookNotFoundException e) {
             throw new RuntimeException(e);
         }
-        log.debug("deleting book with id: {}", id);
-        bookRepository.deleteById(id);
-
+        return bookMapper.toDto(bookList);
     }
 
     /**
@@ -138,8 +92,64 @@ public class BookService {
     public List<BookResponse> getBooksByAuthor(String author) {
         log.debug("getting all books by author {}", author);
         List<Book> bookList = bookRepository.findByAuthor(author);
+        if (bookList.size() == 0) try {
+            throw new BookNotFoundException("No book with author: " + author);
+        } catch (BookNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         return bookMapper.toDto(bookList);
+    }
 
+//    /**
+//     * Changes the title of the requested book
+//     *
+//     * @param request  The book whose title we want to change
+//     * @param newTitle The new title wanted
+//     */
+//    public void updateTitle(BookRequest request, String newTitle) {
+//        Book foundBook = bookRepository.findByTitleAndAuthor(request.getTitle(), request.getAuthor());
+//        foundBook.setTitle(newTitle);
+//        bookRepository.save(foundBook);
+//    }
+//
+//    /**
+//     * Updates the author of the requested book
+//     *
+//     * @param request   The book whose author we want to update
+//     * @param newAuthor The new author wanted
+//     */
+//    public void updateAuthor(BookRequest request, String newAuthor) {
+//        Book foundBook = bookRepository.findByTitleAndAuthor(request.getTitle(), request.getAuthor());
+//        foundBook.setAuthor(newAuthor);
+//        bookRepository.save(foundBook);
+//    }
+
+    /**
+     * Deletes the book with the provided id
+     *
+     * @param id The id of the book we want to delete
+     * @throws BookNotFoundException throws exception if there is no book with the provided id
+     */
+    public void delete(Long id) {
+        try {
+            Book foundBook = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("No book with id: " + id));
+        } catch (BookNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        log.debug("deleting book with id: {}", id);
+        bookRepository.deleteById(id);
+    }
+
+    private boolean validateRequest(BookRequest request) {
+        if (request.getTitle() == null) {
+            log.info("Title cannot be null: \n" + request.toString());
+            throw new BadRequestException("Add a title");
+        }
+        if (request.getAuthor() == null) {
+            log.info("Author cannot be null: \n" + request.toString());
+            throw new BadRequestException("Add an author");
+        }
+        return true;
     }
 
     /**
@@ -147,18 +157,20 @@ public class BookService {
      *
      * @param bookId The id of the book we want to get the average
      */
-    public void getAverageRating(long bookId) {
-        double ratingTotal = 0;
-
-        List<RatingResponse> responses = client.findRatingsById(bookId);
+    public BookResponse getAverageRating(long bookId) {
+        Double ratingTotal = 0d;
+        List<RatingResponse> responses = Arrays.asList(client.getForObject(RATING_RESOURCE + bookId, RatingResponse[].class));
 
         for (RatingResponse response : responses) {
             ratingTotal += response.getRatingValue();
         }
         Book foundBook = bookRepository.findById(bookId).get();
-        foundBook.setAverageRating(ratingTotal / responses.size());
+        Double avgRating = new BigDecimal(ratingTotal / responses.size()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        foundBook.setAverageRating(avgRating);
         bookRepository.save(foundBook);
+        return bookMapper.toDto(foundBook);
     }
+
 }
 
 

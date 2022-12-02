@@ -28,6 +28,7 @@ public class BookRatingClient {
 
     public List<RatingResponse> findRatingsById(Long bookId) {
         log.debug("getting all books...");
-        return (List<RatingResponse>) restTemplate.getForObject(RATING_RESOURCE + bookId, RatingResponse.class);
+        return Collections.singletonList(restTemplate.getForObject(RATING_RESOURCE + bookId, RatingResponse.class));
     }
+
 }

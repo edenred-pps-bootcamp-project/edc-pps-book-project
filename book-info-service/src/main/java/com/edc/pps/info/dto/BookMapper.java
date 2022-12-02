@@ -18,6 +18,7 @@ public class BookMapper {
         dto.setId(book.getId());
         dto.setTitle(book.getTitle());
         dto.setAuthor(book.getAuthor());
+        dto.setAverageRating(book.getAverageRating());
         return dto;
     }
 
