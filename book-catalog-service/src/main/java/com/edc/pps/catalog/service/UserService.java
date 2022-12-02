@@ -91,6 +91,10 @@ public class UserService {
         throw new NotFoundException("user with given id is not registered");
     }
 
+    public void delete(Long userId) {
+        log.debug("deleting user with id: {}", userId);
+        userRepository.deleteById(userId);
+    }
     public UserResponse addCatalogItem(Long userId, Long bookId, Long ratingId) throws NotFoundException {
         User user = userRepository.findById(userId).get();
         RatingResponse ratings = Arrays.asList(ratingService.getAllRatingsForUser(userId)).get(0);
@@ -128,6 +132,7 @@ public class UserService {
 
         return null;
     }
+
 
 
 }
