@@ -1,21 +1,22 @@
 package com.edc.pps.catalog.service;
 
-import com.edc.pps.catalog.dto.*;
+import com.edc.pps.catalog.dto.CatalogItem;
+import com.edc.pps.catalog.dto.UserMapper;
+import com.edc.pps.catalog.dto.UserRequest;
+import com.edc.pps.catalog.dto.UserResponse;
 import com.edc.pps.catalog.dto.info.BookResponse;
+import com.edc.pps.catalog.dto.rating.RatingResponse;
 import com.edc.pps.catalog.model.User;
 import com.edc.pps.catalog.repository.UserRepository;
-
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import javassist.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.client.RestTemplate;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -24,75 +25,170 @@ public class UserService {
 
     public final UserRepository userRepository;
     private final BookService bookService;
+    private final RatingService ratingService;
     private final UserMapper userMapper;
 
+
     @Autowired
-    public UserService(UserRepository userRepository, BookService bookService, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, BookService bookService, RatingService ratingService, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.bookService = bookService;
+        this.ratingService = ratingService;
         this.userMapper = userMapper;
     }
 
-    public UserResponse save(UserRequest request){
+    /**
+     * Saves a new user
+     *
+     * @param request Request object to be saved
+     * @return Response object - created user
+     */
+    public UserResponse save(UserRequest request) {
         User user = userMapper.toEntity(request);
-        userRepository.findAll().add(user);
+        userRepository.save(user);
         return userMapper.toDto(user);
     }
 
+    /**
+     * Updates user with provided id
+     *
+     * @param userId  The id of the user we want to update
+     * @param request Request object to replace old user
+     * @return Returns updated user
+     * @throws NotFoundException Throws not found exception in case user is not registered
+     */
+    public UserResponse update(Long userId, UserRequest request) throws NotFoundException {
+        log.debug("updating by user id: {} with request body : {}", userId, request);
+
+        //search user entity to update
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("user not found"));
+
+        //update data
+        User updatedUser = userMapper.toEntity(user, request);
+
+        //save updated entity
+        User savedUser = userRepository.save(updatedUser);
+
+        //convert to dto
+        return userMapper.toDto(savedUser);
+    }
+
+    /**
+     *
+     * @param userId the id of the user we want to delete
+     */
+    public void delete(Long userId) {
+        log.debug("deleting user with id: {}", userId);
+        userRepository.deleteById(userId);
+    }
+
+    /**
+     * Find user by username
+     *
+     * @param userName Username to find user by
+     * @return Returns response object of the user found
+     * @throws NotFoundException Throws not found exception if there is no user with such username
+     */
     public UserResponse findUser(String userName) throws NotFoundException {
         log.info("getting user with username: {}", userName);
         Optional<User> response = userRepository.findAll().stream().filter(user -> user.getUserName().equals(userName)).findAny();
-        if(response.isPresent()) {
+        if (response.isPresent()) {
             return userMapper.toDto(response.get());
         }
         throw new NotFoundException("user with given username is not registered");
     }
 
-    public UserResponseList findAll() {
+    /**
+     * Find all users method
+     *
+     * @return Returns all users in the database
+     */
+    public List<UserResponse> findAll() {
+
         log.info("get all users");
-        return (UserResponseList) userRepository.findAll().stream().map(userMapper::toDto).collect(Collectors.toList());
+        return userRepository.findAll().stream()
+                .map(userMapper::toDto)
+                .collect(Collectors.toList());
     }
 
-
+    /**
+     * Method to return user by id
+     *
+     * @param id The id of the user we want to lookup in the database
+     * @return Response object of the user we found
+     * @throws NotFoundException Throws not found exception if there is no such user
+     */
     public UserResponse findById(Long id) throws NotFoundException {
         Optional<User> response = userRepository.findAll().stream().filter(user -> user.getId().equals(id)).findAny();
-        if(response.isPresent()) {
+        if (response.isPresent()) {
             return userMapper.toDto(response.get());
         }
         throw new NotFoundException("user with given id is not registered");
     }
 
-    public UserResponse addCatalogItem(Long userId, Long bookId, int rating) throws NotFoundException {
-        UserResponse user = findById(userId);
+    /**
+     * Saves CatalogItem of a user
+     *
+     * @param userId The id of the user we want to save the CatalogItem to
+     * @param bookId The book id that gives us information about the catalog item
+     * @return Returns the updated user
+     * @throws NotFoundException Throws not found exception if findById method fails
+     */
+    public UserResponse saveCatalogItem(Long userId, Long bookId) throws NotFoundException {
+        User user = userRepository.findById(userId).get();
+
+        List<RatingResponse> ratings = Arrays.asList(ratingService.getAllRatingsForUser(userId));
         BookResponse book = bookService.findById(bookId);
 
-        user.getCatalogItems().add(new CatalogItem(book.getId(),book.getTitle(), book.getTitle(), rating));
-        return user;
-    }
+        CatalogItem catalogItem = new CatalogItem();
 
+        for (RatingResponse rating : ratings) {
+            if (bookId == rating.getBookId()) {
+                catalogItem.setBookId(book.getId());
+                catalogItem.setAuthor(book.getAuthor());
+                catalogItem.setTitle(book.getTitle());
+                catalogItem.setRating(rating.getRatingValue());
+
+            } else {
+                catalogItem.setBookId(book.getId());
+                catalogItem.setAuthor(book.getAuthor());
+                catalogItem.setTitle(book.getTitle());
+                catalogItem.setRating(0);
+            }
+        }
+
+        List<CatalogItem> catalogItems = user.getCatalogItems();
+        catalogItems.add(catalogItem);
+
+        user.setCatalogItems(catalogItems);
+        userRepository.save(user);
+        return userMapper.toDto(user);
+    }
 
 
     // TODO: implement this
     public List<CatalogItem> findCatalogItemByUserId(Long userId) {
         // get all rated book ids, call book-ratings-service
-            // hardcode a result for now like so:
-            // bookId, rating
-            // 1, 5
-            // 1, 4
-            // 2, 2
+        // hardcode a result for now like so:
+        // bookId, rating
+        // 1, 5
+        // 1, 4
+        // 2, 2
 
         // get each book id, call book-info-service and get details
-            // make a call for each book
-            // hardcode two books for now
+        // make a call for each book
+        // hardcode two books for now
 
-            // a catalog item will have
-                // bookId (from book-info-service)
-                // bookTitle
-                // bookAuthor
-                // bookRating (from book-rating-service)
+        // a catalog item will have
+        // bookId (from book-info-service)
+        // bookTitle
+        // bookAuthor
+        // bookRating (from book-rating-service)
 
         return null;
     }
+
 
 
 }

@@ -98,6 +98,7 @@ public class BookService {
         return bookMapper.toDto(bookList);
     }
 
+
 //    /**
 //     * Changes the title of the requested book
 //     *
@@ -122,6 +123,22 @@ public class BookService {
 //        bookRepository.save(foundBook);
 //    }
 
+    public BookResponse findById(Long id){
+        return bookMapper.toDto(bookRepository.findById(id).get());
+    }
+
+    /**
+     * Updates the author of the requested book
+     *
+     * @param request   The book whose author we want to update
+     * @param newAuthor The new author wanted
+     */
+    public void updateAuthor(BookRequest request, String newAuthor) {
+        Book foundBook = bookRepository.findByTitleAndAuthor(request.getTitle(), request.getAuthor());
+        foundBook.setAuthor(newAuthor);
+        bookRepository.save(foundBook);
+    }
+    
     /**
      * Deletes the book with the provided id
      *

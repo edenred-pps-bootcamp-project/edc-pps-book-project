@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Embeddable
 public class CatalogItem {
-
     private Long bookId;
     private String title;
     private String author;
