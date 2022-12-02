@@ -49,7 +49,7 @@ public class BookService {
         Book book = bookMapper.toEntity(request);
         try {
             bookRepository.save(book);
-        } catch (ConstraintViolationException e) {
+        } catch (Exception e) {
             throw new BookAlreadyExistsException("Book already exists");
         }
         return bookMapper.toDto(book);
