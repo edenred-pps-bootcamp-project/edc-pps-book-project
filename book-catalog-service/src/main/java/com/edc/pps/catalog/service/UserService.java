@@ -75,6 +75,15 @@ public class UserService {
     }
 
     /**
+     *
+     * @param userId the id of the user we want to delete
+     */
+    public void delete(Long userId) {
+        log.debug("deleting user with id: {}", userId);
+        userRepository.deleteById(userId);
+    }
+
+    /**
      * Find user by username
      *
      * @param userName Username to find user by
@@ -179,6 +188,7 @@ public class UserService {
 
         return null;
     }
+
 
 
 }
