@@ -4,6 +4,7 @@ import com.edc.pps.catalog.dto.CatalogItem;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,13 +21,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    @NotBlank(message = "First name is mandatory")
     @Column(name = "first_name")
     private String firstName;
-    @NonNull
+    @NotBlank(message = "Last name is mandatory")
     @Column(name = "last_name")
     private String lastName;
-    @NonNull
+    @NotBlank(message = "Username is mandatory")
     @Column(name = "user_name",
             unique = true)
     private String userName;
