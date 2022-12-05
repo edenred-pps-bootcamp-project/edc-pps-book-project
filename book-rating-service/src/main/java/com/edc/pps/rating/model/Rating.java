@@ -25,9 +25,9 @@ public class Rating {
     private Long userId;
     @Column(name = "rating_value")
     @NotNull
-    private Integer ratingValue;
+    private Double ratingValue;
 
-    public Rating(long bookId, long userId, int rating) {
+    public Rating(long bookId, long userId, double rating) {
         this.bookId = bookId;
         this.userId = userId;
         this.ratingValue = rating;
