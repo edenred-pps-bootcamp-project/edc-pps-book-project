@@ -10,9 +10,15 @@ import com.edc.pps.rating.repository.RatingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -50,7 +56,7 @@ public class RatingService {
         //if the user already rated the book it will be updated
         else {
             Rating foundRating = ratingRepository.findByBookIdAndUserId(request.getBookId(), request.getUserId());
-            foundRating.setRatingValue(request.getRatingValue());
+            foundRating.setRatingValue(new Double(request.getRatingValue()));
             ratingRepository.save(foundRating);
             return ratingMapper.toDto(foundRating);
         }
@@ -118,6 +124,22 @@ public class RatingService {
             throw new BadRequestException("RatingValue cannot be null");
         }
         return true;
+    }
+    public List<RatingResponse> getAverageRatingForBook(long bookId) {
+        Double ratingTotal = 0d;
+        List<RatingResponse> responses = getAllRatingsForBook(bookId);
+        Stream<RatingResponse> ratingResponseStream = responses.stream();
+        ratingTotal = ratingResponseStream
+                .mapToDouble(ratingResponse -> ratingResponse.getRatingValue())
+                .sum();
+        long ratingNumber = responses.size();
+        RatingResponse averageRatingResponse = new RatingResponse();
+        averageRatingResponse.setRatingValue(ratingTotal/ratingNumber);
+        averageRatingResponse.setBookId(bookId);
+        averageRatingResponse.setUserId(-1L);
+        List<RatingResponse> ratingResponses = new ArrayList<>();
+        ratingResponses.add(averageRatingResponse);
+        return ratingResponses;
     }
 
 }
