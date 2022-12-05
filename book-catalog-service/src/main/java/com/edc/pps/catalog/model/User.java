@@ -37,15 +37,6 @@ public class User {
     private List<CatalogItem> catalogItems = new ArrayList<>();
 
 
-    /*
-    public User(Long userId, String firstName, String lastName, String userName) {
-        this.id = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.userName = userName;
-
-    }*/
-
     @Override
     public String toString() {
         return this.userName.charAt(this.userName.length() - 1) != 's' ? "User " + this.userName + "'s full name: " +

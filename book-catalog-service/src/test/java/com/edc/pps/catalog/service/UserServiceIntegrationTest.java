@@ -45,7 +45,7 @@ class UserServiceIntegrationTest {
     }
 
     @Test
-    void givenUser_whenUpdate_thenReturnUpdatedUser()  {
+    void givenUser_whenUpdate_thenReturnUpdatedUser() throws NotFoundException {
         //given
         UserRequest request = new UserRequest();
         request.setFirstName("Andrei");
@@ -65,19 +65,15 @@ class UserServiceIntegrationTest {
         updateUser.setUserName("mihaip01");
 
         //when
-        UserResponse actual = null;
-        try {
-            actual = userService.update(savedUser.getId(), updateUser);
-        } catch (NotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        UserResponse actual = userService.update(savedUser.getId(), updateUser);
+
 
         //then
         assertThat(actual.getUserName()).isEqualTo(updateUser.getUserName());
     }
 
     @Test
-    void givenUser_whenDelete_thenIsEmpty()  {
+    void givenUser_whenDelete_thenIsEmpty() throws UserAlreadyRegisteredException {
         //given
 
         UserRequest request = new UserRequest();
@@ -85,12 +81,8 @@ class UserServiceIntegrationTest {
         request.setLastName("Popescu");
         request.setUserName("andreip01");
 
-        UserResponse savedUser = null;
-        try {
-            savedUser = userService.save(request);
-        } catch (UserAlreadyRegisteredException e) {
-            throw new RuntimeException(e);
-        }
+        UserResponse savedUser =  userService.save(request);
+
         int sizeBefore = userService.findAll().size();
 
         //when
@@ -102,27 +94,18 @@ class UserServiceIntegrationTest {
     }
 
     @Test
-    void givenId_whenFindById_thenReturnResponse()  {
+    void givenId_whenFindById_thenReturnResponse() throws UserAlreadyRegisteredException, NotFoundException {
         //given
         UserRequest request = new UserRequest();
         request.setFirstName("Andrei");
         request.setLastName("Popescu");
         request.setUserName("andreip01");
 
-        UserResponse savedUser = null;
-        try {
-            savedUser = userService.save(request);
-        } catch (UserAlreadyRegisteredException e) {
-            throw new RuntimeException(e);
-        }
+        UserResponse savedUser = userService.save(request);
 
         //when
-        UserResponse actual = null;
-        try {
-            actual = userService.findById(savedUser.getId());
-        } catch (NotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        UserResponse actual = userService.findById(savedUser.getId());
+
 
         //then
         assertThat(actual.getUserName()).isEqualTo(request.getUserName());
