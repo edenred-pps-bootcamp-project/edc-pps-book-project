@@ -13,6 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 @SpringBootTest
@@ -28,7 +29,7 @@ class UserServiceIntegrationTest {
     }
 
     @Test
-    void givenUserRequest_whenSave_thenReturnPaperResponse()  {
+    void givenUserRequest_whenSave_thenReturnPaperResponse() throws UserAlreadyRegisteredException {
         //given
         UserRequest request = new UserRequest();
         request.setFirstName("Andrei");
@@ -36,23 +37,10 @@ class UserServiceIntegrationTest {
         request.setUserName("andreip01");
 
         //when
-        UserResponse actual = null;
-        try {
-            actual = userService.save(request);
-        } catch (UserAlreadyRegisteredException e) {
-            throw new RuntimeException(e);
-        }
+        UserResponse actual = userService.save(request);
 
-        UserResponse expected = new UserResponse();
-        expected.setId(actual.getId());
-        expected.setFirstName("Andrei");
-        expected.setLastName("Popescu");
-        expected.setUserName("andreip01");
-
-        assertThat(actual.getId()).isEqualTo(expected.getId());
-        assertThat(actual.getFirstName()).isEqualTo(expected.getFirstName());
-        assertThat(actual.getLastName()).isEqualTo(expected.getLastName());
-        assertThat(actual.getUserName()).isEqualTo(expected.getUserName());
+        assertThat(actual).usingRecursiveComparison().ignoringFields("id").isEqualTo(request);
+        assertNotNull(actual.getId());
 
     }
 
@@ -114,7 +102,7 @@ class UserServiceIntegrationTest {
     }
 
     @Test
-    void givenValidId_whenFindById_thenReturnResponse()  {
+    void givenId_whenFindById_thenReturnResponse()  {
         //given
         UserRequest request = new UserRequest();
         request.setFirstName("Andrei");
@@ -172,4 +160,6 @@ class UserServiceIntegrationTest {
         //then
         assertThat(actual).hasSize(2);
     }
+
+
 }
