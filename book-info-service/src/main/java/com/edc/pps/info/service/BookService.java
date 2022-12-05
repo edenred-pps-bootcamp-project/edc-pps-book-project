@@ -98,31 +98,6 @@ public class BookService {
         return bookMapper.toDto(bookList);
     }
 
-
-//    /**
-//     * Changes the title of the requested book
-//     *
-//     * @param request  The book whose title we want to change
-//     * @param newTitle The new title wanted
-//     */
-//    public void updateTitle(BookRequest request, String newTitle) {
-//        Book foundBook = bookRepository.findByTitleAndAuthor(request.getTitle(), request.getAuthor());
-//        foundBook.setTitle(newTitle);
-//        bookRepository.save(foundBook);
-//    }
-//
-//    /**
-//     * Updates the author of the requested book
-//     *
-//     * @param request   The book whose author we want to update
-//     * @param newAuthor The new author wanted
-//     */
-//    public void updateAuthor(BookRequest request, String newAuthor) {
-//        Book foundBook = bookRepository.findByTitleAndAuthor(request.getTitle(), request.getAuthor());
-//        foundBook.setAuthor(newAuthor);
-//        bookRepository.save(foundBook);
-//    }
-
     public BookResponse findById(Long id){
         return bookMapper.toDto(bookRepository.findById(id).get());
     }
