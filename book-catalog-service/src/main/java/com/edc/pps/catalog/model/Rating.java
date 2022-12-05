@@ -14,6 +14,8 @@ import javax.persistence.Table;
 @Table(name = "rating")
 @NoArgsConstructor
 @ToString
+@Getter
+@Setter
 public class Rating {
 
     @Id

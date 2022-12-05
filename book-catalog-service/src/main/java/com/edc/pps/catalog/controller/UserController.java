@@ -2,6 +2,7 @@ package com.edc.pps.catalog.controller;
 
 import com.edc.pps.catalog.dto.UserRequest;
 import com.edc.pps.catalog.dto.UserResponse;
+import com.edc.pps.catalog.exception.UserAlreadyRegisteredException;
 import com.edc.pps.catalog.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> save(@RequestBody UserRequest request) {
+    public ResponseEntity<UserResponse> save(@RequestBody UserRequest request) throws UserAlreadyRegisteredException {
         return new ResponseEntity<>(userService.save(request), HttpStatus.CREATED);
     }
 
