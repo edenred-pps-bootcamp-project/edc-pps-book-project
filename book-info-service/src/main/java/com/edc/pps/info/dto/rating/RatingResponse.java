@@ -10,7 +10,7 @@ public class RatingResponse implements Serializable {
     private Long ratingId;
     private Long bookId;
     private Long userId;
-    private Integer ratingValue;
+    private Double ratingValue;
 
     @Override
     public boolean equals(Object o) {

@@ -201,6 +201,11 @@ public class RatingServiceTest {
     }
 
     @Test
+    void assertThat_RealityStillWorks(){
+        assertThat(1).isEqualTo(1);
+    }
+
+    @Test
     void delete(){
 
     }
