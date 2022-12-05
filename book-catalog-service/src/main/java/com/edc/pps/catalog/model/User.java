@@ -20,14 +20,15 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NonNull
+
     @Column(name = "first_name")
     private String firstName;
     @NonNull
     @Column(name = "last_name")
     private String lastName;
     @NonNull
-    @Column(name = "user_name")
+    @Column(name = "user_name",
+            unique = true)
     private String userName;
     @ElementCollection
     @CollectionTable(name = "catalog_items", joinColumns = @JoinColumn(name = "user_id"))
