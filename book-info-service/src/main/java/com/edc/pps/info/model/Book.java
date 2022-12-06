@@ -32,6 +32,11 @@ public class Book {
     public Book() {
     }
 
+    public Book(@NonNull String title, String author) {
+        this.title = title;
+        this.author = author;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
