@@ -1,9 +1,9 @@
 package com.edc.pps.info.service;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -65,27 +65,6 @@ class BookServiceTest {
 		assertThat(actual).isEqualTo(expected);
 	}
 
-//	@Test
-//	void givenBookList_whenFindAll_ThenReturnBookResponse(){
-//		Book mockB1 = new Book();
-//		mockB1.setTitle("title1");
-//		mockB1.setAuthor("author1");
-//		bookRepository.save(mockB1);
-//
-//		Book mockB2 = new Book();
-//		mockB2.setTitle("title2");
-//		mockB2.setAuthor("author2");
-//		bookRepository.save(mockB2);
-//
-//		List<Book> expected = new ArrayList<>();
-//		expected.add(mockB1);
-//		expected.add(mockB2);
-//
-//		List<Book> actual = bookRepository.findAll();
-//
-//		assertEquals(expected, actual);
-//	}
-
 	@Test
 	void givenTitle_whenFindByTitle_thenReturnBookResponse(){
 		Book book = new Book();
@@ -93,6 +72,7 @@ class BookServiceTest {
 		book.setAuthor("author");
 
 		List<Book> mockBook = Arrays.asList(book);
+		//Optional<Book> mockBook = Optional.of(book);
 
 		BookResponse mockResponse = new BookResponse();
 		mockResponse.setTitle("title");
@@ -100,14 +80,44 @@ class BookServiceTest {
 
 		when(bookRepository.findByTitle(any()))
 				.thenReturn(mockBook);
-		when(bookMapper.toDto(any(Book.class)))
-				.thenReturn(mockResponse);
+		when(bookMapper.toDto(anyList()))
+				.thenReturn(List.of(mockResponse));
 
 		List<BookResponse> actual = bookService.getBooksForTitle("title");
 
-		assertThat(actual).isEqualTo(mockResponse);
+		assertThat(actual.get(0)).isEqualTo(mockResponse);
 	}
 
+	@Test
+	void givenBookList_whenFindAll_ThenReturnBookResponse(){
+
+		Book mockBook1 = new Book();
+		mockBook1.setId(1L);
+		mockBook1.setTitle("test_title");
+		mockBook1.setAuthor("test_author");
+
+		Book mockBook2 = new Book();
+		mockBook2.setId(2L);
+		mockBook2.setTitle("test_title2");
+		mockBook2.setAuthor("test_author2");
+
+		BookResponse response1 = new BookResponse();
+		response1.setTitle("test_title");
+		response1.setAuthor("test_author");
+
+		BookResponse response2 = new BookResponse();
+		response2.setTitle("test_title2");
+		response2.setAuthor("test_author2");
+
+		when(bookRepository.findAll()).thenReturn(Arrays.asList(mockBook1, mockBook2));
+		when(bookMapper.toDto(anyList())).thenReturn(List.of(response1, response2));
+
+		List<BookResponse> actual = bookService.findAll();
+
+		assertThat(actual).hasSize(2);
+
+
+	}
 	@Test
 	void updateTitle() {
 
