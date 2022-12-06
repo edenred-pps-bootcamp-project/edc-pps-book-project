@@ -1,11 +1,24 @@
 package com.edc.pps.info.dto;
 
+import org.springframework.lang.Nullable;
+
 public class BookResponse {
     private Long id;
 
     private String title;
 
     private String author;
+
+
+    private Double averageRating;
+
+    public Double  getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(Double averageRating) {
+        this.averageRating = averageRating;
+    }
 
     public Long getId() {
         return id;

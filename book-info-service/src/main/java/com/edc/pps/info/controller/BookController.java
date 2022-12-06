@@ -2,6 +2,7 @@ package com.edc.pps.info.controller;
 
 import com.edc.pps.info.dto.BookRequest;
 import com.edc.pps.info.dto.BookResponse;
+import com.edc.pps.info.exceptions.BookAlreadyExistsException;
 import com.edc.pps.info.exceptions.BookNotFoundException;
 import com.edc.pps.info.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<BookResponse> save(@RequestBody BookRequest request) {
+    public ResponseEntity<BookResponse> save(@RequestBody BookRequest request) throws BookAlreadyExistsException {
         return new ResponseEntity<>(bookService.save(request), HttpStatus.CREATED);
     }
 
@@ -32,14 +33,25 @@ public class BookController {
         return new ResponseEntity<>(bookService.findAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/find/{id}")
+    public ResponseEntity<BookResponse> findById(@PathVariable Long id){
+        BookResponse response = bookService.findById(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable(name = "id") Long id) throws BookNotFoundException {
         bookService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{title}")
+    @GetMapping("/title={title}")
     public ResponseEntity<List<BookResponse>> getBooksForTitle(@PathVariable(name = "title") String title) {
         return new ResponseEntity<>(bookService.getBooksForTitle(title), HttpStatus.OK);
+    }
+
+    @GetMapping("/author={author}")
+    public ResponseEntity<List<BookResponse>> getBooksByAuthor(@PathVariable(name = "author") String author) {
+        return new ResponseEntity<>(bookService.getBooksByAuthor(author), HttpStatus.OK);
     }
 }

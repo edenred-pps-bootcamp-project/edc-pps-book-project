@@ -1,5 +1,7 @@
 package com.edc.pps.info.dto;
 
+import org.springframework.lang.Nullable;
+
 public class BookRequest {
 
     private String title;

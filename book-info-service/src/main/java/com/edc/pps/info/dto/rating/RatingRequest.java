@@ -1,4 +1,4 @@
-package com.edc.pps.rating.dto;
+package com.edc.pps.info.dto.rating;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ public class RatingRequest {
 
     private Long userId;
 
-    private Double ratingValue;
+    private Integer ratingValue;
 
     @Override
     public String toString() {

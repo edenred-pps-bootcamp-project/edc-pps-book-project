@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import com.edc.pps.info.dto.BookMapper;
 import com.edc.pps.info.dto.BookRequest;
 import com.edc.pps.info.dto.BookResponse;
+import com.edc.pps.info.exceptions.BookAlreadyExistsException;
 import com.edc.pps.info.model.Book;
 import com.edc.pps.info.repository.BookRepository;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +38,7 @@ class BookServiceTest {
 	private BookService bookService;
 
 	@Test
-	void givenBookRequest_whenSave_thenReturnBookResponse(){
+	void givenBookRequest_whenSave_thenReturnBookResponse() throws BookAlreadyExistsException {
 		BookRequest bookRequest = new BookRequest();
 		bookRequest.setAuthor("author");
 		bookRequest.setTitle("title");
@@ -84,27 +86,27 @@ class BookServiceTest {
 //		assertEquals(expected, actual);
 //	}
 
-//	@Test
-//	void givenTitle_whenFindByTitle_thenReturnBookResponse(){
-//		Book book = new Book();
-//		book.setTitle("title");
-//		book.setAuthor("author");
-//
-//		Optional<Book> mockBook = Optional.of(book);
-//
-//		BookResponse mockResponse = new BookResponse();
-//		mockResponse.setTitle("title");
-//		mockResponse.setAuthor("author");
-//
-//		when(bookRepository.findByTitle(anyString()))
-//				.thenReturn(mockBook);
-//		when(bookMapper.toDto(any(Book.class)))
-//				.thenReturn(mockResponse);
-//
-//		BookResponse actual = bookService.getBooksForTitle();
-//
-//		assertThat(actual).isEqualTo(mockResponse);
-//	}
+	@Test
+	void givenTitle_whenFindByTitle_thenReturnBookResponse(){
+		Book book = new Book();
+		book.setTitle("title");
+		book.setAuthor("author");
+
+		List<Book> mockBook = Arrays.asList(book);
+
+		BookResponse mockResponse = new BookResponse();
+		mockResponse.setTitle("title");
+		mockResponse.setAuthor("author");
+
+		when(bookRepository.findByTitle(any()))
+				.thenReturn(mockBook);
+		when(bookMapper.toDto(any(Book.class)))
+				.thenReturn(mockResponse);
+
+		List<BookResponse> actual = bookService.getBooksForTitle("title");
+
+		assertThat(actual).isEqualTo(mockResponse);
+	}
 
 	@Test
 	void updateTitle() {
