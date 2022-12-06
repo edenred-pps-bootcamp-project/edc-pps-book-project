@@ -1,7 +1,9 @@
 package com.edc.pps.info.dto;
 
+import lombok.EqualsAndHashCode;
 import org.springframework.lang.Nullable;
 
+@EqualsAndHashCode
 public class BookResponse {
     private Long id;
 
