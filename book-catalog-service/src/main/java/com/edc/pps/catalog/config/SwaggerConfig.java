@@ -14,7 +14,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.edc.pps.rating"))
+                .apis(RequestHandlerSelectors.basePackage("com.edc.pps.catalog"))
                 .paths(PathSelectors.any())
                 .build();
     }
