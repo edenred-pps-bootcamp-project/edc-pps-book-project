@@ -1,11 +1,9 @@
 package com.edc.pps.rating.service;
 
-import com.edc.pps.rating.dto.BookResponse;
 import com.edc.pps.rating.dto.RatingMapper;
 import com.edc.pps.rating.dto.RatingRequest;
 import com.edc.pps.rating.dto.RatingResponse;
 import com.edc.pps.rating.exception.BadRequestException;
-import com.edc.pps.rating.exception.BookNotFoundException;
 import com.edc.pps.rating.exception.RatingNotFoundException;
 import com.edc.pps.rating.model.Rating;
 import com.edc.pps.rating.repository.RatingRepository;
@@ -42,13 +40,11 @@ public class RatingService {
      * @return Returns a ratingResponse
      */
     public RatingResponse saveOrUpdate(RatingRequest request) {
+        //validate request
         validateRequest(request);
-        log.info("saved rating to db: {}", request);
+        //check if books exists in db
+       bookService.checkIfBookExists(request.getBookId());
 
-       BookResponse response= bookService.checkIfBookExists(request.getBookId());
-       if(response.getId()==0) {
-           throw new BookNotFoundException("No book with ID: " + request.getBookId());
-       }
         //get all ratings from db
         List<Rating> ratings = ratingRepository.findAll();
         //check if the user already rated the book

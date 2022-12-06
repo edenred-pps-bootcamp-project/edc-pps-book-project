@@ -2,9 +2,11 @@ package com.edc.pps.rating.service;
 
 
 import com.edc.pps.rating.dto.BookResponse;
+import com.edc.pps.rating.exception.BookNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Slf4j
@@ -19,8 +21,12 @@ public class BookService {
     }
 
     public BookResponse checkIfBookExists(long id){
-       BookResponse response = restTemplate.getForObject(BOOKS_RESOURCES+"/find/" + id, BookResponse.class);
+        try {
+            BookResponse response = restTemplate.getForObject(BOOKS_RESOURCES + "/find/" + id, BookResponse.class);
         return response;
+        }catch (HttpClientErrorException exception){
+            throw new BookNotFoundException("No book with ID: " + id);
+        }
     }
 
 }
