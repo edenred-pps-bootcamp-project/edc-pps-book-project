@@ -10,12 +10,8 @@ import com.edc.pps.rating.repository.RatingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -27,11 +23,16 @@ public class RatingService {
     private final RatingMapper ratingMapper;
     private final RatingRepository ratingRepository;
 
+    private final BookService bookService;
+
     @Autowired
-    public RatingService(RatingRepository ratingRepository, RatingMapper ratingMapper) {
-        this.ratingRepository = ratingRepository;
+    public RatingService(RatingMapper ratingMapper, RatingRepository ratingRepository, BookService bookService) {
         this.ratingMapper = ratingMapper;
+        this.ratingRepository = ratingRepository;
+        this.bookService = bookService;
     }
+
+
 
     /**
      *  Saves or Updates the Rating
@@ -39,13 +40,16 @@ public class RatingService {
      * @return Returns a ratingResponse
      */
     public RatingResponse saveOrUpdate(RatingRequest request) {
-        log.info("saved rating to db: {}", request);
+        //validate request
+        validateRequest(request);
+        //check if books exists in db
+       bookService.checkIfBookExists(request.getBookId());
+
         //get all ratings from db
         List<Rating> ratings = ratingRepository.findAll();
         //check if the user already rated the book
         long result = ratings.stream().filter(entry -> entry.getBookId().equals(request.getBookId()) && entry.getUserId().equals(request.getUserId())).count();
 
-        validateRequest(request);
 
         //if the user never rated the book it will be added as a new entry in db
         if (result == 0) {
@@ -112,7 +116,7 @@ public class RatingService {
         return ratingMapper.toDto(ratings);
     }
 
-    private boolean validateRequest(RatingRequest request){
+    private void validateRequest(RatingRequest request){
         if(request.getUserId() == null){
             log.info("UserId cannot be null: \n" + request.toString());
             throw new BadRequestException("UserId cannot be null");
@@ -123,7 +127,7 @@ public class RatingService {
             log.info("RatingValue cannot be null: \n" + request.toString());
             throw new BadRequestException("RatingValue cannot be null");
         }
-        return true;
+
     }
     public List<RatingResponse> getAverageRatingForBook(long bookId) {
         Double ratingTotal = 0d;
