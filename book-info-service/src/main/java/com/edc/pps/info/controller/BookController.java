@@ -34,7 +34,7 @@ public class BookController {
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<BookResponse> findById(@PathVariable Long id){
+    public ResponseEntity<BookResponse> findById(@PathVariable Long id) throws BookNotFoundException {
         BookResponse response = bookService.findById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -56,7 +56,7 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookResponse> updateBooks(@PathVariable(name = "id") Long bookId){
+    public ResponseEntity<BookResponse> updateBooks(@PathVariable(name = "id") Long bookId) throws BookNotFoundException {
         bookService.updateRating(bookId);
         return new ResponseEntity<>(bookService.findById(bookId),HttpStatus.OK);
     }
