@@ -29,4 +29,8 @@ public class BookService {
         }
     }
 
+    public void callForUpdateRating(long id){
+        restTemplate.put(BOOKS_RESOURCES+"/"+id, BookResponse.class);
+    }
+
 }
