@@ -55,6 +55,7 @@ public class RatingService {
         if (result == 0) {
             Rating rating = ratingMapper.toEntity(request);
             ratingRepository.save(rating);
+            bookService.callForUpdateRating(request.getBookId());
             return ratingMapper.toDto(rating);
         }
         //if the user already rated the book it will be updated
@@ -62,6 +63,7 @@ public class RatingService {
             Rating foundRating = ratingRepository.findByBookIdAndUserId(request.getBookId(), request.getUserId());
             foundRating.setRatingValue(new Double(request.getRatingValue()));
             ratingRepository.save(foundRating);
+            bookService.callForUpdateRating(request.getBookId());
             return ratingMapper.toDto(foundRating);
         }
     }
