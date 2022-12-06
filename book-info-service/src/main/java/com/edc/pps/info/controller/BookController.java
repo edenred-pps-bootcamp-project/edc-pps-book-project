@@ -54,4 +54,10 @@ public class BookController {
     public ResponseEntity<List<BookResponse>> getBooksByAuthor(@PathVariable(name = "author") String author) {
         return new ResponseEntity<>(bookService.getBooksByAuthor(author), HttpStatus.OK);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BookResponse> updateBooks(@PathVariable(name = "id") Long bookId){
+        bookService.updateRating(bookId);
+        return new ResponseEntity<>(bookService.findById(bookId),HttpStatus.OK);
+    }
 }

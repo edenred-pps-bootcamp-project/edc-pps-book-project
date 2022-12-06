@@ -7,6 +7,7 @@ import com.edc.pps.catalog.dto.UserResponse;
 import com.edc.pps.catalog.dto.info.BookMapper;
 import com.edc.pps.catalog.model.User;
 import com.edc.pps.catalog.repository.UserRepository;
+import lombok.EqualsAndHashCode;
 import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
