@@ -98,8 +98,14 @@ public class BookService {
         return bookMapper.toDto(bookList);
     }
 
-    public BookResponse findById(Long id){
-        return bookMapper.toDto(bookRepository.findById(id).get());
+    public BookResponse findById(Long bookId) throws BookNotFoundException {
+        try {
+            Book actualBook = bookRepository.findById(bookId).get();
+            return bookMapper.toDto(actualBook);
+        }catch (Exception e) {
+            throw new BookNotFoundException("No book with id " + bookId);
+        }
+
     }
 
     /**
