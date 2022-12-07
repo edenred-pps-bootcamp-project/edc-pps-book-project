@@ -2,6 +2,7 @@ package com.edc.pps.info.controller;
 
 import com.edc.pps.info.dto.BookRequest;
 import com.edc.pps.info.dto.BookResponse;
+import com.edc.pps.info.dto.rating.RatingResponse;
 import com.edc.pps.info.exceptions.BookAlreadyExistsException;
 import com.edc.pps.info.exceptions.BookNotFoundException;
 import com.edc.pps.info.service.BookService;
@@ -55,9 +56,9 @@ public class BookController {
         return new ResponseEntity<>(bookService.getBooksByAuthor(author), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<BookResponse> updateBooks(@PathVariable(name = "id") Long bookId) throws BookNotFoundException {
-        bookService.updateRating(bookId);
+    @PostMapping("/{id}")
+    public ResponseEntity<BookResponse> updateBooks(@PathVariable(name = "id") Long bookId, RatingResponse ratingResponse) throws BookNotFoundException {
+        bookService.updateRating(bookId , ratingResponse.getRatingValue());
         return new ResponseEntity<>(bookService.findById(bookId),HttpStatus.OK);
     }
 }
