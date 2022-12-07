@@ -2,7 +2,9 @@ package com.edc.pps.rating.service;
 
 
 import com.edc.pps.rating.dto.BookResponse;
+import com.edc.pps.rating.dto.UserResponse;
 import com.edc.pps.rating.exception.BookNotFoundException;
+import com.edc.pps.rating.exception.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class BookService {
     private static final String BOOKS_RESOURCES = "http://localhost:8082/api/books";
+    private static final String USERS_RESOURCES = "http://localhost:8081/api/users";
     private final RestTemplate restTemplate;
 
     @Autowired
@@ -20,12 +23,12 @@ public class BookService {
         this.restTemplate = restTemplate;
     }
 
-    public BookResponse checkIfBookExists(long id){
+    public BookResponse checkIfBookExists(long bookId){
         try {
-            BookResponse response = restTemplate.getForObject(BOOKS_RESOURCES + "/find/" + id, BookResponse.class);
+            BookResponse response = restTemplate.getForObject(BOOKS_RESOURCES + "/find/" + bookId, BookResponse.class);
         return response;
         }catch (HttpClientErrorException exception){
-            throw new BookNotFoundException("No book with ID: " + id);
+            throw new BookNotFoundException("No book with ID: " + bookId);
         }
     }
 
@@ -33,4 +36,12 @@ public class BookService {
         restTemplate.put(BOOKS_RESOURCES+"/"+id, BookResponse.class);
     }
 
+    public UserResponse checkIfUserExists(Long userId) {
+        try{
+            UserResponse response = restTemplate.getForObject(USERS_RESOURCES + "/" + userId , UserResponse.class);
+            return response;
+        } catch (HttpClientErrorException exception){
+            throw new UserNotFoundException("No User with ID: " + userId);
+        }
+    }
 }
