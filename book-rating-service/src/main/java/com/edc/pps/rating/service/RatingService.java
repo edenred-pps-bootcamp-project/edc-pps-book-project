@@ -123,12 +123,23 @@ public class RatingService {
         if(request.getUserId() == null){
             log.info("UserId cannot be null: \n" + request.toString());
             throw new BadRequestException("UserId cannot be null");
-        } if(request.getBookId() == null){
+        } else if (request.getUserId() < 0) {
+            log.info("UserId cannot be negative: \n" + request.toString());
+            throw new BadRequestException("UserId cannot be negative");
+        }
+        if(request.getBookId() == null){
             log.info("BookId cannot be null: \n" + request.toString()) ;
             throw new BadRequestException("BookId cannot be null");
-        } if(request.getRatingValue() == null){
+        } else if (request.getBookId() < 0) {
+            log.info("BookId cannot be negative: \n" + request.toString());
+            throw new BadRequestException("BookId cannot be negative");
+        }
+        if(request.getRatingValue() == null){
             log.info("RatingValue cannot be null: \n" + request.toString());
             throw new BadRequestException("RatingValue cannot be null");
+        } else if (request.getRatingValue() < 0) {
+            log.info("RatingValue cannot be negative: \n" + request.toString());
+            throw new BadRequestException("RatingValue cannot be negative");
         }
 
     }
