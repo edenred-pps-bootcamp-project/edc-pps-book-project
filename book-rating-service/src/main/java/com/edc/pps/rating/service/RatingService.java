@@ -42,8 +42,9 @@ public class RatingService {
     public RatingResponse saveOrUpdate(RatingRequest request) {
         //validate request
         validateRequest(request);
-        //check if books exists in db
+        //check if book and user exist in database
        bookService.checkIfBookExists(request.getBookId());
+       bookService.checkIfUserExists(request.getUserId());
 
         //get all ratings from db
         List<Rating> ratings = ratingRepository.findAll();
