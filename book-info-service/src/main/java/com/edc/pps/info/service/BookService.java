@@ -161,13 +161,9 @@ public class BookService {
         }
     }
 
-    public void updateRating(Long bookId){
+    public void updateRating(Long bookId, Double average) throws BookNotFoundException {
         Book actualBook = bookRepository.findById(bookId).get();
-        try {
-            actualBook.setAverageRating(getAverageRating(bookId).getRatingValue());
-        }catch (NullPointerException e){
-            return;
-        }
+        actualBook.setAverageRating(average);
         bookRepository.save(actualBook);
     }
 
