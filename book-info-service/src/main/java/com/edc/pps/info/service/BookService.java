@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -28,12 +29,13 @@ public class BookService {
     private final BookMapper bookMapper;
     private final BookRepository bookRepository;
     private final RestTemplate client;
-
+    private final ObjectMapper jacksonObjectMapper;
     @Autowired
-    public BookService(BookRepository bookRepository, BookMapper bookMapper, RestTemplate client) {
+    public BookService(BookRepository bookRepository, BookMapper bookMapper, RestTemplate client, ObjectMapper jacksonObjectMapper) {
         this.bookRepository = bookRepository;
         this.bookMapper = bookMapper;
         this.client = client;
+        this.jacksonObjectMapper = jacksonObjectMapper;
     }
 
     /**
@@ -160,7 +162,25 @@ public class BookService {
             return null;
         }
     }
+    
+    public BookResponse partialUpdate(Long id, BookRequest updates) {
+        try {
+            Book book = bookRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("book not found"));
 
+            // Jackson deserializes and copies value to the already initialized DTO
+            jacksonObjectMapper.readerForUpdating(book)
+                    .readValue(jacksonObjectMapper.writeValueAsBytes(updates));
+
+            Book updatedBook = bookRepository.save(book);
+
+            return bookMapper.toDto(updatedBook);
+        } catch (Exception e) {
+            log.error("could not patch book with id: {} and updates: {}", id, updates);
+        }
+        return null;
+    }
+    
     public void updateRating(Long bookId, Double average) throws BookNotFoundException {
         Book actualBook = bookRepository.findById(bookId).get();
         actualBook.setAverageRating(average);

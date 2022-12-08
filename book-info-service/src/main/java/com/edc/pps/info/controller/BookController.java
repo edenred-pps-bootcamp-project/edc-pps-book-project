@@ -55,6 +55,13 @@ public class BookController {
     public ResponseEntity<List<BookResponse>> getBooksByAuthor(@PathVariable(name = "author") String author) {
         return new ResponseEntity<>(bookService.getBooksByAuthor(author), HttpStatus.OK);
     }
+    
+    @PatchMapping("/{id}")
+    public ResponseEntity<BookResponse> partialUpdate(
+            @PathVariable(name = "id") Long id,
+            @RequestBody BookRequest request) {
+        BookResponse response = bookService.partialUpdate(id, request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
 
     @PutMapping("/{id}")
     public ResponseEntity<BookResponse> updateBooks(@RequestBody RatingResponse ratingResponse) throws BookNotFoundException {

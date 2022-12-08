@@ -2,17 +2,19 @@ package com.edc.pps.info.service;
 
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.*;
 
 import com.edc.pps.info.dto.BookMapper;
 import com.edc.pps.info.dto.BookRequest;
 import com.edc.pps.info.dto.BookResponse;
+import com.edc.pps.info.exceptions.BadRequestException;
 import com.edc.pps.info.exceptions.BookAlreadyExistsException;
 import com.edc.pps.info.model.Book;
 import com.edc.pps.info.repository.BookRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,7 +29,6 @@ import java.util.Optional;
 @ExtendWith(MockitoExtension.class)
 class BookServiceTest {
 
-
 	@Mock
 	private BookRepository bookRepository;
 
@@ -36,6 +37,8 @@ class BookServiceTest {
 
 	@InjectMocks
 	private BookService bookService;
+
+	private Book book;
 
 	@Test
 	void givenBookRequest_whenSave_thenReturnBookResponse() throws BookAlreadyExistsException {
@@ -118,43 +121,118 @@ class BookServiceTest {
 
 
 	}
+//	@Test
+//	void givenBook_whenUpdateTitle_thenReturnBookResponse() throws BookAlreadyExistsException, NullPointerException {
+//
+//		BookRequest bookRequest = new BookRequest();
+//		bookRequest.setTitle("test_title");
+//		bookRequest.setAuthor("test_author");
+//
+//		Book book = new Book();
+//		book.setTitle("test2_title");
+//		book.setAuthor("test_author");
+//
+//		when(bookRepository.save(any()))
+//				.thenReturn(book);
+//		Book bookUpdated = new Book();
+//		//	bookUpdated = bookService.updateTitle(bookRequest, book.getTitle());
+//
+//
+//		BookRequest mockBookRequest = new BookRequest();
+//		mockBookRequest.setTitle("test_title");
+//		mockBookRequest.setAuthor("test_author");
+//
+//		BookResponse bookResponse  = bookService.save(mockBookRequest);
+//
+//		BookResponse mockResponse = new BookResponse();
+//		mockResponse.setTitle("test2_title");
+//		mockResponse.setAuthor("test_author");
+//
+//		BookRequest bookRequest = new BookRequest();
+//		bookRequest.setTitle("test2_title");
+//		bookRequest.setAuthor("test_author");
+//
+//		bookService.updateTitle(mockBookRequest, bookRequest.getTitle());
+//		BookResponse updatedResponse = bookService.save(mockBookRequest);
+//		Book book = new Book();
+//		book.setTitle("test2_title");
+//		book.setAuthor("test_author");
+//		when(bookRepository.save(any()))
+//				.thenReturn(book);
+//
+//		String newTitle = mockResponse.getTitle();
+//		bookService.updateTitle(mockBookRequest, newTitle);
+//
+//		assertThat(bookResponse.getTitle()).isEqualTo(mockResponse.getTitle());
+//	}
+
+//	@Test
+//	void givenAuthor_whenUpdateAuthor_thenReturnBookResponse() {
+//
+//		Book mockBook = new Book();
+//		mockBook.setTitle("test_title");
+//		mockBook.setAuthor("test_author");
+//
+//		BookResponse mockResponse = new BookResponse();
+//		mockResponse.setTitle("test_title");
+//		mockResponse.setAuthor("test2_author");
+//
+//		String newAuthor = mockResponse.getAuthor();
+//
+//		BookRequest bookRequest = new BookRequest();
+//		bookRequest.setAuthor(mockBook.getAuthor());
+//		bookRequest.setTitle(mockBook.getTitle());
+//
+//		//bookRepository.save(mockBook);
+//		BookResponse bookResponse = bookService.updateAuthor(bookRequest, newAuthor);
+//
+//		assertThat(bookResponse).isEqualTo(mockResponse);
+//		//assertThat(bookRepository.updateAuthor())
+//		//assertThat(bookRepository.findByAuthor(newAuthor)).isEqualTo(mockResponse);
+//		//assertThat(bookRepository.findByAuthor(newAuthor)).isEqualTo(mockResponse);
+//	}
+
 	@Test
-	void updateTitle() {
+	public void givenBookId_whenDeleteBook_thenNothing(){
 
-		// given
+		BookRequest bookRequest = new BookRequest();
+		bookRequest.setAuthor("author");
+		bookRequest.setTitle("title");
 
-		// when
+		Book mockBook = new Book();
+		mockBook.setTitle("title");
+		mockBook.setAuthor("author");
+		mockBook.setId(1L);
+		Long bookId = 1L;
 
-		// then
+		when(bookMapper.toEntity(any(BookRequest.class)))
+				.thenReturn(mockBook);
+		when(bookRepository.save(any(Book.class)))
+				.thenReturn(mockBook);
+
+		willDoNothing().given(bookRepository).deleteById(bookId);
+
+		bookService.delete(bookId);
+
+		verify(bookRepository, times(1)).deleteById(bookId);
 	}
 
 	@Test
-	void updateAuthor() {
+	void givenNullTitleValue_whenSaveOrUpdate_thenThrowException() {
+		BookRequest bookRequest = new BookRequest();
+		bookRequest.setTitle(null);
 
-		// given
+		List<Book> mockBooks = new ArrayList<>();
+		Book book = new Book();
+		book.setTitle("title");
+		book.setAuthor("author");
+		mockBooks.add(book);
 
-		// when
-
-		// then
-	}
-
-	@Test
-	void delete() {
-
-		// given
-
-		// when
-
-		// then
-	}
-
-	@Test
-	void getBooksByAuthor() {
-
-		// given
-
-		// when
-
-		// then
+		BadRequestException thrown = assertThrows(
+				BadRequestException.class,
+				() -> bookService.save(bookRequest),
+				"BookTitle cannot be null"
+		);
+		assertTrue(thrown.getMessage().contains("BookTitle cannot be null"));
 	}
 }
