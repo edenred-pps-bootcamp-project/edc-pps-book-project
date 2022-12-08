@@ -2,6 +2,7 @@ package com.edc.pps.rating.model;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
 
@@ -19,6 +20,7 @@ public class Rating {
     private Long ratingId;
     @Column(name = "book_id")
     @NotNull
+    
     private Long bookId;
     @Column(name = "user_id")
     @NotNull

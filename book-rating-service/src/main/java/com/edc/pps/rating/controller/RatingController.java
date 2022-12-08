@@ -43,7 +43,7 @@ public class RatingController {
 	}
 
 	@GetMapping("/average/{id}")
-	public ResponseEntity<List<RatingResponse>> getAverageRatingForBook(@PathVariable Long id){
+	public ResponseEntity<RatingResponse> getAverageRatingForBook(@PathVariable Long id){
 		return new ResponseEntity<>(ratingService.getAverageRatingForBook(id), HttpStatus.OK);
 	}
 }

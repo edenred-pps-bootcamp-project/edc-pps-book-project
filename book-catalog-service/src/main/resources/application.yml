@@ -11,5 +11,8 @@ spring:
     username: sa
     password:
   h2.console.enabled: true # the JDBC URL is jdbc:h2:mem:testdb
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
 
 management.endpoints.web.exposure.include: "*"
