@@ -25,7 +25,7 @@ import java.util.List;
 @Service
 public class BookService {
 
-    private static final String RATING_RESOURCE = "http://localhost:7601/api/ratings/books/";
+    private static final String RATING_RESOURCE = "http://localhost:7601/api/ratings/average/";
     private final BookMapper bookMapper;
     private final BookRepository bookRepository;
     private final RestTemplate client;
@@ -100,8 +100,14 @@ public class BookService {
         return bookMapper.toDto(bookList);
     }
 
-    public BookResponse findById(Long id){
-        return bookMapper.toDto(bookRepository.findById(id).get());
+    public BookResponse findById(Long bookId) throws BookNotFoundException {
+        try {
+            Book actualBook = bookRepository.findById(bookId).get();
+            return bookMapper.toDto(actualBook);
+        }catch (Exception e) {
+            throw new BookNotFoundException("No book with id " + bookId);
+        }
+
     }
 
     /**
@@ -149,27 +155,14 @@ public class BookService {
      *
      * @param bookId The id of the book we want to get the average
      */
-    public BookResponse getAverageRating(long bookId) {
-        Double ratingTotal = 0d;
-        Book foundBook = null;
-        List<RatingResponse> responses = null;
+    public RatingResponse getAverageRating(Long bookId) {
         try {
-            responses = Arrays.asList(client.getForObject(RATING_RESOURCE + bookId, RatingResponse[].class));
-            for (RatingResponse response : responses) {
-                ratingTotal += response.getRatingValue();
-            }
-            foundBook = bookRepository.findById(bookId).get();
-
-            Double avgRating = new BigDecimal(ratingTotal / responses.size()).setScale(2, RoundingMode.HALF_UP).doubleValue();
-            foundBook.setAverageRating(avgRating);
-            bookRepository.save(foundBook);
-            return bookMapper.toDto(foundBook);
-        } catch (HttpClientErrorException e) {
-            foundBook = bookRepository.findById(bookId).get();
-            return bookMapper.toDto(foundBook);
+            return Arrays.asList(client.getForObject(RATING_RESOURCE + bookId, RatingResponse[].class)).get(0);
+        } catch(Exception e){
+            return null;
         }
     }
-
+    
     public BookResponse partialUpdate(Long id, BookRequest updates) {
         try {
             Book book = bookRepository.findById(id)
@@ -187,6 +180,13 @@ public class BookService {
         }
         return null;
     }
+    
+    public void updateRating(Long bookId, Double average) throws BookNotFoundException {
+        Book actualBook = bookRepository.findById(bookId).get();
+        actualBook.setAverageRating(average);
+        bookRepository.save(actualBook);
+    }
+
 }
 
 

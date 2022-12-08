@@ -1,6 +1,5 @@
-package com.edc.pps.catalog.dto;
+package com.edc.pps.rating.dto;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +8,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 public class UserResponse implements Serializable {
 
     private  Long id;

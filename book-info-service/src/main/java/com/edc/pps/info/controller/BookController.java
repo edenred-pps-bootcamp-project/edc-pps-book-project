@@ -2,6 +2,7 @@ package com.edc.pps.info.controller;
 
 import com.edc.pps.info.dto.BookRequest;
 import com.edc.pps.info.dto.BookResponse;
+import com.edc.pps.info.dto.rating.RatingResponse;
 import com.edc.pps.info.exceptions.BookAlreadyExistsException;
 import com.edc.pps.info.exceptions.BookNotFoundException;
 import com.edc.pps.info.service.BookService;
@@ -34,7 +35,7 @@ public class BookController {
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<BookResponse> findById(@PathVariable Long id){
+    public ResponseEntity<BookResponse> findById(@PathVariable Long id) throws BookNotFoundException {
         BookResponse response = bookService.findById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -54,11 +55,17 @@ public class BookController {
     public ResponseEntity<List<BookResponse>> getBooksByAuthor(@PathVariable(name = "author") String author) {
         return new ResponseEntity<>(bookService.getBooksByAuthor(author), HttpStatus.OK);
     }
+    
     @PatchMapping("/{id}")
     public ResponseEntity<BookResponse> partialUpdate(
             @PathVariable(name = "id") Long id,
             @RequestBody BookRequest request) {
         BookResponse response = bookService.partialUpdate(id, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BookResponse> updateBooks(@RequestBody RatingResponse ratingResponse) throws BookNotFoundException {
+        bookService.updateRating(ratingResponse.getBookId(), ratingResponse.getRatingValue());
+        return new ResponseEntity<>(bookService.findById(ratingResponse.getBookId()),HttpStatus.OK);
     }
 }

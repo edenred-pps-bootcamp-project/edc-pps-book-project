@@ -1,7 +1,9 @@
 package com.edc.pps.rating.aop;
 
 import com.edc.pps.rating.exception.BadRequestException;
+import com.edc.pps.rating.exception.BookNotFoundException;
 import com.edc.pps.rating.exception.RatingNotFoundException;
+import com.edc.pps.rating.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,6 +27,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<Object> badRequest(BadRequestException exception) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("Timestamp: ", LocalDateTime.now());
+        body.put("Message:", exception.getLocalizedMessage());
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(BookNotFoundException.class)
+    public ResponseEntity<Object> bookNotFound(BookNotFoundException exception) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("Timestamp: ", LocalDateTime.now());
+        body.put("Message:", exception.getLocalizedMessage());
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Object> userNotFoundException(UserNotFoundException exception) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("Timestamp: ", LocalDateTime.now());
         body.put("Message:", exception.getLocalizedMessage());

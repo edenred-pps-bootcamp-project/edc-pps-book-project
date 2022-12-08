@@ -1,18 +1,15 @@
-package com.edc.pps.catalog.dto;
+package com.edc.pps.rating.dto;
 
-import lombok.EqualsAndHashCode;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
 import java.util.List;
 
+@Data
 @Getter
 @Setter
-@EqualsAndHashCode
-public class UserResponse implements Serializable {
-
-    private  Long id;
+public class UserRequest {
     private String firstName;
     private String lastName;
     private String userName;
