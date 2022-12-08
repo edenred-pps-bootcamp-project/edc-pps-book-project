@@ -44,7 +44,7 @@ public class RatingService {
         validateRequest(request);
         //check if book and user exist in database
        bookService.checkIfBookExists(request.getBookId());
-       bookService.checkIfUserExists(request.getUserId());
+       //bookService.checkIfUserExists(request.getUserId());
 
         //get all ratings from db
         List<Rating> ratings = ratingRepository.findAll();
@@ -56,7 +56,7 @@ public class RatingService {
         if (result == 0) {
             Rating rating = ratingMapper.toEntity(request);
             ratingRepository.save(rating);
-            bookService.callForUpdateRating(request.getBookId());
+            bookService.callForUpdateRating(request.getBookId(), getAverageRatingForBook(request.getBookId()));
             return ratingMapper.toDto(rating);
         }
         //if the user already rated the book it will be updated
@@ -64,7 +64,7 @@ public class RatingService {
             Rating foundRating = ratingRepository.findByBookIdAndUserId(request.getBookId(), request.getUserId());
             foundRating.setRatingValue(new Double(request.getRatingValue()));
             ratingRepository.save(foundRating);
-            bookService.callForUpdateRating(request.getBookId());
+            bookService.callForUpdateRating(request.getBookId(), getAverageRatingForBook(request.getBookId()));
             return ratingMapper.toDto(foundRating);
         }
     }
@@ -143,7 +143,10 @@ public class RatingService {
         }
 
     }
-    public List<RatingResponse> getAverageRatingForBook(long bookId) {
+
+
+
+    public RatingResponse getAverageRatingForBook(long bookId) {
         Double ratingTotal = 0d;
         List<RatingResponse> responses = getAllRatingsForBook(bookId);
         Stream<RatingResponse> ratingResponseStream = responses.stream();
@@ -157,7 +160,7 @@ public class RatingService {
         averageRatingResponse.setUserId(-1L);
         List<RatingResponse> ratingResponses = new ArrayList<>();
         ratingResponses.add(averageRatingResponse);
-        return ratingResponses;
+        return averageRatingResponse;
     }
 
 }
