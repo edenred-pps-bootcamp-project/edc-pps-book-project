@@ -56,9 +56,9 @@ public class BookController {
         return new ResponseEntity<>(bookService.getBooksByAuthor(author), HttpStatus.OK);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<BookResponse> updateBooks(@PathVariable(name = "id") Long bookId, RatingResponse ratingResponse) throws BookNotFoundException {
-        bookService.updateRating(bookId , ratingResponse.getRatingValue());
-        return new ResponseEntity<>(bookService.findById(bookId),HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<BookResponse> updateBooks(@RequestBody RatingResponse ratingResponse) throws BookNotFoundException {
+        bookService.updateRating(ratingResponse.getBookId(), ratingResponse.getRatingValue());
+        return new ResponseEntity<>(bookService.findById(ratingResponse.getBookId()),HttpStatus.OK);
     }
 }
