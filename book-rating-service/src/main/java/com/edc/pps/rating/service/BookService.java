@@ -23,24 +23,24 @@ public class BookService {
         this.restTemplate = restTemplate;
     }
 
-    public BookResponse checkIfBookExists(long bookId){
+    public BookResponse checkIfBookExists(long bookId) {
         try {
             BookResponse response = restTemplate.getForObject(BOOKS_RESOURCES + "/find/" + bookId, BookResponse.class);
-        return response;
-        }catch (HttpClientErrorException exception){
+            return response;
+        } catch (HttpClientErrorException exception) {
             throw new BookNotFoundException("No book with ID: " + bookId);
         }
     }
 
-    public void callForUpdateRating(long id){
-        restTemplate.put(BOOKS_RESOURCES+"/"+id, BookResponse.class);
+    public void callForUpdateRating(long id) {
+        restTemplate.put(BOOKS_RESOURCES + "/" + id, BookResponse.class);
     }
 
     public UserResponse checkIfUserExists(Long userId) {
-        try{
-            UserResponse response = restTemplate.getForObject(USERS_RESOURCES + "/" + userId , UserResponse.class);
+        try {
+            UserResponse response = restTemplate.getForObject(USERS_RESOURCES + "/" + userId, UserResponse.class);
             return response;
-        } catch (HttpClientErrorException exception){
+        } catch (HttpClientErrorException exception) {
             throw new UserNotFoundException("No User with ID: " + userId);
         }
     }
