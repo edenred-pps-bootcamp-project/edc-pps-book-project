@@ -2,7 +2,7 @@ package com.edc.pps.catalog.service;
 
 import com.edc.pps.catalog.dto.UserRequest;
 import com.edc.pps.catalog.dto.UserResponse;
-import com.edc.pps.catalog.exception.UserAlreadyRegisteredException;
+import com.edc.pps.catalog.exception.UserFailedToBeRegisteredException;
 import javassist.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class UserServiceIntegrationTest {
     }
 
     @Test
-    void givenUserRequest_whenSave_thenReturnPaperResponse() throws UserAlreadyRegisteredException {
+    void givenUserRequest_whenSave_thenReturnPaperResponse() throws UserFailedToBeRegisteredException {
         //given
         UserRequest request = new UserRequest();
         request.setFirstName("Andrei");
@@ -55,7 +55,7 @@ class UserServiceIntegrationTest {
         UserResponse savedUser = null;
         try {
             savedUser = userService.save(request);
-        } catch (UserAlreadyRegisteredException e) {
+        } catch (UserFailedToBeRegisteredException e) {
             throw new RuntimeException(e);
         }
 
@@ -73,7 +73,7 @@ class UserServiceIntegrationTest {
     }
 
     @Test
-    void givenUser_whenDelete_thenIsEmpty() throws UserAlreadyRegisteredException {
+    void givenUser_whenDelete_thenIsEmpty() throws UserFailedToBeRegisteredException {
         //given
 
         UserRequest request = new UserRequest();
@@ -94,7 +94,7 @@ class UserServiceIntegrationTest {
     }
 
     @Test
-    void givenId_whenFindById_thenReturnResponse() throws UserAlreadyRegisteredException, NotFoundException {
+    void givenId_whenFindById_thenReturnResponse() throws UserFailedToBeRegisteredException, NotFoundException {
         //given
         UserRequest request = new UserRequest();
         request.setFirstName("Andrei");
@@ -128,12 +128,12 @@ class UserServiceIntegrationTest {
 
         try {
             userService.save(request1);
-        } catch (UserAlreadyRegisteredException e) {
+        } catch (UserFailedToBeRegisteredException e) {
             throw new RuntimeException(e);
         }
         try {
             userService.save(request2);
-        } catch (UserAlreadyRegisteredException e) {
+        } catch (UserFailedToBeRegisteredException e) {
             throw new RuntimeException(e);
         }
 

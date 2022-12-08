@@ -4,7 +4,7 @@ import com.edc.pps.catalog.dto.CatalogItem;
 import com.edc.pps.catalog.dto.UserMapper;
 import com.edc.pps.catalog.dto.UserRequest;
 import com.edc.pps.catalog.dto.UserResponse;
-import com.edc.pps.catalog.exception.UserAlreadyRegisteredException;
+import com.edc.pps.catalog.exception.UserFailedToBeRegisteredException;
 import com.edc.pps.catalog.model.User;
 import com.edc.pps.catalog.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ public class UserServiceUnitTest {
     private UserService userService;
 
     @Test
-    void givenUserRequest_whenSave_thenReturnUserResponse() throws UserAlreadyRegisteredException {
+    void givenUserRequest_whenSave_thenReturnUserResponse() throws UserFailedToBeRegisteredException {
         //given
         List<CatalogItem> catalogItemList = new ArrayList<>();
         UserRequest request = new UserRequest();
