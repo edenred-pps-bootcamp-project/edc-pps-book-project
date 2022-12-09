@@ -6,10 +6,10 @@ import com.edc.pps.catalog.dto.UserRequest;
 import com.edc.pps.catalog.dto.UserResponse;
 import com.edc.pps.catalog.dto.info.BookResponse;
 import com.edc.pps.catalog.dto.rating.RatingResponse;
+import com.edc.pps.catalog.exception.BadRequestException;
 import com.edc.pps.catalog.exception.UserConstraintViolationException;
 import com.edc.pps.catalog.exception.UserFailedToBeRegisteredException;
 import com.edc.pps.catalog.exception.UserNotFoundException;
-import com.edc.pps.catalog.model.Rating;
 import com.edc.pps.catalog.model.User;
 import com.edc.pps.catalog.repository.UserRepository;
 import javassist.NotFoundException;
@@ -49,12 +49,13 @@ public class UserService {
      * @return Response object - created user
      */
     public UserResponse save(UserRequest request) throws UserFailedToBeRegisteredException {
+        validateRequest(request);
         User user = userMapper.toEntity(request);
         try {
             userRepository.save(user);
-        } catch (ConstraintViolationException e){
+        } catch (ConstraintViolationException e) {
             throw new UserConstraintViolationException("User fields cannot be empty!");
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new UserFailedToBeRegisteredException("User failed to be registered!");
         }
         return userMapper.toDto(user);
@@ -86,7 +87,6 @@ public class UserService {
     }
 
     /**
-     *
      * @param userId the id of the user we want to delete
      */
     public void delete(Long userId) {
@@ -179,7 +179,7 @@ public class UserService {
         return userMapper.toDto(user);
     }
 
-    public UserResponse findByUserId(Long id){
+    public UserResponse findByUserId(Long id) {
         try {
             User actualUser = userRepository.findById(id).get();
             return userMapper.toDto(actualUser);
@@ -189,15 +189,15 @@ public class UserService {
     }
 
 
-    public UserResponse updateCatalogItem(Long userId, Long ratingId){
+    public UserResponse updateCatalogItem(Long userId, Long ratingId) {
         User user = userRepository.findById(userId).get();
         RatingResponse rating = ratingService.getRatingById(ratingId);
         BookResponse book = bookService.findById(rating.getBookId());
 
         List<CatalogItem> catalogItems = user.getCatalogItems();
 
-        for(CatalogItem catalogItem : catalogItems){
-            if(catalogItem.getBookId() == rating.getBookId()){
+        for (CatalogItem catalogItem : catalogItems) {
+            if (catalogItem.getBookId() == rating.getBookId()) {
                 catalogItem.setRating(rating.getRatingValue());
                 catalogItem.setAverageRating(book.getAverageRating());
             }
@@ -205,6 +205,22 @@ public class UserService {
 
         userRepository.save(user);
         return userMapper.toDto(user);
+    }
+
+    private boolean validateRequest(UserRequest request) {
+        if (request.getFirstName() == null || request.getFirstName().isEmpty()) {
+            log.info("First name cannot be null: \n" + request.toString());
+            throw new BadRequestException("Please complete the first name field");
+        }
+        if (request.getLastName() == null || request.getLastName().isEmpty()) {
+            log.info("Author cannot be null: \n" + request.toString());
+            throw new BadRequestException("Please complete the last name field");
+        }
+        if (request.getUserName() == null || request.getUserName().isEmpty()) {
+            log.info("Username cannot be null: \n" + request.toString());
+            throw new BadRequestException("Please complete the username field");
+        }
+        return true;
     }
 
 }

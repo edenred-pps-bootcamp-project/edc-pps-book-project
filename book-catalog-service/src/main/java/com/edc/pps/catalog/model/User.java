@@ -1,7 +1,9 @@
 package com.edc.pps.catalog.model;
 
 import com.edc.pps.catalog.dto.CatalogItem;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -14,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "user",
         uniqueConstraints = {
-        @UniqueConstraint(columnNames = "user_name")
+                @UniqueConstraint(columnNames = "user_name")
         })
 public class User {
 

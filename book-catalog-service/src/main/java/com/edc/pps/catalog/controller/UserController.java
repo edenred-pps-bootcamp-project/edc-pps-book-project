@@ -3,7 +3,6 @@ package com.edc.pps.catalog.controller;
 import com.edc.pps.catalog.dto.UserRequest;
 import com.edc.pps.catalog.dto.UserResponse;
 import com.edc.pps.catalog.exception.UserFailedToBeRegisteredException;
-import com.edc.pps.catalog.model.User;
 import com.edc.pps.catalog.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +35,12 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> findById(@PathVariable Long id){
+    public ResponseEntity<UserResponse> findById(@PathVariable Long id) {
         return new ResponseEntity<>(userService.findByUserId(id), HttpStatus.OK);
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<UserResponse> update(@PathVariable(name ="userId") Long userId,@RequestBody UserRequest request) throws NotFoundException {
+    public ResponseEntity<UserResponse> update(@PathVariable(name = "userId") Long userId, @RequestBody UserRequest request) throws NotFoundException {
 
         UserResponse response = userService.update(userId, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -50,13 +49,13 @@ public class UserController {
     @PostMapping("/catalog/{userId}")
     @ResponseBody
     public ResponseEntity<UserResponse> saveCatalogItem(@PathVariable("userId") Long userId,
-                                                       @RequestParam(name = "bookId") Long bookId) throws NotFoundException {
+                                                        @RequestParam(name = "bookId") Long bookId) throws NotFoundException {
         return new ResponseEntity<>(userService.saveCatalogItem(userId, bookId), HttpStatus.OK);
     }
 
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Object> delete(@PathVariable(name="userId") Long userId){
+    public ResponseEntity<Object> delete(@PathVariable(name = "userId") Long userId) {
 
         userService.delete(userId);
 
@@ -65,7 +64,7 @@ public class UserController {
 
     @PutMapping("/catalog/{userId}/{ratingId}")
     public ResponseEntity<UserResponse> updateCatalogItem(@PathVariable Long userId,
-                                                          @PathVariable Long ratingId){
+                                                          @PathVariable Long ratingId) {
         return new ResponseEntity<>(userService.updateCatalogItem(userId, ratingId), HttpStatus.OK);
     }
 
