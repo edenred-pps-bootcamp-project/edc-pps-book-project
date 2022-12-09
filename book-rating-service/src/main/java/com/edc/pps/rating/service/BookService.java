@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Slf4j
@@ -41,9 +42,9 @@ public class BookService {
 
     public UserResponse checkIfUserExists(Long userId) {
         try{
-            UserResponse userResponse = restTemplate.getForObject(USERS_RESOURCES , UserResponse.class);
+            UserResponse userResponse = restTemplate.getForObject(USERS_RESOURCES + "/" +userId , UserResponse.class);
             return userResponse;
-        } catch (HttpClientErrorException exception){
+        } catch (HttpServerErrorException exception){
             throw new UserNotFoundException("No User with ID: " + userId);
         }
     }
