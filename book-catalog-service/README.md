@@ -27,3 +27,10 @@ This module brings together functionalities from all other modules: **book-info*
   - Spring boot validation
   - Lombok
   - Swagger ui
+
+Complete positive flow: Create User => Create Book => Add Catalog Item to User without Rating =>
+Rate the book from Catalog => Update Catalog
+</br></br>What should happen is: User and book will be successfully created. Book has no average rating. We will simulate an average rating
+by rating a book before adding the book to the catalog.
+When we add the book to the catalog, rating should be 0. When the user rates a book, we can update the catalog item with the
+new rating and average rating should be automatically changed.
