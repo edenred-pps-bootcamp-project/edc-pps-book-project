@@ -41,8 +41,8 @@ public class BookService {
 
     public UserResponse checkIfUserExists(Long userId) {
         try{
-            UserResponse response = restTemplate.getForObject(USERS_RESOURCES + "/" + userId , UserResponse.class);
-            return response;
+            UserResponse userResponse = restTemplate.getForObject(USERS_RESOURCES , UserResponse.class);
+            return userResponse;
         } catch (HttpClientErrorException exception){
             throw new UserNotFoundException("No User with ID: " + userId);
         }
