@@ -137,9 +137,9 @@ public class RatingService {
         if(request.getRatingValue() == null){
             log.info("RatingValue cannot be null: \n" + request.toString());
             throw new BadRequestException("RatingValue cannot be null");
-        } else if (request.getRatingValue() >=1 && request.getRatingValue() <=5 ) {
+        } else if ((request.getRatingValue() < 1) && (request.getRatingValue() >5) ) {
             log.info("RatingValue cannot be negative: \n" + request.toString());
-            throw new BadRequestException("RatingValue cannot be negative");
+            throw new BadRequestException("RatingValue must be between 1 and 5");
         }
 
     }
