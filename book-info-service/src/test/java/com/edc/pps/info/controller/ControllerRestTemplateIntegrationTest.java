@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ControllerRestTemplateIntegrationTest {
 
     @LocalServerPort
-    static final int port = 8082;
+    static final int port = 8084;
     static final String API_BOOKS = "/books";
     static final String BASE_URI = "http://localhost:" + port + "/api";
 
@@ -64,11 +64,11 @@ public class ControllerRestTemplateIntegrationTest {
         System.out.println(BASE_URI);
         System.out.println(API_BOOKS);
         System.out.println(url);
-//        ResponseEntity<List<BookResponse>> response = restTemplate.exchange(
-//                BASE_URI + API_BOOKS, HttpMethod.GET, null,
-//                new ParameterizedTypeReference<List<BookResponse>>(){});
-//
-//        assertEquals(200, response.getStatusCode().value());
+        ResponseEntity<List<BookResponse>> response = restTemplate.exchange(
+                BASE_URI + API_BOOKS, HttpMethod.GET, null,
+                new ParameterizedTypeReference<List<BookResponse>>(){});
+
+        assertEquals(200, response.getStatusCode().value());
 //        assertThat(response.getBody().get(0).getTitle()).isEqualTo("test_title");
     }
 }
