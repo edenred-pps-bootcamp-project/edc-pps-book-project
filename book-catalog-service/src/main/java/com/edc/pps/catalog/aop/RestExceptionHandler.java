@@ -1,6 +1,7 @@
 package com.edc.pps.catalog.aop;
 
 import com.edc.pps.catalog.exception.RatingNotFoundException;
+import com.edc.pps.catalog.exception.UserFailedToBeRegisteredException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,8 +15,8 @@ import java.util.Map;
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(RatingNotFoundException.class)
-    public ResponseEntity<Object> handleNotFoundException(RatingNotFoundException exception) {
+    @ExceptionHandler(UserFailedToBeRegisteredException.class)
+    public ResponseEntity<Object> handleNotFoundException(UserFailedToBeRegisteredException exception) {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("Timestamp: ", LocalDateTime.now());
