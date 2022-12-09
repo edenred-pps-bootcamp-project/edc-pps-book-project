@@ -3,6 +3,7 @@ package com.edc.pps.catalog.controller;
 import com.edc.pps.catalog.dto.UserRequest;
 import com.edc.pps.catalog.dto.UserResponse;
 import com.edc.pps.catalog.exception.UserFailedToBeRegisteredException;
+import com.edc.pps.catalog.model.User;
 import com.edc.pps.catalog.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,11 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserResponse>> findAll() {
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponse> findById(@PathVariable Long id){
+        return new ResponseEntity<>(userService.findByUserId(id), HttpStatus.OK);
     }
 
     @PutMapping("/update/{userId}")

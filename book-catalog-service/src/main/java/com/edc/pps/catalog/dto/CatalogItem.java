@@ -10,7 +10,15 @@ public class CatalogItem {
     private String title;
     private String author;
     private int rating;
+    private double averageRating;
 
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
+    }
 
     public CatalogItem() {
     }
