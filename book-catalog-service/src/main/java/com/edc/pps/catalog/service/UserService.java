@@ -6,6 +6,7 @@ import com.edc.pps.catalog.dto.UserRequest;
 import com.edc.pps.catalog.dto.UserResponse;
 import com.edc.pps.catalog.dto.info.BookResponse;
 import com.edc.pps.catalog.dto.rating.RatingResponse;
+import com.edc.pps.catalog.exception.UserFailedToBeRegisteredException;
 import com.edc.pps.catalog.model.User;
 import com.edc.pps.catalog.repository.UserRepository;
 import javassist.NotFoundException;
@@ -43,9 +44,13 @@ public class UserService {
      * @param request Request object to be saved
      * @return Response object - created user
      */
-    public UserResponse save(UserRequest request) {
+    public UserResponse save(UserRequest request) throws UserFailedToBeRegisteredException {
         User user = userMapper.toEntity(request);
-        userRepository.save(user);
+        try {
+            userRepository.save(user);
+        } catch (Exception e) {
+            throw new UserFailedToBeRegisteredException("User failed to be registered!");
+        }
         return userMapper.toDto(user);
     }
 
@@ -165,30 +170,5 @@ public class UserService {
         userRepository.save(user);
         return userMapper.toDto(user);
     }
-
-
-    // TODO: implement this
-    public List<CatalogItem> findCatalogItemByUserId(Long userId) {
-        // get all rated book ids, call book-ratings-service
-        // hardcode a result for now like so:
-        // bookId, rating
-        // 1, 5
-        // 1, 4
-        // 2, 2
-
-        // get each book id, call book-info-service and get details
-        // make a call for each book
-        // hardcode two books for now
-
-        // a catalog item will have
-        // bookId (from book-info-service)
-        // bookTitle
-        // bookAuthor
-        // bookRating (from book-rating-service)
-
-        return null;
-    }
-
-
 
 }

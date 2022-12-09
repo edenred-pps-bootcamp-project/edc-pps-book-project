@@ -17,22 +17,22 @@ public class BookServiceIntegrationTest {
     @InjectMocks
     private BookService bookService;
 
-    @Test
-    void givenBookRequest_whenSave_thenReturnBookResponse() throws BookAlreadyExistsException {
-
-        BookRequest request = new BookRequest();
-        request.setTitle("title");
-        request.setAuthor("author");
-
-        BookResponse expected = new BookResponse();
-        //expected.setId(1L);
-        expected.setTitle("title");
-        expected.setAuthor("author");
-
-        BookResponse actual = bookService.save(request);
-
-        assertThat(actual).isEqualTo(expected);
-    }
+//    @Test
+//    void givenBookRequest_whenSave_thenReturnBookResponse() throws BookAlreadyExistsException {
+//
+//        BookRequest request = new BookRequest();
+//        request.setTitle("title");
+//        request.setAuthor("author");
+//
+//        BookResponse expected = new BookResponse();
+//        //expected.setId(1L);
+//        expected.setTitle("title");
+//        expected.setAuthor("author");
+//
+//        BookResponse actual = bookService.save(request);
+//
+//        assertThat(actual).isEqualTo(expected);
+//    }
 //    @Test
 //    void givenExistingBook_whenSave_thenThrowException(){
 //
