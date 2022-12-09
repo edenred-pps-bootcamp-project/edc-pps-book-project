@@ -7,6 +7,7 @@ import com.edc.pps.catalog.dto.UserResponse;
 import com.edc.pps.catalog.dto.info.BookResponse;
 import com.edc.pps.catalog.dto.rating.RatingResponse;
 import com.edc.pps.catalog.exception.UserFailedToBeRegisteredException;
+import com.edc.pps.catalog.exception.UserNotFoundException;
 import com.edc.pps.catalog.model.User;
 import com.edc.pps.catalog.repository.UserRepository;
 import javassist.NotFoundException;
@@ -143,23 +144,25 @@ public class UserService {
     public UserResponse saveCatalogItem(Long userId, Long bookId) throws NotFoundException {
         User user = userRepository.findById(userId).get();
 
-        List<RatingResponse> ratings = Arrays.asList(ratingService.getAllRatingsForUser(userId));
+        List<RatingResponse> ratings = Arrays.asList(ratingService.getAllRatingsForBook(bookId));
         BookResponse book = bookService.findById(bookId);
 
         CatalogItem catalogItem = new CatalogItem();
 
         for (RatingResponse rating : ratings) {
-            if (bookId == rating.getBookId()) {
+            if (userId == rating.getUserId()) {
                 catalogItem.setBookId(book.getId());
                 catalogItem.setAuthor(book.getAuthor());
                 catalogItem.setTitle(book.getTitle());
                 catalogItem.setRating(rating.getRatingValue());
+                catalogItem.setAverageRating(book.getAverageRating());
 
             } else {
                 catalogItem.setBookId(book.getId());
                 catalogItem.setAuthor(book.getAuthor());
                 catalogItem.setTitle(book.getTitle());
                 catalogItem.setRating(0);
+                catalogItem.setAverageRating(book.getAverageRating());
             }
         }
 
@@ -169,6 +172,25 @@ public class UserService {
         user.setCatalogItems(catalogItems);
         userRepository.save(user);
         return userMapper.toDto(user);
+    }
+
+    public UserResponse findByUserId(Long id){
+        try {
+            User actualUser = userRepository.findById(id).get();
+            return userMapper.toDto(actualUser);
+        } catch (Exception e) {
+            throw new UserNotFoundException("User with specified id " + id.toString() + " cannot be found");
+        }
+    }
+
+
+    public int updateCatalogItem(Long userId, Long ratingId){
+        User user = userRepository.findById(userId).get();
+        List<RatingResponse> ratings = Arrays.asList(ratingService.getAllRatingsForUser(userId));
+
+        //for (RatingResponse rating : ratings) {
+          //  if (bookId == rating.getBookId())
+        return 0;
     }
 
 }

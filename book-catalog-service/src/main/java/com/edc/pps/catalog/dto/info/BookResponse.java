@@ -14,6 +14,7 @@ public class BookResponse implements Serializable {
     private String title;
 
     private String author;
+    private Double averageRating;
 
     public Long getId() {
         return id;
@@ -37,6 +38,16 @@ public class BookResponse implements Serializable {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public Double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        if ((averageRating < 1) || (averageRating > 5))
+            throw new IllegalArgumentException("Value is out of range for rating. It must be between 1-5");
+        this.averageRating = averageRating;
     }
 
     @Override
