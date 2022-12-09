@@ -62,6 +62,7 @@ public class BookController {
             @RequestBody BookRequest request) {
         BookResponse response = bookService.partialUpdate(id, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<BookResponse> updateBooks(@RequestBody RatingResponse ratingResponse) throws BookNotFoundException {
