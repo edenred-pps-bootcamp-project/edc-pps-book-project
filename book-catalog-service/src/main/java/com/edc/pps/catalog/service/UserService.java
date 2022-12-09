@@ -6,6 +6,7 @@ import com.edc.pps.catalog.dto.UserRequest;
 import com.edc.pps.catalog.dto.UserResponse;
 import com.edc.pps.catalog.dto.info.BookResponse;
 import com.edc.pps.catalog.dto.rating.RatingResponse;
+import com.edc.pps.catalog.exception.UserConstraintViolationException;
 import com.edc.pps.catalog.exception.UserFailedToBeRegisteredException;
 import com.edc.pps.catalog.exception.UserNotFoundException;
 import com.edc.pps.catalog.model.Rating;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -50,7 +52,9 @@ public class UserService {
         User user = userMapper.toEntity(request);
         try {
             userRepository.save(user);
-        } catch (Exception e) {
+        } catch (ConstraintViolationException e){
+            throw new UserConstraintViolationException("User fields cannot be empty!");
+        }catch (Exception e) {
             throw new UserFailedToBeRegisteredException("User failed to be registered!");
         }
         return userMapper.toDto(user);

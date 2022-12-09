@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("api/users")
@@ -25,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> save(@RequestBody UserRequest request) throws UserFailedToBeRegisteredException {
+    public ResponseEntity<UserResponse> save(@Valid @RequestBody UserRequest request) throws UserFailedToBeRegisteredException {
         return new ResponseEntity<>(userService.save(request), HttpStatus.CREATED);
     }
 
