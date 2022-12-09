@@ -1,0 +1,11 @@
+@startuml
+
+class BookService
+
+class BookController
+
+class Book
+
+interface BookRepository
+
+@enduml

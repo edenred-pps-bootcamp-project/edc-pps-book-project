@@ -25,7 +25,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(BookAlreadyExistsException.class)
-    public ResponseEntity<Object> badRequest(BookAlreadyExistsException exception) {
+    public ResponseEntity<Object> handleAlreadyExistsException(BookAlreadyExistsException exception) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("Timestamp: ", LocalDateTime.now());
         body.put("Message:", exception.getLocalizedMessage());

@@ -3,6 +3,7 @@ package com.edc.pps.info.controller;
 import com.edc.pps.info.dto.BookRequest;
 import com.edc.pps.info.dto.BookResponse;
 import com.edc.pps.info.dto.rating.RatingResponse;
+import com.edc.pps.info.exceptions.BadRequestException;
 import com.edc.pps.info.exceptions.BookAlreadyExistsException;
 import com.edc.pps.info.exceptions.BookNotFoundException;
 import com.edc.pps.info.service.BookService;
@@ -35,15 +36,24 @@ public class BookController {
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<BookResponse> findById(@PathVariable Long id) throws BookNotFoundException {
-        BookResponse response = bookService.findById(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<BookResponse> findById(@PathVariable String id) throws BookNotFoundException {
+
+        if (isNumber(id)) {
+            BookResponse response = bookService.findById(Long.parseLong(id));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable(name = "id") Long id) throws BookNotFoundException {
-        bookService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Object> delete(@PathVariable(name = "id") String id) throws BookNotFoundException {
+
+        if (isNumber(id)) {
+            BookResponse response = bookService.delete(Long.parseLong(id));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
     }
 
     @GetMapping("/title={title}")
@@ -68,5 +78,15 @@ public class BookController {
     public ResponseEntity<BookResponse> updateBooks(@RequestBody RatingResponse ratingResponse) throws BookNotFoundException {
         bookService.updateRating(ratingResponse.getBookId(), ratingResponse.getRatingValue());
         return new ResponseEntity<>(bookService.findById(ratingResponse.getBookId()),HttpStatus.OK);
+    }
+
+    public boolean isNumber(String id){
+        try{
+            Long.parseLong(id);
+            return true;
+        }catch (NumberFormatException e) {
+            throw new BadRequestException("Id must be a number");
+        }
+
     }
 }
