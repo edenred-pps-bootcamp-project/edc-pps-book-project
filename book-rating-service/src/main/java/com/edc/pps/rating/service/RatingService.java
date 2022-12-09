@@ -44,7 +44,7 @@ public class RatingService {
         validateRequest(request);
         //check if book and user exist in database
        bookService.checkIfBookExists(request.getBookId());
-       //bookService.checkIfUserExists(request.getUserId());
+       bookService.checkIfUserExists(request.getUserId());
 
         //get all ratings from db
         List<Rating> ratings = ratingRepository.findAll();
@@ -163,4 +163,11 @@ public class RatingService {
         return averageRatingResponse;
     }
 
+    public RatingResponse getRatingById(Long id) {
+        Optional<Rating> foundRating = ratingRepository.findByRatingId(id);
+        if(foundRating.isPresent()){
+            return ratingMapper.toDto(foundRating.get());
+        }
+        throw new RatingNotFoundException("No rating with ID: " + id);
+    }
 }
