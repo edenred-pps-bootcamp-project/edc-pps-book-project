@@ -22,8 +22,8 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
         show_sql: true
         format_sql: false
-  # access console http://localhost:8082/h2-console
-  h2.console.enabled: true # the JDBC URL is jdbc:h2:mem:testdb
+  # access console http://localhost:8084/h2-console
+  h2.console.enabled: true # the JDBC URL is jdbc:h2:mem:db
 
 # spring boot actuator configuration
 

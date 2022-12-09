@@ -9,15 +9,12 @@ import com.edc.pps.info.exceptions.BookAlreadyExistsException;
 import com.edc.pps.info.exceptions.BookNotFoundException;
 import com.edc.pps.info.model.Book;
 import com.edc.pps.info.repository.BookRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,6 +27,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final RestTemplate client;
     private final ObjectMapper jacksonObjectMapper;
+
     @Autowired
     public BookService(BookRepository bookRepository, BookMapper bookMapper, RestTemplate client, ObjectMapper jacksonObjectMapper) {
         this.bookRepository = bookRepository;
@@ -77,7 +75,7 @@ public class BookService {
         log.debug("getting all books with title {}", title);
         List<Book> bookList = bookRepository.findByTitle(title);
         if (bookList.size() == 0) try {
-            throw new BookNotFoundException("No book with title: " + title);
+            throw new BookNotFoundException("No book with title: \"q" + title + "\"");
         } catch (BookNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -105,7 +103,7 @@ public class BookService {
         try {
             Book actualBook = bookRepository.findById(bookId).get();
             return bookMapper.toDto(actualBook);
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new BookNotFoundException("No book with id " + bookId);
         }
 
@@ -122,29 +120,31 @@ public class BookService {
         foundBook.setAuthor(newAuthor);
         bookRepository.save(foundBook);
     }
-    
+
     /**
      * Deletes the book with the provided id
      *
      * @param id The id of the book we want to delete
      * @throws BookNotFoundException throws exception if there is no book with the provided id
      */
-    public void delete(Long id) {
+    public BookResponse delete(Long id) {
+        Book foundBook;
         try {
-            Book foundBook = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("No book with id: " + id));
+            foundBook = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("No book with id: " + id));
         } catch (BookNotFoundException e) {
             throw new RuntimeException(e);
         }
         log.debug("deleting book with id: {}", id);
         bookRepository.deleteById(id);
+        return bookMapper.toDto(foundBook);
     }
 
     private boolean validateRequest(BookRequest request) {
-        if (request.getTitle() == null) {
+        if (request.getTitle() == null || request.getTitle().isEmpty()) {
             log.info("Title cannot be null: \n" + request.toString());
             throw new BadRequestException("Add a title");
         }
-        if (request.getAuthor() == null) {
+        if (request.getAuthor() == null || request.getTitle().isEmpty()) {
             log.info("Author cannot be null: \n" + request.toString());
             throw new BadRequestException("Add an author");
         }
@@ -159,16 +159,16 @@ public class BookService {
     public RatingResponse getAverageRating(Long bookId) {
         try {
             return Arrays.asList(client.getForObject(RATING_RESOURCE + bookId, RatingResponse[].class)).get(0);
-        } catch(Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
-    
-    public BookResponse partialUpdate(Long id, BookRequest updates) throws BadRequestException{
+
+    public BookResponse partialUpdate(Long id, BookRequest updates) {
         validateRequest(updates);
         try {
             Book book = bookRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("No book found with id: "+id));
+                    .orElseThrow(() -> new RuntimeException("No book with id: "+id));
 
             // Jackson deserializes and copies value to the already initialized DTO
             jacksonObjectMapper.readerForUpdating(book)
@@ -178,12 +178,12 @@ public class BookService {
 
             return bookMapper.toDto(updatedBook);
         } catch (Exception e) {
-            log.error("could not patch book with id: {} and updates: {}", id, updates);
+            log.error("Could not patch book with id: {} and updates: {}", id, updates);
         }
         return null;
     }
-    
-    public void updateRating(Long bookId, Double average) throws BookNotFoundException {
+
+    public void updateRating(Long bookId, Double average) {
         Book actualBook = bookRepository.findById(bookId).get();
         actualBook.setAverageRating(average);
         bookRepository.save(actualBook);
