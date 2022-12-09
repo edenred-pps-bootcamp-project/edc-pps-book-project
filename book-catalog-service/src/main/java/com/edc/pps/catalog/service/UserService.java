@@ -8,6 +8,7 @@ import com.edc.pps.catalog.dto.info.BookResponse;
 import com.edc.pps.catalog.dto.rating.RatingResponse;
 import com.edc.pps.catalog.exception.UserFailedToBeRegisteredException;
 import com.edc.pps.catalog.exception.UserNotFoundException;
+import com.edc.pps.catalog.model.Rating;
 import com.edc.pps.catalog.model.User;
 import com.edc.pps.catalog.repository.UserRepository;
 import javassist.NotFoundException;
@@ -184,13 +185,22 @@ public class UserService {
     }
 
 
-    public int updateCatalogItem(Long userId, Long ratingId){
+    public UserResponse updateCatalogItem(Long userId, Long ratingId){
         User user = userRepository.findById(userId).get();
-        List<RatingResponse> ratings = Arrays.asList(ratingService.getAllRatingsForUser(userId));
+        RatingResponse rating = ratingService.getRatingById(ratingId);
+        BookResponse book = bookService.findById(rating.getBookId());
 
-        //for (RatingResponse rating : ratings) {
-          //  if (bookId == rating.getBookId())
-        return 0;
+        List<CatalogItem> catalogItems = user.getCatalogItems();
+
+        for(CatalogItem catalogItem : catalogItems){
+            if(catalogItem.getBookId() == rating.getBookId()){
+                catalogItem.setRating(rating.getRatingValue());
+                catalogItem.setAverageRating(book.getAverageRating());
+            }
+        }
+
+        userRepository.save(user);
+        return userMapper.toDto(user);
     }
 
 }

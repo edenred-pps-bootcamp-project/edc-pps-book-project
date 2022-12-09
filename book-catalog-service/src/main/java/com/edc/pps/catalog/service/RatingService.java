@@ -64,4 +64,8 @@ public class RatingService {
     public RatingResponse[] getAllRatingsForUser(Long userId) {
         return restTemplate.getForObject(RATING_RESOURCE + "/users/" + userId, RatingResponse[].class);
     }
+
+    public RatingResponse getRatingById(Long id){
+        return restTemplate.getForObject(RATING_RESOURCE + "/" + id, RatingResponse.class);
+    }
 }
