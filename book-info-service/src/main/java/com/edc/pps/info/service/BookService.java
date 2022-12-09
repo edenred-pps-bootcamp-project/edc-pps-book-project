@@ -45,6 +45,7 @@ public class BookService {
      * @return Returns the saved book
      */
     public BookResponse save(BookRequest request) throws BookAlreadyExistsException {
+        validateRequest(request);
         log.info("saved book to db: {}", request);
         Book book = bookMapper.toEntity(request);
         try {
@@ -76,7 +77,7 @@ public class BookService {
         log.debug("getting all books with title {}", title);
         List<Book> bookList = bookRepository.findByTitle(title);
         if (bookList.size() == 0) try {
-            throw new BookNotFoundException("No book with title: \"" + title + "\"");
+            throw new BookNotFoundException("No book with title: " + title);
         } catch (BookNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -163,10 +164,11 @@ public class BookService {
         }
     }
     
-    public BookResponse partialUpdate(Long id, BookRequest updates) {
+    public BookResponse partialUpdate(Long id, BookRequest updates) throws BadRequestException{
+        validateRequest(updates);
         try {
             Book book = bookRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("book not found"));
+                    .orElseThrow(() -> new RuntimeException("No book found with id: "+id));
 
             // Jackson deserializes and copies value to the already initialized DTO
             jacksonObjectMapper.readerForUpdating(book)
